@@ -34,6 +34,18 @@ module.exports = {
                 }, {
                     loader: 'sass-loader'
                 }]
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'assets/'
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -46,7 +58,7 @@ module.exports = {
             template: './src/index.html',
             chunksSortMode: 'dependency'
         })
-    ],
+    ]/*,
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
@@ -57,5 +69,5 @@ module.exports = {
                 secure: false
             }
         }
-    }
+    }*/
 }
