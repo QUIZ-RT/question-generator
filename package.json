@@ -1,0 +1,61 @@
+{
+  "name": "complete-project-config",
+  "version": "1.0.0",
+  "description": "it about to config actual project",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./src/test",
+    "client": "webpack-dev-server",
+    "server": "node server.js",
+    "lint": "eslint ./app",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sachinjain526/complete_porject-config.git"
+  },
+  "author": "sachin jain",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sachinjain526/complete_porject-config/issues"
+  },
+  "homepage": "https://github.com/sachinjain526/complete_porject-config#readme",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "body-parser": "^1.18.3",
+    "concurrently": "^3.6.1",
+    "cookie-session": "^2.0.0-beta.3",
+    "express": "^4.16.3",
+    "jquery": "^3.3.1",
+    "mongoose": "^4.13.6",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0",
+    "redux": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.2",
+    "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^1.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-loader": "^2.1.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mocha": "^5.2.0",
+    "node-sass": "^4.9.2",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.16.2",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
+  }
+}
