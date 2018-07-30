@@ -15,6 +15,9 @@ app.use(cookieSession({
 );
 app.use(express.static('dist'));//it will prefer the directory to serve the file
 
+require('./routes/questionRoutes.js')(app)// for question related endpoints  
+require('./routes/topicRoutes.js')(app)// for topics related endpoints  
+
 const PORT = process.env.PORT || 8080;// finding the port number 
 
 app.listen(PORT, function () {
