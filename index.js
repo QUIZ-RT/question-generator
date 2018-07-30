@@ -33,5 +33,11 @@ if (process.env.NODE_ENV === "production") {
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
 	})
 }
-const PORT = process.env.PORT || 5000;
+const PORT = 8081;// process.env.PORT || 5000;
+
+app.get('/api/test1',(req,res)=>{// it will current user detail on screan
+	res.send("Hello");
+	console.log("request received ");
+});
+
 app.listen(PORT);

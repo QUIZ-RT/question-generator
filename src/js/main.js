@@ -1,1 +1,8 @@
-document.write('this is we are loading to js');
+
+import QuestionController from './controllers/questionController';
+
+
+require('../scss/main.scss');
+
+const questionController = new QuestionController();
+console.log(questionController);

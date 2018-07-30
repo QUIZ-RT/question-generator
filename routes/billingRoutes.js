@@ -16,4 +16,9 @@ module.exports = app => {
 
     res.send(user);
   });
+
+  app.get('/api/test',(req,res)=>{// it will current user detail on screan
+		res.send("Hello");
+		console.log(req);
+	});
 };

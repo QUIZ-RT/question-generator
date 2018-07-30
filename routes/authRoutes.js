@@ -23,4 +23,9 @@ module.exports=(app)=>{
 		req.logout();
 		res.redirect("/");
 	});
+
+	app.get('/api/test',(req,res)=>{// it will current user detail on screan
+		res.send("Hello");
+		console.log(req);
+	});
 }
