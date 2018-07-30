@@ -1,0 +1,46 @@
+.green {
+  color: green;
+}
+
+.section-content {
+  padding: 5rem 0;
+}
+
+#main-nav {
+  /* background-color: #e7f4f9; */
+  margin-bottom: 15px;
+}
+
+.carousel-caption {
+  max-width: 550px;
+  padding: 0 20px;
+  margin: 0 auto;
+  top: 20%;
+  text-align: center;
+}
+
+.card {
+  margin: 10px;
+  min-width: 200px;
+  min-height: 150px;
+  background-color: #fbf8f8;
+}
+
+.floating-card-deck {
+  align-content: flex-start;
+}
+
+a.nav-link {
+  color: white !important;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #4caf50;
+  color: white;
+  margin-left: 1rem;
+}

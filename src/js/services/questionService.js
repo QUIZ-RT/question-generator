@@ -1,12 +1,12 @@
-import Constants  from '../shared/constants';
-import { DataService } from './dataService';
+import Constants from '../shared/constants';
+import DataService from './dataService';
 
 class QuestionService {
   constructor() {
     this.dataService = new DataService(Constants.WIKI_AUTH_KEY);
   }
 
-  searchQuestions(query, offset) {
+  searchQuestions(queryParams) {
     this.dataService.fetchOptions.method = 'GET';
     let searchUrl = Constants.WIKI_API_BASE;
     searchUrl += queryParams;
