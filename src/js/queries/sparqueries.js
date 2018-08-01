@@ -3,7 +3,7 @@ export const queries = {
     WHERE
     {
         hint:Query hint:optimizer 'None' .
-        {	BIND(entity:#entity_id AS ?valUrl) .
+        {	BIND(entity:$(var) AS ?valUrl) .
             BIND("N/A" AS ?propUrl ) .
             BIND("Name"@de AS ?propLabel ) .
            entity:#entity_id rdfs:label ?val .
@@ -53,5 +53,27 @@ export const queries = {
     {
         ?item wdt:P31 wd:Q146.
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-    }`
+    }`,
+
+    cricketer_query: `select ?person ?personLabel ?placeofbirth ?country ?countryLabel ?placeofbirthLabel
+    where {
+      ?person wdt:P106 wd:Q12299841.
+      ?person wdt:P19 ?placeofbirth .
+      ?person wdt:P735 ?givenName .
+      ?placeofbirth wdt:P17 ?country
+    
+       SERVICE wikibase:label {
+         bd:serviceParam wikibase:language "en" .
+       }
+    }
+    LIMIT 100`,
+
+    city_query: `SELECT ?instance ?instanceLabel WHERE {
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+        ?instance wdt:P31 wd:Q515.
+        ?instance wdt:P17 #countryCode
+    }
+    LIMIT 5`,
+
+
 }

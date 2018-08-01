@@ -16,7 +16,7 @@ class Constants {
   }
 
   static get Q_CONSTRUCTORS() {
-    return { 'q_words': ["What is", "Who is", "Where is", "Which is"], 'q_preps': ['of', 'in', 'on', 'at'] }
+    return { q_words: ['What is', 'Who is', 'Where is', 'Which is'], q_preps: ['of', 'in', 'on', 'at'] };
   }
 }
 

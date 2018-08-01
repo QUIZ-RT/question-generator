@@ -3,118 +3,226 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>QuizGenx: Quiz Generator</title>
 </head>
 
 <body>
     <input type="hidden" id="pagingSkip" name="custId" value="0">
-    <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <img src="assets/logo.png" class="logo img-fluid" alt="Company logo">
-        <a class="navbar-brand" href="http://sapient.com">QuizGenx</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <header>
+        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <img src="assets/logo.png" class="logo img-fluid" alt="Company logo">
+            <a class="navbar-brand" href="http://sapient.com">QuizGenx</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Login
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " id="questions">Questions</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " id="topics">Topics</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " id="access">Access</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link " id="questions">Questions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="topics">Topics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="access">Access</a>
+                    </li>
+                </ul>
+                <ul class="navbar nav mt-2 float-right mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
     <div class="clearfix"></div>
     <div class="container">
-
-        <br>
-
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
-    </div>
-    <footer class="page-footer font-small blue pt-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3">
-                    <p>Copyright @2018 Quizgenx.com</p>
-                    <p>Coded by
-                        <a href="sapient.com">@techno2mahi</a>
-                    </p>
-                </div>
-                <div class="col-sm-3">
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="#">Home</a>
-                        </li>
-                        <li>
-                            <a href="#">About us</a>
-                        </li>
-                        <li>
-                            <a href="#">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="facebook.com" target="_blank">
-                                <i class="fab fa-facebook"></i> facebook</a>
-                        </li>
-                        <li>
-                            <a href="google.com" target="_blank">
-                                <i class="fab fa-google"></i> Google</a>
-                        </li>
-                        <li>
-                            <a href="http://twitter.com" target="_blank">
-                                <i class="fab fa-twitter"></i> Twitter</a>
-                        </li>
-                        <li>
-                            <a href="linkedin.com" target="_blank">
-                                <i class="fab fa-linkedin"></i> Linkedin</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h5>quiz genx</h5>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Earum, nesciunt! Aliquam obcaecati iste fugiat
-                        aliquid, laborum commodi suscipit unde dolorem ipsam deleniti autem quisquam repellat fuga illo optio
-                        voluptatibus ut!</p>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-lg-8 logindash">
+                            <h2>Welcome to QG for Quiz-RT!</h2>
+                            <hr>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquam erat in ante malesuada,
+                                facilisis semper nulla semper. Phasellus sapien neque, faucibus in malesuada quis, lacinia
+                                et libero. Sed sed turpis tellus. Etiam ac aliquam tortor, eleifend rhoncus metus. Ut turpis
+                                massa, sollicitudin sit amet molestie a, posuere sit amet nisl. Mauris tincidunt cursus posuere.
+                                Nam commodo libero quis lacus sodales, nec feugiat ante posuere. Donec pulvinar auctor commodo.
+                                Donec egestas diam ut mi adipiscing, quis lacinia mauris condimentum. Quisque quis odio venenatis,
+                                venenatis nisi a, vehicula ipsum. Etiam at nisl eu felis vulputate porta.</p>
+                            <h4>Please login to continue... </h4>
+                            <!-- <div><h1 class="float">Jump Right In!</h1></div> -->
+                        </div>
+                        <div class="gap-horizontal"></div>
+                        <div class="col-lg-3 col-md-3 logindash loginform">
+                            <form class="form-horizontal" method="POST" action="/login">
+                                <div class="row login">
+                                    <div>
+                                        <h2>Please Login</h2>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row login">
+                                    <div class="form-group has-danger col-md-12 col-lg-12">
+                                        <label class="sr-only" for="email">E-Mail Address</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon iconspace" style="width: 2.6rem">
+                                                <i class="fa fa-at"></i>
+                                            </div>
+                                            <input type="text" name="email" class="form-control" id="email" placeholder="you@example.com" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row login">
+                                    <div class="form-group col-md-12 col-lg-12">
+                                        <label class="sr-only" for="password">Password</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon iconspace" style="width: 2.6rem">
+                                                <i class="fa fa-key"></i>
+                                            </div>
+                                            <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row login">
+                                    <div style="padding-top: .35rem" class="col-md-12 col-lg-12">
+                                        <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" name="remember" type="checkbox">
+                                                <span style="padding-bottom: .15rem">Remember me</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row login" style="padding-top: 1rem">
+                                    <div>
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fa fa-sign-in"></i> Login</button>
+                                    </div>
+                                </div>
+                                <h3 style="text-align:center; color: rgb(230, 230, 230)">OR</h3>
+                            </form>
+                            <div class="g-signin2" id="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+                            <div class="abcRioButtonIcon" id="g_button" style="padding:8px; display: none">
+                                <div style="width:18px;height:18px;" class="abcRioButtonSvgImageWithFallback abcRioButtonIconImage abcRioButtonIconImage18">
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" class="abcRioButtonSvg">
+                                        <g>
+                                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                                            <path fill="none" d="M0 0h48v48H0z"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                            <a href="#" class="g-signout" onclick="signOut();" id="g-signout" style="display:none">Sign out</a>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 logindash loginform">
+                            <form class="form-horizontal" method="POST" action="/login">
+                                <div class="row login">
+                                    <div class="form-group has-danger col-md-12 col-lg-12 topicontainer">
+                                        <h2 class="heading">QG Wizard</h2>
+                                        <hr>
+                                        <div class="input-group topic">
+                                            <div class="input-group-addon iconspace" style="width: 2.6rem">
+                                                <i class="far fa-comments"></i>
+                                            </div>
+                                            <input type="text" name="topic" class="form-control" id="topic" placeholder="Enter topic for the question.. " required>
+                                            <span class="remarks">For eg., celebrity, bollywood, space, cricket, etc.</span>
+                                        </div>
+                                        <hr>
+                                        <div class="input-group topic">
+                                            <div class="input-group-addon iconspace" style="width: 2.6rem">
+                                                <i class="far fa-comments"></i>
+                                            </div>
+                                            <input type="text" name="template" class="form-control" id="template" placeholder="Enter a sample question to allow sampling and generation... "
+                                                required>
+                                            <span class="remarks">For eg., Who was the first Prime Minister of India?</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row login" style="padding-top: 1rem">
+                                    <div>
+                                        <button type="submit" class="btn btn-info generateBtn">
+                                            <i class="fa fa-sign-in"></i>Generate!</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+        </div>
+    </div>
+    <footer class="page-footer font-small blue pt-4">
+        <div class="contianer-fuild mt-3 d-flex justify-content-between footer-section">
+            <div class="col-4 p-3 footer-box-section my-1 ml-2">
+                <section>
+                    <h3>Subscribe Us</h3>
+                    <form action="/" method="post" class="form-inline" id="subscribeForm">
+                        <label for="EmailAdd" aria-label="Email address">
+
+                        </label>
+                        <input type="email" name="EmailAdd" id="EmailAdd" placeholder="Email" class="form-control w-75 mx-auto">
+                        <button type="submit" class="btn btn-dark w-50 mx-auto my-2 p-2">Submit</button>
+                    </form>
+                </section>
+            </div>
+            <div class="col-4 p-3 footer-box-section my-1">
+                <h3>Contact Us</h3>
+                <p>
+                    <strong>Mob: +91 9035430402</strong>
+                </p>
+                <p>
+                    <strong>Email:quizgenx1234@gmail.com</strong>
+                </p>
+                <address>
+                    #2239 buliding virgo, bagmane constalation tach park,doodenakundi, Near Marathalli,Bangalore-560030
+                </address>
+            </div>
+            <div class="col-4 p-3 footer-box-section my-1 mr-2">
+                <h3>Follow Us</h3>
+                <ul class="social-link mt-5">
+                    <li>
+                        <i class="fa fa-facebook"></i>
+                    </li>
+                    <li>
+                        <i class="fa fa-twitter"></i>
+                    </li>
+                    <li>
+                        <i class="fa fa-google-plus"></i>
+                    </li>
+                    <li>
+                        <i class="fa fa-linkedin"></i>
+                    </li>
+                    <li>
+                        <i class="fa fa-pinterest-p"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright my-2">
+            <strong> Copyright &copy; 2018 -QuizGenx</strong>
         </div>
     </footer>
+
 <script type="text/javascript" src="bundle.js"></script></body>
 
 </html>
