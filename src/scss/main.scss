@@ -1,73 +1,92 @@
-@mixin roundedborder($radius:0.9em) {
-    -webkit-border-radius: $radius;
-    -moz-border-radius: $radius;
-    border-radius: $radius;
-}
+@import "@material/button/mdc-button";
+@import "@material/top-app-bar/mdc-top-app-bar";
 
-img.logo {
-  max-width: 2rem;
+.foo-button {
+  @include mdc-button-ink-color(teal);
+  @include mdc-states(teal);
 }
-.about-text {
-  background-color: whitesmoke;
-  color: black;
-  @include roundedborder;
-  padding: 0.5rem;
-}
+// @import '../../node_modules/@material/button/mdc-button';
+
+// @mixin roundedborder($radius:0.9em) {
+//     -webkit-border-radius: $radius;
+//     -moz-border-radius: $radius;
+//     border-radius: $radius;
+// }
+
+// .foo-button {
+//   @include mdc-button-ink-color(teal);
+//   @include mdc-states(teal);
+// }
+
+// img.logo {
+//   max-width: 2rem;
+// }
+// .about-text {
+//   background-color: whitesmoke;
+//   color: black;
+//   @include roundedborder;
+//   padding: 0.5rem;
+// }
  
 
-footer a {
-  color: white;
-}
+// footer a {
+//   color: white;
+// }
 
-/* this is applied when the screen size exceeds 991px */
-@media screen and (min-width: 991px) {
-}
+// /* this is applied when the screen size exceeds 991px */
+// @media screen and (min-width: 991px) {
+// }
 
-@media (min-width: 40em) {
-  .carousel-caption p {
-    margin-bottom: 1.25rem;
-    font-size: 0.25rem;
-    line-height: 1.4;
-  }
-}
+// @media (min-width: 40em) {
+//   .carousel-caption p {
+//     margin-bottom: 1.25rem;
+//     font-size: 0.25rem;
+//     line-height: 1.4;
+//   }
+// }
 
-@media (max-width: 40em) {
-  .carousel-caption p {
-    margin-bottom: 1.25rem; 
-    font-size: 0.25rem;
-    line-height: 1.4;
-  }
-}
+// @media (max-width: 40em) {
+//   .carousel-caption p {
+//     margin-bottom: 1.25rem; 
+//     font-size: 0.25rem;
+//     line-height: 1.4;
+//   }
+// }
 
-.roundedCorner{
-    @include roundedborder;
-}
+// .roundedCorner{
+//     @include roundedborder;
+// }
 
 
-// Dashboard
-@mixin clearfix() {
-  &::after {
-    display: block;
-    content: "";
-    clear: both;
-  }
-}
+// // Dashboard
+// @mixin clearfix() {
+//   &::after {
+//     display: block;
+//     content: "";
+//     clear: both;
+//   }
+// }
 
-input[name=search1] {
-    width: 330px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
+// input[name=search1] {
+//     width: 330px;
+//     -webkit-transition: width 0.4s ease-in-out;
+//     transition: width 0.4s ease-in-out;
+// }
 
-/* When the input field gets focus, change its width to 100% */
-input[name=search1]:focus {
-    width: 100%;
-}
+// /* When the input field gets focus, change its width to 100% */
+// input[name=search1]:focus {
+//     width: 100%;
+// }
 
-.hide
-{
-  display: none;
-}
+// .hide
+// {
+//   display: none;
+// }
 
-@import "layout"; 
-@import "base";
+// @import "layout"; 
+// @import "base";
+// .foo-button {
+//     @include mdc-button-ink-color(teal);
+//     @include mdc-states(teal);
+//   }
+
