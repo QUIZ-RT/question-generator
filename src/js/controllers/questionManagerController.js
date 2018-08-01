@@ -18,7 +18,7 @@ module.exports = $(document).ready(() => {
       let url = '/api/parseTemplate' + qGenQuery;
       fetch(url)
       .then(function(res) {
-          console.log(res)
+          // console.log(res)
           res.json().then((body) => {
               // TODO Temp call below
             body = JSON.parse(body);
