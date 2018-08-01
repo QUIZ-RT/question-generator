@@ -1,0 +1,117 @@
+
+
+.background-image { 
+    background-image: url("/assets/bk (2).jpg");
+    background-size: cover;
+    -webkit-background-size: cover;
+    display: block;
+    filter: blur(15px);
+    -webkit-filter: blur(15px);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    right: 0;
+    /* z-index: 1; */
+  }
+
+.logindash {
+    background: rgba(55, 55, 55, 0.35);
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    /* box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25); */
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    /* top: 10px; */
+    /* left: 0; */
+    /* position: fixed; */
+    /* margin-left: 20px;
+    margin-right: 20px; */
+    /* right: 0; */
+    /* z-index: 2; */
+    color: rgb(220, 220, 220);
+    padding: 4rem 2rem;
+    height: 550px;
+}
+
+.loginform {
+    color: rgb(60, 60, 60);
+}
+.gap-horizontal {
+    width: 20px;
+}
+
+.iconspace {
+    background-color: lightblue;
+    border-radius: 5px 0 0 5px;
+    padding: 12px;
+    color: black;
+}
+
+.form-group.col-md-12, .form-group.col-lg-12 {
+    padding-left: 0;
+}
+
+.g-signin2 {
+    width: 80%;
+}
+
+.g-signout {
+    border-radius: 0 5px 5px 0;
+    color: white;
+    padding: 3px 20px 13px;
+    margin-top: 13px;
+    background-color: rgb(88, 88, 218);
+    text-decoration: none;
+}
+
+.heading {
+    color: gainsboro;
+}
+
+// .topic {
+//     // width: 80%;
+//     // margin: auto;
+// }
+
+.remarks {
+    padding: 8px 0;
+    color: brown;
+    margin-left: 20px;
+    line-height: 2.5em;
+    font-style: italic;
+    font-weight: bolder;
+    font-size: 1.2em;
+}
+
+.generateBtn {
+    font-size: 1em;
+    padding: 15px;
+}
+
+// .topicontainer {
+//     text-align: center;
+// }
+
+  /* OVERRIDES */
+
+.tab-pane {
+    padding: 1.5em;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 2000px;
+    }
+}
+
+.row.login {
+    margin-left: 0;
+}
+
+.abcRioButtonIcon {
+    background-color: white;
+    border-radius: 5px 0 0 5px;
+}
+.abcRioButtonContentWrapper {
+    border-radius: 5px;
+    width: 100%;
+}

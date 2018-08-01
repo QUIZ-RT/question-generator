@@ -1,0 +1,54 @@
+{
+  "name": "quiz-genx",
+  "version": "1.0.0",
+  "description": "it about to config actual project",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha ./tests/**/*.js",
+    "build": "webpack",
+    "lint": "eslint ./src",
+    "serve": "concurrently \"npm run build\" \"nodemon server.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sachinjain526/complete_porject-config.git"
+  },
+  "author": "QuizGenx Team",
+  "license": "MIT",
+  "homepage": "https://github.com/sachinjain526/complete_porject-config#readme",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "body-parser": "^1.18.3",
+    "concurrently": "^3.6.1",
+    "cookie-session": "^2.0.0-beta.3",
+    "jquery": "^3.3.1",
+    "redux": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.2",
+    "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^1.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-loader": "^2.1.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "express": "^4.16.3",
+    "html-webpack-plugin": "^3.2.0",
+    "mocha": "^5.2.0",
+    "node-sass": "^4.9.2",
+    "nodemon": "^1.18.3",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.16.2",
+    "webpack-cli": "^3.0.8"
+  }
+}
