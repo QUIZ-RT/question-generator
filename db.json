@@ -1,0 +1,33 @@
+{
+    "questions": [
+        {
+            "name": "Question 1",
+            "text": "Who is Sachin ?",
+            "id": 1
+        },
+        {
+            "name": "Question 2",
+            "text": "where is Sachin from?",
+            "id": 2
+        },
+        {
+            "name": "Question 3",
+            "text": "Who is Sunil ?",
+            "id": 3
+        }
+    ],
+    "topics": [
+        {
+            "name": "Politics",
+            "id": 1
+        },
+        {
+            "name": "Bollywood",
+            "id": 2
+        },
+        {
+            "name": "Sports",
+            "id": 3
+        }
+    ]
+}
