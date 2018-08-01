@@ -17,7 +17,7 @@ module.exports = (app) => {
 
   app.get('/api/questions/:id', (req, res) => { // it will current user detail on screan
     let retResult = {};
-    retResult = questionsMaster.filter(question => question.id === req.params.id);
+    retResult = questionsMaster.filter(question => question.id == req.params.id);
     res.json(retResult);
     console.log(req);
   });

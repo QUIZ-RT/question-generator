@@ -1,4 +1,4 @@
-const templateService = require('./../services/templateParser');
+const templateService = require('./templateParser');
 
 module.exports = (app) => {
   app.get('/', (req, res) => {
