@@ -1,5 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
+const autoprefixer = require('autoprefixer');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = {
@@ -23,18 +25,32 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: [/node_modules/, /dist/],
-                loader: 'eslint-loader'
+                loader: 'eslint-loader',
+                options:{
+                    fix: true
+                }
+    
             },
             {
                 test: /\.scss$/,
-                use: [{
-                    loader: 'style-loader'
-                }, {
-                    loader: 'css-loader'
-                }, {
-                    loader: 'sass-loader'
-                }]
-            },
+                use: [
+                  {
+                    loader: 'file-loader',
+                    options: {
+                      name: 'bundle.css',
+                    },
+                  },
+                  { loader: 'extract-loader' },
+                  { loader: 'css-loader' },
+                  { 
+                      loader: 'sass-loader',
+                      options: {
+                          includePaths: ['./node_modules']
+                      }
+                 },
+                ]
+              }
+            ,
             {
                 test: /\.(png|jpg|gif)$/,
                 use: [
