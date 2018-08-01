@@ -1,22 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>QuizGenx</title>
-</head>
-
-<body>
-    <h1>Hi QuizGenx</h1>
-</body>
-
-</html>
--->
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,12 +20,12 @@
         messagingSenderId: "54487924663"
       };
       firebase.initializeApp(config);
-   
+    </script>
+
 var bigOne = document.getElementById('bigOne');
 var dbref = firebase.database().ref().child('text');
-dbref.on(value , snap=>bigOne.innertext=snap.val());
+dbref.on(value , =>bigOne.innertext=snap.val());
 
-</script>
 </body>
 
 </html>
