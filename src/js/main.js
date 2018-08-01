@@ -1,8 +1,14 @@
-
 import QuestionController from './controllers/questionController';
 
+import { callGoogleSignIn } from '../../firebase/firebase-signin';
 
-require('../scss/main.scss');
+import 'jquery';
+import 'popper.js';
+import 'bootstrap';
+import '../scss/main.scss';
+import './AjaxSetting';
 
 const questionController = new QuestionController();
 console.log(questionController);
+// for login
+callGoogleSignIn();
