@@ -55,7 +55,7 @@ module.exports = {
             to: 'assets'
         }]),
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: './src/views/index.html',
             chunksSortMode: 'dependency'
         })
     ]/*,
