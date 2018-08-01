@@ -1,9 +1,10 @@
-export const queries = {
-    entity: `SELECT ?propNumber ?propLabel ?val
+const queries = {
+  entity: `SELECT ?propNumber ?propLabel ?val
     WHERE
     {
         hint:Query hint:optimizer 'None' .
-        {	BIND(entity:$(var) AS ?valUrl) .
+        {
+            BIND(entity:$(var) AS ?valUrl) .
             BIND("N/A" AS ?propUrl ) .
             BIND("Name"@de AS ?propLabel ) .
            entity:#entity_id rdfs:label ?val .
@@ -24,8 +25,9 @@ export const queries = {
             optional{entity:#entity_id schema:description ?val}.
             FILTER (LANG(?val) = "en") 
         }
-           UNION
-        {	entity:#entity_id ?propUrl ?valUrl .
+        UNION
+        {
+            entity:#entity_id ?propUrl ?valUrl .
             ?property ?ref ?propUrl .
             ?property rdf:type wikibase:Property .
             ?property rdfs:label ?propLabel.
@@ -34,7 +36,8 @@ export const queries = {
             BIND(?valUrl AS ?val)
         }
         UNION
-        {	entity:#entity_id ?propUrl ?valUrl .
+        {
+            entity:#entity_id ?propUrl ?valUrl .
             ?property ?ref ?propUrl .
             ?property rdf:type wikibase:Property .
             ?property rdfs:label ?propLabel.
@@ -48,27 +51,29 @@ export const queries = {
     }
     ORDER BY xsd:integer(?propNumber)`,
 
-    similar_entities: `SELECT ?item ?itemLabel 
+  similar_entities: `SELECT ?item ?itemLabel 
     WHERE 
     {
         ?item wdt:P31 wd:Q146.
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
     }`,
 
-    cricketer_query: `select ?person ?personLabel ?placeofbirth ?country ?countryLabel ?placeofbirthLabel
+  cricketer_query: `select distinct ?person ?personlabel ?country ?countryLabel ?placeofbirth ?placeofbirthLabel ?questionlabel
     where {
       ?person wdt:P106 wd:Q12299841.
       ?person wdt:P19 ?placeofbirth .
-      ?person wdt:P735 ?givenName .
-      ?placeofbirth wdt:P17 ?country
+      ?person rdfs:label ?personlabel.
+      FILTER(LANG(?personlabel) = "en").
+      ?placeofbirth wdt:P17 ?country.
+      BIND(concat("What is the place of birth of ", ?personlabel) AS ?questionlabel).
     
-       SERVICE wikibase:label {
-         bd:serviceParam wikibase:language "en" .
-       }
-    }
-    LIMIT 100`,
+      SERVICE wikibase:label {
+        bd:serviceParam wikibase:language "en" .
+        
+      }
+    }`,
 
-    city_query: `SELECT ?instance ?instanceLabel WHERE {
+  city_query: `SELECT ?instance ?instanceLabel WHERE {
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
         ?instance wdt:P31 wd:Q515.
         ?instance wdt:P17 #countryCode
@@ -76,4 +81,6 @@ export const queries = {
     LIMIT 5`,
 
 
-}
+};
+
+export default queries;

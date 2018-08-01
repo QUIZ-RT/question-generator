@@ -13,7 +13,7 @@ import 'bootstrap';
 import '../scss/main.scss';
 import './AjaxSetting';
 
-const questionController = new QuestionController();
-console.log(questionController);
+// const questionController = new QuestionController();
+// console.log(questionController);
 // for login
 callGoogleSignIn();

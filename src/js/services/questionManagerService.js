@@ -1,11 +1,10 @@
-const $templateParser = require('./templateParser.js');
 import Constants from '../shared/constants';
-import { queries } from './../queries/sparqueries';
+import queries from './../queries/sparqueries';
 
-module.exports = { 
-    endpointUrl: Constants.END_POINT_URL,
+module.exports = {
+  endpointUrl: Constants.END_POINT_URL,
 
-    getNodeDataFor: function(item) {
+  getNodeDataFor(item) {
         let sparqlQuery = queries.cricketer_query,
             fullUrl = this.endpointUrl + '?query=' + encodeURIComponent(sparqlQuery),
             headers = { 'Accept': 'application/sparql-results+json' };
@@ -15,7 +14,7 @@ module.exports = {
         });
     },
 
-    generateQuestions: function(json) {
+  generateQuestions(json) {
         // console.log('test' + json);
         const { 
                 head: { vars }, 
@@ -29,7 +28,7 @@ module.exports = {
         }
     },
 
-    generateOptions: function(countryCode, countryLabel) {
+  generateOptions(countryCode, countryLabel) {
         let cityQuery = queries.city_query,
             fullUrl = this.endpointUrl + '?query=' + encodeURIComponent(cityQuery),
             headers = { 'Accept': 'application/sparql-results+json' };
@@ -45,6 +44,6 @@ module.exports = {
             }
         });
 
-    }
+    },
 
-}
+};
