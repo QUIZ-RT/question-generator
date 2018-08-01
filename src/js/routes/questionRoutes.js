@@ -6,6 +6,10 @@ let questionsMaster = db.questions;
 
 module.exports = app => {
 
+  app.get('/', (req, res, next) => {
+    res.render('index');
+  })
+
   app.get('/api/questions', (req, res) => {// it will current user detail on screan
     res.json(questionsMaster);
     console.log(req);
@@ -19,5 +23,5 @@ module.exports = app => {
     res.json(retResult);
     console.log(req);
   });
-
+  
 };

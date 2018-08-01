@@ -22,8 +22,9 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./routes/authRoutes.js')(app)// for login purpose 
-require('./routes/billingRoutes.js')(app)// for billing porpose
+require('./src/js/routes/questionManagerRoutes')(app);
+// require('./routes/questionManagerRoutes')(app);
+
 
 if (process.env.NODE_ENV === "production") {
 	//if ode is working in prdocution to serve static page
