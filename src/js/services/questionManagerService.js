@@ -1,4 +1,3 @@
-const $templateParser = require('./templateParser.js');
 import Constants from '../shared/constants';
 import { queries } from './../queries/sparqueries';
 
