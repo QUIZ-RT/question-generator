@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import firebaseInit from './firebase';
 import 'firebase/auth';
 import { saveCurrentLoggedUserInfo } from './firebase-database';
+
 function signInWithPopup(provider) {
   firebaseInit.auth().signInWithPopup(provider).then((result) => {
     if (result.credential && result.user) {
