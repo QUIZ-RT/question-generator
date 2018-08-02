@@ -4,52 +4,36 @@ const firebaseInit = require('./firebase');
 
 require('firebase/auth');
 
-const firebaseDatabase = require('./firebase-database');
-const firebaseFunc = new firebaseDatabase();
-
-function signInWithPopup(provider, callback) {
+function signInWithPopup(provider, resolve, reject) {
   firebaseInit.auth().signInWithPopup(provider).then((result) => {
     if (result.credential && result.user) {
-      const token = result.credential.accessToken;
-      const {
-        displayName, email, photoURL, uid,
-      } = result.user;
-      firebaseFunc.seveLoggedUserInfo(uid, {
-        displayName, email, photoURL, token,
-      });
-      // call update ui method after login
-      callback(result.user);
+      resolve(result.user);
     }
+  }).catch((error) => {
+    reject(error)
+  });
+
+  firebaseInit.auth().getRedirectResult().then((result) => {
+    if (result.credential && result.user) {
+      resolve(result.user);
+    }
+  }).catch((error) => {
+    reject(error)
   });
 }
-firebaseInit.auth().getRedirectResult().then((result) => {
-  if (result.credential && result.user) {
-    const token = result.credential.accessToken;
-    const {
-      displayName, email, photoURL, uid,
-    } = result.user;
-    firebaseFunc.seveLoggedUserInfo(uid, {
-      displayName, email, photoURL, token,
-    });
-  }
-}).catch((error) => {
-  console.log(error);
-});
-
-
 // sign in method
-module.exports = () => {
-  callGoogleSignIn = (callback) => {
+module.exports = class firebaseSignIn {
+  callGoogleSignIn(resolve, reject) {
     const provider = new firebase.auth.GoogleAuthProvider();
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    signInWithPopup(provider, callback);
+    signInWithPopup(provider, resolve, reject);
   };
 
-  signOutApplication = (callback) => {
-    firebaseInit.auth().signOut().then(() => {
-      callback();
+  signOutApplication(resolve, reject) {
+    firebaseInit.auth().signOut().then((data) => {
+      resolve(data);
     }).catch((error) => {
-      console.log(error);
+      reject(error);
     });
   };
 }
