@@ -19,9 +19,8 @@ jQuery(document).ready(() => {
     console.log(jqXhr);
   }); */
   jQuery.ajax({
+    cors: 'mode',
     type: 'post',
-    contentType: 'application/json',
-    dataType: 'json',
     url: '/firebase/signin',
   }).done((response) => {
     console.log(response);
