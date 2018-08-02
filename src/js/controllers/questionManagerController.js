@@ -27,15 +27,15 @@ module.exports = jQuery(document).ready(() => {
   });
 
   function initiateWizard(qGenQuery) {
-      let url = '/api/parseTemplate' + qGenQuery;
-      fetch(url)
-      .then(function(res) {
-          // console.log(res)
-          res.json().then((body) => {
-              // TODO Temp call below
-            body = JSON.parse(body);
-            qManService.getNodeDataFor(body.topics[0].normal)
-          })
-      })
+    const url = `/api/parseTemplate${qGenQuery}`;
+    fetch(url)
+      .then((res) => {
+        // console.log(res)
+        res.json().then((body) => {
+          // TODO Temp call below
+          body = JSON.parse(body);
+          qManService.getNodeDataFor(body.topics[0].normal);
+        });
+      });
   }
-})
+});

@@ -1,5 +1,5 @@
 export const queries = {
-    entity: `SELECT ?propNumber ?propLabel ?val
+  entity: `SELECT ?propNumber ?propLabel ?val
     WHERE
     {
         hint:Query hint:optimizer 'None' .
@@ -48,14 +48,14 @@ export const queries = {
     }
     ORDER BY xsd:integer(?propNumber)`,
 
-    similar_entities: `SELECT ?item ?itemLabel 
+  similar_entities: `SELECT ?item ?itemLabel 
     WHERE 
     {
         ?item wdt:P31 wd:Q146.
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
     }`,
 
-    cricketer_query: `select ?person ?personLabel ?placeofbirth ?country ?countryLabel ?placeofbirthLabel
+  cricketer_query: `select ?person ?personLabel ?placeofbirth ?country ?countryLabel ?placeofbirthLabel
     where {
       ?person wdt:P106 wd:Q12299841.
       ?person wdt:P19 ?placeofbirth .
@@ -68,7 +68,7 @@ export const queries = {
     }
     LIMIT 100`,
 
-    city_query: `SELECT ?instance ?instanceLabel WHERE {
+  city_query: `SELECT ?instance ?instanceLabel WHERE {
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
         ?instance wdt:P31 wd:Q515.
         ?instance wdt:P17 #countryCode
@@ -76,4 +76,4 @@ export const queries = {
     LIMIT 5`,
 
 
-}
+};
