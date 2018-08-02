@@ -12,9 +12,9 @@ require('./routes/questionRoutes.js')(app)// for question related endpoints
 require('./routes/topicRoutes.js')(app)// for topics related endpoints
 require('./routes/questionManagerRoutes.js')(app)// for question related endpoints
 
-require('./src/js/routes/questionRoutes.js')(app)// for question related endpoints  
-require('./src/js/routes/topicRoutes.js')(app)// for topics related endpoints  
-require('./src/js/routes/questionManagerRoutes.js')(app)// for question related endpoints  
+// require('./src/js/routes/questionRoutes.js')(app)// for question related endpoints  
+// require('./src/js/routes/topicRoutes.js')(app)// for topics related endpoints  
+// require('./src/js/routes/questionManagerRoutes.js')(app)// for question related endpoints  
 // require('./routes/questionRoutes.js')(app)// for question related endpoints  
 // require('./routes/topicRoutes.js')(app)// for topics related endpoints  
 // require('./routes/questionManagerRoutes.js')(app)// for question related endpoints  
