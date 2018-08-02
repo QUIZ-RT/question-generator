@@ -24,13 +24,13 @@ module.exports = {
     });
   },
 
-  generateQuestions(json) {
-    const { head: { vars }, results } = json;
-    for (const result of results.bindings) {
-      for (const variable of vars) {
-        console.log('%s: %o', variable, result[variable]);
-      }
-      console.log('---');
-    }
-  },
+  // generateQuestions(json) {
+  //   const { head: { vars }, results } = json;
+
+  //   for (const result of results.bindings) {
+  //     for (const variable of vars) {
+  //       console.log('%s: %o', variable, result[variable]);
+  //     }
+  //   }
+  // },
 };

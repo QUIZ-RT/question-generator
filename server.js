@@ -8,6 +8,7 @@ app.use(bodyParser.json()); // parsing data or middleware to server
 
 app.use(express.static('dist'));// it will prefer the directory to serve the file
 
+require('./firebase/firebase-route')(app);
 require('./src/js/routes/questionRoutes.js')(app);// for question related endpoints
 require('./src/js/routes/topicRoutes.js')(app);// for topics related endpoints
 require('./src/js/routes/questionManagerRoutes.js')(app);// for question related endpoints
