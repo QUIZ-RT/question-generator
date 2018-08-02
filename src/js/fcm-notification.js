@@ -1,24 +1,28 @@
 import { Toast, configureToasts } from 'toaster-js';
+
 import UserController from './controllers/userController';
 import firebaseInit from '../../firebase/firebase';
-
+// import 'toaster-js/default.css';
 // require('../../firebase/firebase');
 
 configureToasts({
   topOrigin: -20, // [default=0] Y-axis origin of the messages.
-  deleteDelay: 500, // time until the toast is completely removed from the DOM after deleting.
+  deleteDelay: 19500, // time until the toast is completely removed from the DOM after deleting.
 });
 
 
 const userController = new UserController();
 
 const messaging = firebaseInit.messaging();
-messaging.usePublicVapidKey('BOzPyeozLKMO_os_EHr6IHKyW2ITrrqPODALSEI2tKKC2v-QePhtQLQ2kM1B2zMQLd94oV07o-JqQMj3HxRHIBM');
+messaging.usePublicVapidKey('BG96KHcY1hTDHCBxe54kuoe594S0loDgN9KCkCtovDWt8pGT8513Kr2SgF0VGjSsSyAMtzncLni4j1rvRxleFpc');
 messaging.requestPermission().then(() => {
   console.log('Notification permission granted.');
   return messaging.getToken();
 }).then((currentToken) => {
   if (currentToken) {
+    // alert(`Token${currentToken}`);
+
+    sessionStorage.setItem('fcm-token', currentToken);
     // userController.updateFcmToken(currentToken);
   } else {
   }
