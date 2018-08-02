@@ -23,6 +23,7 @@ module.exports = app => {
                     subjects.status = 200;
                 }
             }
+            subjects.givenTopic = req.query.topic;
         }
         res.json(JSON.stringify(subjects));
     });

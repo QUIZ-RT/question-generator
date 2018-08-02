@@ -1,4 +1,4 @@
-const queries = {
+export const queries = {
   entity: `SELECT ?propNumber ?propLabel ?val
     WHERE
     {
@@ -58,11 +58,11 @@ const queries = {
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
     }`,
 
-  cricketer_query: `select distinct ?person ?personlabel ?country ?countryLabel ?placeofbirth ?placeofbirthLabel ?questionlabel
+  cricketer_query: `select distinct ?item ?itemLabel ?country ?countryLabel ?placeofbirth ?placeofbirthLabel ?questionlabel
     where {
-      ?person wdt:P106 wd:Q12299841.
-      ?person wdt:P19 ?placeofbirth .
-      ?person rdfs:label ?personlabel.
+      ?item wdt:P106 wd:Q12299841.
+      ?item wdt:P19 ?placeofbirth .
+      ?item rdfs:label ?personlabel.
       FILTER(LANG(?personlabel) = "en").
       ?placeofbirth wdt:P17 ?country.
       BIND(concat("What is the place of birth of ", ?personlabel) AS ?questionlabel).
@@ -71,7 +71,8 @@ const queries = {
         bd:serviceParam wikibase:language "en" .
         
       }
-    }`,
+    }
+    LIMIT 100`,
 
   city_query: `SELECT ?instance ?instanceLabel WHERE {
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
@@ -80,7 +81,15 @@ const queries = {
     }
     LIMIT 5`,
 
-
+  distinct_countries: `select distinct ?country ?placeofbirth ?placeofbirthLabel
+  where {
+    ?person wdt:P106 wd:Q12299841.
+    ?person wdt:P19 ?placeofbirth .
+    ?placeofbirth wdt:P17 ?country.
+  
+    SERVICE wikibase:label {
+      bd:serviceParam wikibase:language "en" .
+      
+    }
+  } order by ?country`
 };
-
-export default queries;
