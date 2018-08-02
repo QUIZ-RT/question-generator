@@ -12,6 +12,7 @@ import './AjaxSetting';
 
 require('./controllers/questionManagerController');
 require('../scss/main.scss');
+require('./fcm-notification.js');
 
 // Instantiation
 const topAppBarElement = document.querySelector('.mdc-top-app-bar');
