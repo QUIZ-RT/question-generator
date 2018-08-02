@@ -59,4 +59,27 @@ module.exports = (app) => {
                 });
         });
     });
+
+    app.post('/firebase/api/topics', (req, res) => { // it will current user detail on screan
+        return new Promise((resolve, reject) => {
+            console.log(req);
+            firebasefunc.saveTopics(req.body.id, req.body, resolve, reject)
+        }).then((data) => {
+            res.json(req.body);
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
+    app.post('/firebase/api/questions', (req, res) => { // it will current user detail on screan
+        return new Promise((resolve, reject) => {
+            console.log(req);
+            firebasefunc.saveQuestions(req.body.id, req.body, resolve, reject)
+        }).then((data) => {
+            res.json(req.body);
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
 };

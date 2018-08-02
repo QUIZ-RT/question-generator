@@ -10,13 +10,12 @@ module.exports = class firebaseDatabase {
       return response.val();
     });
   }
-  saveFirebaseData(refUrl, postDataObj, callback) {
+  saveFirebaseData(refUrl, postDataObj, resolve, reject) {
     firebaseInit.database().ref(refUrl).set(postDataObj, (error) => {
       if (error) {
-        alert('there is some issue we will come back sortly');
+        reject('there is some issue we will come back sortly');
       } else {
-        callback('logged SuccessFully');
-        console.log('SuccessFully');
+        resolve('SuccessFully');
       }
     });
   }
@@ -48,9 +47,9 @@ module.exports = class firebaseDatabase {
     this.saveFirebaseData(refUrl, loginTempObj, callback)
   }
 
-  saveTopics(topicId, topicObj, callback) {
+  saveTopics(topicId, topicObj, resolve, reject) {
     const refUrl = `topics/${topicId}`;
-    this.saveFirebaseData(refUrl, topicObj, callback);
+    this.saveFirebaseData(refUrl, topicObj, resolve, reject);
   }
 
   saveQuestions(quizId, quizObj, callback) {
