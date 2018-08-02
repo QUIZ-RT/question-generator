@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+
 module.exports = {
   mode: 'development',
   watch: true,
@@ -35,23 +36,23 @@ module.exports = {
         }, {
           loader: 'sass-loader',
           options: {
-            includePaths: ['./node_modules']
-          }
+            includePaths: ['./node_modules'],
+          },
         }],
       },
       // Font-awesome 4.7.X
       {
         test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         loader: 'file-loader?name=fonts/[name].[ext]',
-        include: [/font-awesome/]
+        include: [/font-awesome/],
       },
       {
         test: /\.(png|jpg|gif)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]',
-          outputPath: "assets/",
-        }
+          outputPath: 'assets/',
+        },
       },
     ],
   },
@@ -60,7 +61,7 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
       'window.$': 'jquery',
-      'window.jQuery': 'jquery'
+      'window.jQuery': 'jquery',
     }),
     new CopyWebpackPlugin([{
       from: './src/assets',

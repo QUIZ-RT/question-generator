@@ -1,19 +1,24 @@
 import QuestionController from './controllers/questionController';
-require('./controllers/questionManagerController');
-require('../scss/main.scss');
 
-const questionController = new QuestionController();
-// console.log(questionController);
-
-import { callGoogleSignIn } from '../../firebase/firebase-signin';
-
+// import { callGoogleSignIn } from '../../firebase/firebase-signin';
+import { getQuestions, getTopics } from '../../firebase/firebase-database';
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
 import '../scss/main.scss';
 import './AjaxSetting';
 
+// const questionController = new QuestionController();
+// console.log(questionController);
+require('./controllers/questionManagerController');
+require('../scss/main.scss');
+
 const questionController = new QuestionController();
 console.log(questionController);
 // for login
-callGoogleSignIn();
+// callGoogleSignIn();
+function retriveData(responseData) {
+  console.log(responseData);
+}
+getQuestions(null, retriveData);
+getTopics(null, retriveData);
