@@ -5,70 +5,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="1005207581750-hb4l9ugbvu43ctnub6jdd33rrnr2akh1.apps.googleusercontent.com">
     <title>QuizGenx: Quiz Generator</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-        crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.2.0/firebaseui.css" />
-    <!-- <link type="text/css" rel="stylesheet" href="./../scss/main.css"> -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
+   
     <!------ Include the above in your HEAD tag ---------->
     <link href='http://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
+
 </head>
 
 <body>
     <input type="hidden" id="pagingSkip" name="custId" value="0">
-    <header>
-        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <img src="assets/logo.png" class="logo img-fluid" alt="Company logo">
-            <a class="navbar-brand" href="http://sapient.com">QuizGenx</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
+        <nav class="mdc-drawer__drawer">
 
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link " id="questions">Questions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " id="topics">Topics</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " id="access">Access</a>
-                    </li>
-                </ul>
-                <ul class="navbar nav mt-2 float-right mt-lg-0">
-                    <li class="nav-item" id="userLogin">
-                        <a class="nav-link " href="/firebase/signin">
-                            <i class="fa fa-sign-in mr-1"></i>Login
-                        </a>
-                    </li>
-                    <li class="nav-item d-none" id="userProfile">
-
-                    </li>
-                    <li class="nav-item d-none" id="userLogout">
-                        <a class="nav-link" href="#">
-                            <i class="fa fa-sign-out mr-1"></i>LogOut</a>
-                    </li>
-                </ul>
-            </div>
+            <nav class="mdc-drawer__content mdc-list-group">
+                <div id="icon-with-text-demo" class="mdc-list">
+                    <a class="mdc-list-item mdc-list-item--selected demo-drawer-list-item" tabindex="-1">
+                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>Inbox</a>
+                    <a class="mdc-list-item demo-drawer-list-item" tabindex="-1">
+                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">star</i>Star</a>
+                    <a class="mdc-list-item demo-drawer-list-item" tabindex="-1">
+                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">send</i>Sent Mail</a>
+                    <a class="mdc-list-item demo-drawer-list-item" tabindex="-1">
+                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">drafts</i>Drafts</a>
+                </div>
+            </nav>
         </nav>
-    </header>
-    <div class="clearfix"></div>
-    <main>
-        <div class="container">
+    </aside>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link " id="questions">Questions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " id="topics">Topics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " id="access">Access</a>
+            </li>
+        </ul>
+        <ul class="navbar nav mt-2 float-right mt-lg-0">
+            <li class="nav-item" id="userLogin">
+                <a class="nav-link " href="/firebase/signin">
+                    <i class="fa fa-sign-in mr-1"></i>Login
+                </a>
+            </li>
+            <li class="nav-item d-none" id="userProfile">
+
+            </li>
+            <li class="nav-item d-none" id="userLogout">
+                <a class="nav-link" href="#">
+                    <i class="fa fa-sign-out mr-1"></i>LogOut</a>
+            </li>
+        </ul>
+        <div class="drawer-header-flex">
+            <header class="mdc-top-app-bar">
+                <div class="mdc-top-app-bar__row">
+                    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                        <button class="menu material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">menu</button>
+                        <span class="mdc-top-app-bar__title">Quiz RT</span>
+                    </section>
+                </div>
+            </header>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="container" id="ResultContainer">
+
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="homeTab" role="tabpanel" aria-labelledby="home-tab">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8 col-lg-8 logindash">
@@ -84,6 +93,26 @@
                                     vulputate porta.</p>
                                 <h4>Please login to continue... </h4>
                                 <!-- <div><h1 class="float">Jump Right In!</h1></div> -->
+                            </div>
+                            <div class="gap-horizontal"></div>
+                            <div class="col-lg-3 col-md-3 logindash loginform">
+                                <form class="form-horizontal" method="POST" action="/login">
+                                    <div class="row login">
+                                        <div>
+                                            <h2>Please Login</h2>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquam erat in ante malesuada,
+                                        facilisis semper nulla semper. Phasellus sapien neque, faucibus in malesuada quis,
+                                        lacinia et libero. Sed sed turpis tellus. Etiam ac aliquam tortor, eleifend rhoncus
+                                        metus. Ut turpis massa, sollicitudin sit amet molestie a, posuere sit amet nisl.
+                                        Mauris tincidunt cursus posuere. Nam commodo libero quis lacus sodales, nec feugiat
+                                        ante posuere. Donec pulvinar auctor commodo. Donec egestas diam ut mi adipiscing,
+                                        quis lacinia mauris condimentum. Quisque quis odio venenatis, venenatis nisi a, vehicula
+                                        ipsum. Etiam at nisl eu felis vulputate porta.</p>
+                                    <h4>Please login to continue... </h4>
+                                    <!-- <div><h1 class="float">Jump Right In!</h1></div> -->
                             </div>
                             <div class="gap-horizontal"></div>
                             <div class="col-lg-3 col-md-3 logindash loginform">
@@ -182,11 +211,13 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="tab-pane fade" id="contactTab" role="tabpanel" aria-labelledby="contact-tab">...</div>
             </div>
         </div>
-    </main>
+    </div>
+
     <footer class="page-footer font-small blue pt-4">
         <div class="contianer-fuild mt-3 d-flex justify-content-between footer-section">
             <div class="col-4 p-3 footer-box-section my-1 ml-2">

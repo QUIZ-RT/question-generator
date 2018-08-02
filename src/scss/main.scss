@@ -1,4 +1,8 @@
 $fa-font-path: '~font-awesome/fonts';
+@import "@material/button/mdc-button";
+@import "@material/top-app-bar/mdc-top-app-bar";
+@import "@material/drawer/mdc-drawer";
+@import "@material/list/mdc-list";
 @import '~font-awesome/scss/font-awesome.scss';
 @import "~bootstrap/scss/bootstrap";
 @import "_variable.scss";
@@ -6,6 +10,13 @@ $fa-font-path: '~font-awesome/fonts';
 @import "_layout.scss";
 @import "_mixin.scss";
 /* Absolute Center Spinner */
+
+.foo-button {
+  @include mdc-button-ink-color(teal);
+  @include mdc-states(teal);
+}
+
+
 .loading {
     position: fixed;
     z-index: 999;
