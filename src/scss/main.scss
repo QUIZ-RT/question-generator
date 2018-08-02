@@ -1,92 +1,149 @@
-@import "@material/button/mdc-button";
-@import "@material/top-app-bar/mdc-top-app-bar";
-
-.foo-button {
-  @include mdc-button-ink-color(teal);
-  @include mdc-states(teal);
+$fa-font-path: '~font-awesome/fonts';
+@import '~font-awesome/scss/font-awesome.scss';
+@import "~bootstrap/scss/bootstrap";
+@import "_variable.scss";
+@import "_login.scss";
+@import "_layout.scss";
+@import "_mixin.scss";
+/* Absolute Center Spinner */
+.loading {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+  
+  /* Transparent Overlay */
+  .loading:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+  }
+  
+  /* :not(:required) hides these rules from IE9 and below */
+  .loading:not(:required) {
+    font: 0/0 a;
+    color: transparent;
+    text-shadow: none;
+    background: transparent;
+    border: 0;
+  }
+  
+  .loading:not(:required):after {
+    content: '';
+    display: block;
+    font-size: 10px;
+    width: 1em;
+    height: 1em;
+    margin-top: -0.5em;
+    animation: spinner 1500ms infinite linear;
+    border-radius: 0.5em;
+    box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+  }
+  
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+    /* spinner end here */
+/* social link*/
+.social-link li{
+  display: inline-block;
+  width: 37px;
+  border-radius: 50%;
+  margin-right: 5px;
+  padding: 4px;
+  @include textprop(20px, $white);
 }
-// @import '../../node_modules/@material/button/mdc-button';
 
-// @mixin roundedborder($radius:0.9em) {
-//     -webkit-border-radius: $radius;
-//     -moz-border-radius: $radius;
-//     border-radius: $radius;
-// }
+.social-link li:nth-child(1){
+  background: #3b5998 ;
+  }
+  .social-link li:nth-child(2){ 
+      background: #00aced ;
+  }
+  .social-link li:nth-child(3){
+      background: #bb0000   ;
+  }
+  .social-link li:nth-child(4){
+      background: #007bb6 ;
+  }
+  .social-link li:nth-child(5){ 
+      background: #cb2027 ;
+  }
+  .footer-box-section{
+    flex:1 0 32%;
+    max-width: 32%;
+    border-radius:$border-radius;
+    border: 2px solid white;
+    text-align: $text-align;
+}
 
-// .foo-button {
-//   @include mdc-button-ink-color(teal);
-//   @include mdc-states(teal);
-// }
+img.logo {
+  max-width: 2rem;
+}
+.about-text {
+  background-color: whitesmoke;
+  color: black;
+  @include roundedborder;
+  padding: 0.5rem;
+}
 
-// img.logo {
-//   max-width: 2rem;
-// }
-// .about-text {
-//   background-color: whitesmoke;
-//   color: black;
-//   @include roundedborder;
-//   padding: 0.5rem;
-// }
- 
+/* this is applied when the screen size exceeds 991px */
+@media screen and (min-width: 991px) {
+}
 
-// footer a {
-//   color: white;
-// }
+@media (min-width: 40em) {
+  .carousel-caption p {
+    margin-bottom: 1.25rem;
+    font-size: 0.25rem;
+    line-height: 1.4;
+  }
+}
 
-// /* this is applied when the screen size exceeds 991px */
-// @media screen and (min-width: 991px) {
-// }
+@media (max-width: 40em) {
+  .carousel-caption p {
+    margin-bottom: 1.25rem; 
+    font-size: 0.25rem;
+    line-height: 1.4;
+  }
+}
 
-// @media (min-width: 40em) {
-//   .carousel-caption p {
-//     margin-bottom: 1.25rem;
-//     font-size: 0.25rem;
-//     line-height: 1.4;
-//   }
-// }
-
-// @media (max-width: 40em) {
-//   .carousel-caption p {
-//     margin-bottom: 1.25rem; 
-//     font-size: 0.25rem;
-//     line-height: 1.4;
-//   }
-// }
-
-// .roundedCorner{
-//     @include roundedborder;
-// }
+.roundedCorner{
+    @include roundedborder;
+}
 
 
-// // Dashboard
-// @mixin clearfix() {
-//   &::after {
-//     display: block;
-//     content: "";
-//     clear: both;
-//   }
-// }
+// Dashboard
 
-// input[name=search1] {
-//     width: 330px;
-//     -webkit-transition: width 0.4s ease-in-out;
-//     transition: width 0.4s ease-in-out;
-// }
 
-// /* When the input field gets focus, change its width to 100% */
-// input[name=search1]:focus {
-//     width: 100%;
-// }
+input[name=search1] {
+    width: 330px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
 
-// .hide
-// {
-//   display: none;
-// }
+/* When the input field gets focus, change its width to 100% */
+input[name=search1]:focus {
+    width: 100%;
+}
 
-// @import "layout"; 
-// @import "base";
-// .foo-button {
-//     @include mdc-button-ink-color(teal);
-//     @include mdc-states(teal);
-//   }
-
+.hide
+{
+  display: none;
+}

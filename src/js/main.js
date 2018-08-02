@@ -1,8 +1,24 @@
-import { MDCTopAppBar } from '@material/top-app-bar/index';
+
 import QuestionController from './controllers/questionController';
+
+// import { callGoogleSignIn } from '../../firebase/firebase-signin';
+import { getQuestions, getTopics } from '../../firebase/firebase-database';
+import 'jquery';
+import 'popper.js';
+import 'bootstrap';
 import '../scss/main.scss';
-// Instantiation
-const topAppBarElement = document.querySelector('.mdc-top-app-bar');
-new MDCTopAppBar(topAppBarElement);
+import './AjaxSetting';
+
+require('./controllers/questionManagerController');
+require('../scss/main.scss');
+
+
 const questionController = new QuestionController();
 console.log(questionController);
+// for login
+// callGoogleSignIn();
+function retriveData(responseData) {
+  console.log(responseData);
+}
+getQuestions(null, retriveData);
+getTopics(null, retriveData);
