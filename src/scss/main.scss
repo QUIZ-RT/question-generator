@@ -1,10 +1,22 @@
 $fa-font-path: '~font-awesome/fonts';
+@import "@material/button/mdc-button";
+@import "@material/top-app-bar/mdc-top-app-bar";
+@import "@material/drawer/mdc-drawer";
+@import "@material/list/mdc-list";
 @import '~font-awesome/scss/font-awesome.scss';
 @import "~bootstrap/scss/bootstrap";
+@import "_variable.scss";
 @import "_login.scss";
-@import "_base.scss";
 @import "_layout.scss";
+@import "_mixin.scss";
 /* Absolute Center Spinner */
+
+.foo-button {
+  @include mdc-button-ink-color(teal);
+  @include mdc-states(teal);
+}
+
+
 .loading {
     position: fixed;
     z-index: 999;
@@ -60,12 +72,37 @@ $fa-font-path: '~font-awesome/fonts';
     }
   }
     /* spinner end here */
+/* social link*/
+.social-link li,.social-login a{
+  display: inline-block;
+  width: 37px;
+  border-radius: 50%;
+  margin-right: 5px;
+  padding: 4px;
+  @include textprop(20px, $white);
+}
 
-
-@mixin roundedborder($radius:0.9em) {
-    -webkit-border-radius: $radius;
-    -moz-border-radius: $radius;
-    border-radius: $radius;
+.social-link li:nth-child(1){
+  background: #3b5998 ;
+  }
+  .social-link li:nth-child(2){ 
+      background: #00aced ;
+  }
+  .social-link li:nth-child(3){
+      background: #bb0000   ;
+  }
+  .social-link li:nth-child(4){
+      background: #007bb6 ;
+  }
+  .social-link li:nth-child(5){ 
+      background: #cb2027 ;
+  }
+  .footer-box-section{
+    flex:1 0 32%;
+    max-width: 32%;
+    border-radius:$border-radius;
+    border: 2px solid white;
+    text-align: $text-align;
 }
 
 img.logo {
@@ -76,11 +113,6 @@ img.logo {
   color: black;
   @include roundedborder;
   padding: 0.5rem;
-}
- 
-
-footer a {
-  color: white;
 }
 
 /* this is applied when the screen size exceeds 991px */
@@ -109,13 +141,7 @@ footer a {
 
 
 // Dashboard
-@mixin clearfix() {
-  &::after {
-    display: block;
-    content: "";
-    clear: both;
-  }
-}
+
 
 input[name=search1] {
     width: 330px;
@@ -132,6 +158,3 @@ input[name=search1]:focus {
 {
   display: none;
 }
-
-@import "layout"; 
-@import "base";

@@ -123,5 +123,23 @@ module.exports = {
         window.localStorage.setItem('id_counter1', counter);
         return counter;
     }
+  },
+
+  generateOptions(countryCode, countryLabel) {
+    let cityQuery = queries.city_query,
+      fullUrl = `${this.endpointUrl}?query=${encodeURIComponent(cityQuery)}`,
+      headers = { Accept: 'application/sparql-results+json' };
+    cityQuery = cityQuery.replace('#countryCode', countryCode);
+    fetch(fullUrl, { headers }).then(body => body.json()).then((json) => {
+      const {
+        head: { vars },
+        results,
+      } = json;
+      for (const result of result.bindings) {
+        console.log(countryLabel);
+        console.log(result);
+      }
+    });
+  },
 
 };
