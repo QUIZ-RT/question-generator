@@ -26,5 +26,16 @@ module.exports = jQuery(document).ready(() => {
     initiateWizard(formQuery);
   });
 
-  jQuery('#admin-tab').click();
+  function initiateWizard(qGenQuery) {
+    const url = `/api/parseTemplate${qGenQuery}`;
+    fetch(url)
+      .then((res) => {
+        // console.log(res)
+        res.json().then((body) => {
+          // TODO Temp call below
+          body = JSON.parse(body);
+          qManService.getNodeDataFor(body.topics[0].normal);
+        });
+      });
+  }
 });

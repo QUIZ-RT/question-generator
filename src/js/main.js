@@ -10,7 +10,6 @@ import 'bootstrap';
 import '../scss/main.scss';
 import './AjaxSetting';
 
-
 require('./controllers/questionManagerController');
 require('../scss/main.scss');
 
