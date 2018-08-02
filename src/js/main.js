@@ -1,5 +1,5 @@
 import { MDCTopAppBar } from '@material/top-app-bar/index';
-import { MDCTemporaryDrawer } from '@material/drawer';
+import { MDCTemporaryDrawer, MDCTemporaryDrawerFoundation, util } from '@material/drawer';
 import QuestionController from './controllers/questionController';
 
 // import { callGoogleSignIn } from '../../firebase/firebase-signin';
@@ -12,11 +12,15 @@ import './AjaxSetting';
 
 require('./controllers/questionManagerController');
 require('../scss/main.scss');
+// require('./fcm-notification.js');
 
 // Instantiation
-const topAppBarElement = document.querySelector('.mdc-top-app-bar');
-const topAppBar = new MDCTopAppBar(topAppBarElement);
+// const topAppBarElement = document.querySelector('.mdc-top-app-bar');
+// const topAppBar = new MDCTopAppBar(topAppBarElement);
+
 const drawer = new MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
+document.querySelector('.menu').addEventListener('click', () => { drawer.open = true; });
+
 const questionController = new QuestionController();
 console.log(questionController);
 // for login
