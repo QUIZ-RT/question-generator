@@ -20,6 +20,7 @@ class UserService {
   }
 
   updateFcmToken(userId, fcmToken) {
+    alert('data received at setc');
     this.dataService.fetchOptions.method = 'POST';
     const payload = { id: userId, fcmToken };
     const searchUrl = Constants.WIKI_API_BASE;
