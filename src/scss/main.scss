@@ -1,6 +1,8 @@
 $fa-font-path: '~font-awesome/fonts';
 @import "@material/button/mdc-button";
 @import "@material/top-app-bar/mdc-top-app-bar";
+@import "@material/drawer/mdc-drawer";
+@import "@material/list/mdc-list";
 @import '~font-awesome/scss/font-awesome.scss';
 @import "~bootstrap/scss/bootstrap";
 @import "_variable.scss";
