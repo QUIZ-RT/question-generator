@@ -9,7 +9,9 @@
     "rules": {
         "linebreak-style": 0,
         "no-console":"off",
-        "no-new":"off"
-
+        "no-new":"off",
+        "no-restricted-syntax":"off",
+        "no-alert":"off",
+        "no-unused-vars":"off"
     }
 }
