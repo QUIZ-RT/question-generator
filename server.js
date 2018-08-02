@@ -20,6 +20,13 @@ require('./src/js/routes/questionManagerRoutes.js')(app)// for question related 
 // require('./routes/questionManagerRoutes.js')(app)// for question related endpoints  
 const PORT = process.env.PORT || 8080;// finding the port number
 
+require('./firebase/firebase-route')(app);
+require('./src/js/routes/questionRoutes.js')(app);// for question related endpoints
+require('./src/js/routes/topicRoutes.js')(app);// for topics related endpoints
+require('./src/js/routes/questionManagerRoutes.js')(app);// for question related endpoints
+// require('./routes/questionRoutes.js')(app)// for question related endpoints
+// require('./routes/topicRoutes.js')(app)// for topics related endpoints
+// require('./routes/questionManagerRoutes.js')(app)// for question related endpoints
 const PORT = "8080";
 app.listen(PORT, () => {
   console.log('Listening on  port 8080');

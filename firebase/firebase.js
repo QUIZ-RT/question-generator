@@ -1,7 +1,6 @@
-import { config } from './firebase-config';
-
+const firebaseConfig = require('./firebase-config');
 const firebaseInit = require('firebase/app');
 
-firebaseInit.initializeApp(config);
+firebaseInit.initializeApp(firebaseConfig);
 
-export default firebaseInit;
+module.exports = firebaseInit
