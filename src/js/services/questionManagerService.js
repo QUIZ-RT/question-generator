@@ -5,8 +5,8 @@ module.exports = {
   endpointUrl: Constants.END_POINT_URL,
 
   getNodeDataFor(item) {
-    const sparqlQuery = queries.cricketer_query;
-    const fullUrl = `${this.endpointUrl}?query=${encodeURIComponent(sparqlQuery)}`,
+    let sparqlQuery = queries.cricketer_query,
+      fullUrl = `${this.endpointUrl}?query=${encodeURIComponent(sparqlQuery)}`,
       headers = { Accept: 'application/sparql-results+json' };
 
     fetch(fullUrl, { headers }).then(body => body.json()).then((json) => {
@@ -29,9 +29,9 @@ module.exports = {
   },
 
   generateOptions(countryCode, countryLabel) {
-    let cityQuery = queries.city_query;
-    const fullUrl = `${this.endpointUrl}?query=${encodeURIComponent(cityQuery)}`;
-    const headers = { Accept: 'application/sparql-results+json' };
+    let cityQuery = queries.city_query,
+      fullUrl = `${this.endpointUrl}?query=${encodeURIComponent(cityQuery)}`,
+      headers = { Accept: 'application/sparql-results+json' };
     cityQuery = cityQuery.replace('#countryCode', countryCode);
     fetch(fullUrl, { headers }).then(body => body.json()).then((json) => {
       const {

@@ -1,8 +1,7 @@
-import { config } from './firebase-config';
-
 const firebaseInit = require('firebase/app');
+const firebaseConfig = require('./firebase-config');
 require('firebase/messaging');
 
-firebaseInit.initializeApp(config);
+firebaseInit.initializeApp(firebaseConfig);
 
-export default firebaseInit;
+module.exports = firebaseInit;
