@@ -4,12 +4,10 @@ const firebaseInit = require('./firebase');
 require('firebase/database');
 
 module.exports = class firebaseDatabase {
-
   getFirebaseData(refUrl) {
-    return firebaseInit.database().ref(refUrl).once('value').then((response) => {
-      return response.val();
-    });
+    return firebaseInit.database().ref(refUrl).once('value').then(response => response.val());
   }
+
   saveFirebaseData(refUrl, postDataObj, resolve, reject) {
     firebaseInit.database().ref(refUrl).set(postDataObj, (error) => {
       if (error) {
@@ -44,7 +42,7 @@ module.exports = class firebaseDatabase {
   seveLoggedUserInfo(userId, loginObj, callback) {
     const loginTempObj = { ...loginObj, isauthorized: false, isUserBlocked: false };
     const refUrl = `users/${userId}`;
-    this.saveFirebaseData(refUrl, loginTempObj, callback)
+    this.saveFirebaseData(refUrl, loginTempObj, callback);
   }
 
   saveTopics(topicId, topicObj, resolve, reject) {
