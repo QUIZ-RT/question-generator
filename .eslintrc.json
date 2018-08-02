@@ -12,6 +12,9 @@
         "no-new":"off",
         "no-restricted-syntax":"off",
         "no-alert":"off",
-        "no-unused-vars":"off"
+        "no-unused-vars":"off",
+        "one-var":"off",
+        "no-tabs":"off",
+        "import/prefer-default-export":"off"
     }
 }
