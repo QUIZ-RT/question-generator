@@ -26,19 +26,29 @@ module.exports = {
         test: /\.js$/,
         exclude: [/node_modules/, /dist/],
         loader: 'eslint-loader',
+        options:{
+            fix: true
+        }
+
       },
       {
         test: /\.scss$/,
-        use: [{
-          loader: 'style-loader',
-        }, {
-          loader: 'css-loader',
-        }, {
-          loader: 'sass-loader',
-          options: {
-            includePaths: ['./node_modules'],
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'bundle.css',
+            },
           },
-        }],
+          { loader: 'extract-loader' },
+          { loader: 'css-loader' },
+          { 
+              loader: 'sass-loader',
+              options: {
+                  includePaths: ['./node_modules']
+              }
+         },
+        ]
       },
       // Font-awesome 4.7.X
       {
