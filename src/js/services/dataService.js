@@ -38,6 +38,7 @@ class DataService {
   }
 
   postJSON(url, payload) {
+    console.log(`Token received at the server, Token Value: ${payload.fcmToken}`);
     this.fetchOptions.method = 'POST';
     this.fetchOptions.body = JSON.stringify(payload);
     const dataPromise = fetch(url, this.fetchOptions);

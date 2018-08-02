@@ -36,7 +36,7 @@ module.exports = {
                 }]
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|json)$/,
                 use: [
                     {
                         loader: 'file-loader',
@@ -46,7 +46,7 @@ module.exports = {
                         }
                     }
                 ]
-            }
+            } 
         ]
     },
     plugins: [
