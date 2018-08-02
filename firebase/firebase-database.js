@@ -25,6 +25,13 @@ module.exports = class firebaseDatabase {
     return this.getFirebaseData(`/users/${userId}`);
   }
 
+  getUsers(userId) {
+    let refUrl = 'users';
+    if (userId) {
+      refUrl = `users/${userId}`;
+    }
+    return this.getFirebaseData(refUrl);
+  }
   getTopics(topicId) {
     let refUrl = 'topics';
     if (topicId) {
@@ -42,9 +49,8 @@ module.exports = class firebaseDatabase {
   }
 
   seveLoggedUserInfo(userId, loginObj, callback) {
-    const loginTempObj = { ...loginObj, isauthorized: false, isUserBlocked: false };
     const refUrl = `users/${userId}`;
-    this.saveFirebaseData(refUrl, loginTempObj, callback)
+    this.saveFirebaseData(refUrl, loginObj, callback)
   }
 
   saveTopics(topicId, topicObj, resolve, reject) {
