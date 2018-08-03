@@ -56,9 +56,13 @@ module.exports = {
     generateQuestions(selfRef, topicCategory) {
         let sparqlQuery = queries.cricketer_query,
             fullUrl = selfRef.endpointUrl + '?query=' + encodeURIComponent(sparqlQuery),
-            headers = { 'Accept': 'application/sparql-results+json' };
+            headers = {
+                'Accept': 'application/sparql-results+json'
+            };
 
-        fetch(fullUrl, { headers }).then(body => body.json()).then(json => {
+        fetch(fullUrl, {
+            headers
+        }).then(body => body.json()).then(json => {
             const {
                 head: {
                     vars
@@ -97,7 +101,7 @@ module.exports = {
     generateRange(pCount, pMin, pMax) {
         let min = pMin < pMax ? pMin : pMax;
         let max = pMax > pMin ? pMax : pMin;
-        if(pMax < pCount) {
+        if (pMax < pCount) {
             pCount = pMax;
         }
         var resultArr = [],
@@ -114,7 +118,7 @@ module.exports = {
 
     generateId() {
         let counter;
-        if(window.localStorage.getItem('id_counter1')) {
+        if (window.localStorage.getItem('id_counter1')) {
             counter = parseInt(window.localStorage.getItem('id_counter1'));
         } else {
             counter = 0;
@@ -122,23 +126,29 @@ module.exports = {
         counter = counter + 1;
         window.localStorage.setItem('id_counter1', counter);
         return counter;
-    }
-  },
+    },
 
-  generateOptions(countryCode, countryLabel) {
-    let cityQuery = queries.city_query,
-      fullUrl = `${this.endpointUrl}?query=${encodeURIComponent(cityQuery)}`,
-      headers = { Accept: 'application/sparql-results+json' };
-    cityQuery = cityQuery.replace('#countryCode', countryCode);
-    fetch(fullUrl, { headers }).then(body => body.json()).then((json) => {
-      const {
-        head: { vars },
-        results,
-      } = json;
-      for (const result of result.bindings) {
-        console.log(countryLabel);
-        console.log(result);
-      }
-    });
+    generateOptions(countryCode, countryLabel) {
+        let cityQuery = queries.city_query,
+            fullUrl = `${this.endpointUrl}?query=${encodeURIComponent(cityQuery)}`,
+            headers = {
+                Accept: 'application/sparql-results+json'
+            };
+        cityQuery = cityQuery.replace('#countryCode', countryCode);
+        fetch(fullUrl, {
+            headers
+        }).then(body => body.json()).then((json) => {
+            const {
+                head: {
+                    vars
+                },
+                results,
+            } = json;
+            for (const result of result.bindings) {
+                console.log(countryLabel);
+                console.log(result);
+            }
+        });
+    }
 
 };
