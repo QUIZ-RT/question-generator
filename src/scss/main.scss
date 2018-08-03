@@ -9,13 +9,14 @@ $fa-font-path: '~font-awesome/fonts';
 @import "_login.scss";
 @import "_layout.scss";
 @import "_mixin.scss";
+@import "toaster-js/default.scss";
+
 /* Absolute Center Spinner */
 
 .foo-button {
   @include mdc-button-ink-color(teal);
   @include mdc-states(teal);
 }
-
 
 .loading {
     position: fixed;
@@ -158,3 +159,4 @@ input[name=search1]:focus {
 {
   display: none;
 }
+ 

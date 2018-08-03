@@ -3,12 +3,12 @@ importScripts('https://www.gstatic.com/firebasejs/5.3.0/firebase-messaging.js');
 
 //todo will be checking later for background notification ie when the browser is minimized
 const config = {
-  apiKey: 'AIzaSyCff8miAN8YysKXXJOxzayw_Q_ABFJS7KM',
-  authDomain: 'quzgenx.firebaseapp.com',
-  databaseURL: 'https://quzgenx.firebaseio.com',
-  projectId: 'quzgenx',
-  storageBucket: '',
-  messagingSenderId: '458758128125',
+  apiKey: 'AIzaSyCYbFTLJktjYHMsK7Nx_m3UMJsw2Nq0O4Y',
+  authDomain: 'quizgenx-884f0.firebaseapp.com',
+  databaseURL: 'https://quizgenx-884f0.firebaseio.com',
+  projectId: 'quizgenx-884f0',
+  storageBucket: 'quizgenx-884f0.appspot.com',
+  messagingSenderId: '826554593648',
 };
 
 firebase.initializeApp(config);

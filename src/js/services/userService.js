@@ -1,5 +1,7 @@
+import { constants } from 'zlib';
 import Constants from '../shared/constants';
 import DataService from './dataService';
+import { CONSTANTS } from '../../../node_modules/@firebase/util';
 
 class UserService {
   constructor() {
@@ -8,8 +10,11 @@ class UserService {
 
   searchUsers(queryParams) {
     this.dataService.fetchOptions.method = 'GET';
-    let searchUrl = Constants.WIKI_API_BASE;
-    searchUrl += queryParams;
+    let searchUrl = '';
+    if (queryParams == Constants.ADMIN_ACCESS_REQUEST) {
+      searchUrl = `${Constants.QUIZ_GENX_API_BASE}users`;
+    }
+
     // alert("Pending for approval users Requested: " + queryParams)
     return this.dataService.getJSON(searchUrl);
   }
@@ -20,11 +25,9 @@ class UserService {
   }
 
   updateFcmToken(userId, fcmToken) {
-    alert('data received at setc');
-    this.dataService.fetchOptions.method = 'POST';
     const payload = { id: userId, fcmToken };
-    const searchUrl = Constants.WIKI_API_BASE;
-    return this.dataService.postJSON(searchUrl, payload);
+    const usersUrl = `${Constants.QUIZ_GENX_API_BASE}users/${userId}`;
+    return this.dataService.putJSON(usersUrl, payload);
   }
 }
 
