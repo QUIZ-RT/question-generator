@@ -11,12 +11,12 @@ import 'bootstrap';
 import '../scss/main.scss';
 // import './AjaxSetting';
 
-require('./controllers/questionManagerController');
-require('./fcm-notification.js');
+import { loadScreenRoute } from './shared/routes';
+import authEventListener from './authentication';
 
-// Instantiation
-// const topAppBarElement = document.querySelector('.mdc-top-app-bar');
-// const topAppBar = new MDCTopAppBar(topAppBarElement);
+require('@material/top-app-bar/index');
+require('./controllers/questionManagerController');
+// require('./fcm-notification.js');
 
 const drawer = new MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 document.querySelector('.menu').addEventListener('click', () => { drawer.open = true; });
@@ -30,26 +30,14 @@ document.querySelector('#RequestAccessBtn').addEventListener('click', (e) => {
 });
 
 
+export function loadScreen(screen) {
+  loadScreenRoute(screen);
+}
 jQuery(document).ready(() => {
-  /* jQuery.ajax({
-    type: "post",
-    contentType: 'application/json',
-    dataType: "json",
-    url: "/firebase/api/topics",
-    data: JSON.stringify(topic)
-  }).done(function (response) {
-    console.log(response)
-  }).fail(function (jqXhr) {
-    console.log(jqXhr);
-  }); */
-  jQuery.ajax({
-    type: 'post',
-    contentType: 'application/json',
-    dataType: 'json',
-    url: '/firebase/signin',
-  }).done((response) => {
-    console.log(response);
-  }).fail((jqXhr) => {
-    console.log(jqXhr);
+  jQuery('.navScreen').on('click', (e) => {
+    const current = e.currentTarget;
+    loadScreenRoute(jQuery(current).attr('data-screen'));
   });
+
+  authEventListener();
 });
