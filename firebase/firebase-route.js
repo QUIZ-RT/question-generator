@@ -62,9 +62,30 @@ module.exports = (app) => {
                 });
         });
     });
+    app.get('/firebase/api/users/:id', (req, res) => { // it will current user detail on screan
+        return new Promise((resolve, reject) => {
+            databaseFunc.getUsers(req.params.id).then((data) => {
+                res.json(data);
+                resolve(data);
+            })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    });
+    app.post('/firebase/api/users', (req, res) => { // it will current user detail on screan
+        return new Promise((resolve, reject) => {
+            databaseFunc.seveLoggedUserInfo(req.body.id, req.body, resolve, reject)
+        }).then((data) => {
+            res.json(req.body);
+        })
+            .catch((err) => {
+                res.end(err);
+            });
+    });
+
     app.post('/firebase/api/topics', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
-            console.log(req);
             databaseFunc.saveTopics(req.body.id, req.body, resolve, reject)
         }).then((data) => {
             res.json(req.body);
@@ -75,35 +96,12 @@ module.exports = (app) => {
     });
     app.post('/firebase/api/questions', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
-            console.log(req);
             databaseFunc.saveQuestions(req.body.id, req.body, resolve, reject)
         }).then((data) => {
             res.json(req.body);
         })
             .catch((err) => {
-                res.end(err);
-            });
-    });
-    app.post("/firebase/signin", (req, res) => {
-        new Promise((resolve, reject) => {
-            signInFunc.callGoogleSignIn(resolve, reject)
-        }).then((data) => {
-            res.json(data);
-            console.log(req.body);
-        })
-            .catch((err) => {
                 console.log(err)
-            });
-    });
-    app.post("/firebase/logout", (req, res) => {
-        console.log(req);
-        return new Promise((resolve, reject) => {
-            signInFunc.signOutApplication(resolve, reject)
-        }).then((data) => {
-            res.json(data);
-        })
-            .catch((err) => {
-                res.end(err)
             });
     });
 };
