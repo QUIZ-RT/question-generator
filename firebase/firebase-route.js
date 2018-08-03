@@ -73,10 +73,9 @@ module.exports = (app) => {
                 console.log(err)
             });
     });
-    app.post('/firebase/api/questions', (req, res) => { // it will current user detail on screan
+    app.post('/firebase/api/questions', (req, res) => { // it will current user detail on screan       
         return new Promise((resolve, reject) => {
-            console.log(req);
-            databaseFunc.saveQuestions(req.body.id, req.body, resolve, reject)
+            databaseFunc.saveQuestions(req.body, resolve, reject)
         }).then((data) => {
             res.json(req.body);
         })
