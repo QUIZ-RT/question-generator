@@ -42,14 +42,13 @@ function togglelogin(response) {
   console.log(response);
   if (response) {
     const haedSection = `<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" id='rightHead'>
-          <a href="#" class="mdc-top-app-bar__action-item" alt="userName"><i class="fa fa-user mr-1"></i>${response.displayName}</a>
-          <a href="#" class=" mdc-top-app-bar__action-item" alt="user Profile"><img src='${response.photoURL}'  alt='user profile'/></a>
+          <a href="#" class=" mdc-top-app-bar__action-item" alt="user Profile"><img src='${response.photoURL}' class='mr-1'  alt='user profile'/>${response.displayName}</a>
           <a href="#" class=" mdc-top-app-bar__action-item" alt="logOut" id="userLogout">
               <i class="fa fa-sign-out mr-1"></i>LogOut</a>
               </section> `;
     jQuery('#headSection').append(haedSection);
   } else {
-    jQuery('#headSection').find('rightHead').remove();
+    jQuery('#headSection').find('#rightHead').remove();
     jQuery('#mainContent').toggleClass('d-none');
   }
 }
