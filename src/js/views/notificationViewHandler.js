@@ -1,7 +1,7 @@
 import Constants from '../shared/Constants';
 import DomManager from './domManager';
 import UserController from '../services/userService';
-
+/* eslint-disable no-debugger */
 const document = window.document;
 
 function createHTMLElement(html) {
@@ -48,9 +48,9 @@ class NotificationViewHandler {
     // const resultNavigationContainer = document.getElementById( 'ResultNavigationContainer');
 
     searchResultsPlaceholder.innerHTML = '';
-    const totalitemsFound = restData.results_found;
+    const totalitemsFound = restData.length;
     let paraNode;
-    if (totalitemsFound === 0 || restData.results_shown === 0) {
+    if (totalitemsFound === 0) {
       paraNode = DomManager.getAParaNode(
         'Oops, Your search returned no results !!',
         'text-danger',
@@ -61,20 +61,19 @@ class NotificationViewHandler {
     }
 
     paraNode = DomManager.getAParaNode(
-      `Showing ${restData.results_start} - ${restData.results_start
-      + Constants.PAGING_COUNT} of ${totalitemsFound} users found.`,
+      `Showing ${restData.length} users access requests found.`,
       'text-success',
     );
     let restCard;
     restData.forEach((userItem) => {
       restCard = DomManager.getAParaNode(
-        userItem.name,
+        userItem.displayName,
         '',
         // this.getRequiredUserDetails(userItem.user),
       );
 
       restCard.addEventListener('click', () => {
-        onClickUserDetail(userItem.user.id);
+        onClickUserDetail(userItem.id);
       });
 
       searchResultsPlaceholder.appendChild(restCard);

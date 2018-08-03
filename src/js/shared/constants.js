@@ -3,6 +3,14 @@ class Constants {
     return 'https://wikipedia.org/api/';
   }
 
+  static get QUIZ_GENX_API_BASE() {
+    return 'http://localhost:8080/api/';
+  }
+
+  static get ADMIN_ACCESS_REQUEST() {
+    return 'AdminAccessRequest';
+  }
+
   static get WIKI_AUTH_KEY() {
     return '###';
   }

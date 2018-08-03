@@ -2,12 +2,10 @@ import { Toast, configureToasts } from 'toaster-js';
 
 import UserController from './controllers/userController';
 import firebaseInit from '../../firebase/firebase';
-// import 'toaster-js/default.css';
-// require('../../firebase/firebase');
 
 configureToasts({
   topOrigin: -20, // [default=0] Y-axis origin of the messages.
-  deleteDelay: 19500, // time until the toast is completely removed from the DOM after deleting.
+  deleteDelay: 500, // time until the toast is completely removed from the DOM after deleting.
 });
 
 
@@ -23,7 +21,7 @@ messaging.requestPermission().then(() => {
     // alert(`Token${currentToken}`);
 
     sessionStorage.setItem('fcm-token', currentToken);
-    // userController.updateFcmToken(currentToken);
+    userController.updateFcmToken(currentToken);
   } else {
   }
 }).catch((err) => {
@@ -49,11 +47,14 @@ messaging.onMessage((payload) => {
   console.log('Message received. on app browser ');
 
   const element = document.createElement('div');
-  element.textContent = 'An user has requested for admin access.!';
+  element.textContent = `${payload.notification.title} has requested for admin access.! Click to Grant.`;
   const newToast = new Toast(element, Toast.TYPE_MESSAGE);
   element.addEventListener('click', () => {
     const userController = new UserController();
-    userController.searchUsers('AdminRequests');
+
+    if (payload.notification.click_action == 'AdminAccessRequest') {
+      userController.searchUsers('AdminAccessRequest');
+    }
     newToast.delete();
   });
 });
