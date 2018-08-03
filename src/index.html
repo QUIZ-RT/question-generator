@@ -5,42 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="1005207581750-hb4l9ugbvu43ctnub6jdd33rrnr2akh1.apps.googleusercontent.com">
-    <title>QuizGenx: Quiz Generator</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-        crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.2.0/firebaseui.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="./bundle.css">
-
-    <!-- <link type="text/css" rel="stylesheet" href="./../scss/main.css"> -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-    <!------ Include the above in your HEAD tag ---------->
-    <link href='http://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
-
 </head>
 
 <body>
     <input type="hidden" id="pagingSkip" name="custId" value="0">
-    <aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
+    <aside class="mdc-drawer mdc-drawer--temporary mdc-typography" id="sideNav">
         <nav class="mdc-drawer__drawer">
 
             <nav class="mdc-drawer__content mdc-list-group">
                 <div id="icon-with-text-demo" class="mdc-list">
-                    <a class="navScreen mdc-list-item mdc-list-item--selected demo-drawer-list-item" tabindex="-1"  href="#questionManager">
+                    <a class="navScreen mdc-list-item mdc-list-item--selected demo-drawer-list-item" tabindex="-1" href="#questionManager">
                         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">question manager</i>Question Manager</a>
-                    <a class="navScreen mdc-list-item demo-drawer-list-item" tabindex="-1" data-screen="topicManager" href="#topicManager" >
+                    <a class="navScreen mdc-list-item demo-drawer-list-item" tabindex="-1" data-screen="topicManager" href="#topicManager">
                         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">topic manager</i>Topic Manager</a>
-                    <a class="navScreen mdc-list-item demo-drawer-list-item" tabindex="-1" href="#questionGenerator" >
+                    <a class="navScreen mdc-list-item demo-drawer-list-item" tabindex="-1" href="#questionGenerator">
                         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">question generator</i>Question Generator</a>
 
                 </div>
@@ -52,8 +32,15 @@
         <header class="mdc-top-app-bar">
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                    <button class="menu material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">menu</button>
+                    <button class="menu material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded d-none"
+                        id="sideBarButton">menu</button>
                     <span class="mdc-top-app-bar__title">Quiz RT</span>
+                </section>
+                <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+                    <a href="#" class="material-icons mdc-top-app-bar__action-item" alt="userName" id="userDispalyName"></a>
+                    <a href="#" class="material-icons mdc-top-app-bar__action-item" alt="user Profile" id="userImg"></a>
+                    <a href="#" class="material-icons mdc-top-app-bar__action-item" alt="logOut" id="userLogout">
+                        <i class="fa fa-sign-out mr-1"></i>LogOut</a>
                 </section>
             </div>
         </header>
@@ -61,76 +48,18 @@
 
     <div class="clearfix"></div>
     <div id="mainContainer" class="mainContainer container pt-5">
-    
-        <div class="tab-content" id="myTabContent">
+
+        <div class="tab-content" id="mainContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="container">
                     <div class="row justify-content-center pt-5">
 
                         <div class="col-lg-3 col-md-3 logindash loginform">
-                            <form class="form-horizontal" method="POST" action="/login">
-                                <div class="row login">
-                                    <div>
-                                        <h2>Please Login</h2>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row login">
-                                    <div class="form-group has-danger col-md-12 col-lg-12">
-                                        <label class="sr-only" for="email">E-Mail Address</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon iconspace" style="width: 2.6rem">
-                                                <i class="fa fa-at"></i>
-                                            </div>
-                                            <input type="text" name="email" class="form-control" id="email" placeholder="you@example.com" required autofocus>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row login">
-                                    <div class="form-group col-md-12 col-lg-12">
-                                        <label class="sr-only" for="password">Password</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon iconspace" style="width: 2.6rem">
-                                                <i class="fa fa-key"></i>
-                                            </div>
-                                            <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row login">
-                                    <div style="padding-top: .35rem" class="col-md-12 col-lg-12">
-                                        <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" name="remember" type="checkbox">
-                                                <span style="padding-bottom: .15rem">Remember me</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row login" style="padding-top: 1rem">
-                                    <div>
-                                        <button type="submit" class="btn btn-success">
-                                            <i class="fa fa-sign-in"></i> Login</button>
-                                    </div>
-                                </div>
-                               
-                            </form>
-                            <div class="g-signin2" id="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-                            <div class="abcRioButtonIcon" id="g_button" style="padding:8px; display: none">
-                                <div style="width:18px;height:18px;" class="abcRioButtonSvgImageWithFallback abcRioButtonIconImage abcRioButtonIconImage18">
-                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" class="abcRioButtonSvg">
-                                        <g>
-                                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-                                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-                                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-                                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-                                            <path fill="none" d="M0 0h48v48H0z"></path>
-                                        </g>
-                                    </svg>
-                                </div>
-                            </div>
-                            <a href="#" class="g-signout" onclick="signOut();" id="g-signout" style="display:none">Sign out</a>
+                            <h2>Please Login With Google</h2>
+                            <button class="mdc-button mdc-button--raised" id="loginWithGoogle">
+                                Sign in With
+                                <i class="fa fa-google-plus ml-1"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -175,15 +104,8 @@
 
                 </div>
             </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
         </div>
     </div>
-
-    <script id="template-list-footer" type="text/template">
-        <li>
-          <a href="{{url}}">{{name}}</a>, {{city}}, {{state}}
-        </li>
-      </script>
     <footer class="page-footer font-small blue pt-4">
         <div class="contianer-fuild mt-3 d-flex justify-content-between footer-section">
             <div class="col-4 p-3 footer-box-section my-1 ml-2">
@@ -231,12 +153,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-sm-3">
-            <h5>quiz genx</h5>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Earum, nesciunt! Aliquam obcaecati iste fugiat aliquid,
-                laborum commodi suscipit unde dolorem ipsam deleniti autem quisquam repellat fuga illo optio voluptatibus
-                ut!
-            </p>
+        <div class="copyright my-2">
+            <strong> Copyright &copy; 2018 -QuizGenx</strong>
         </div>
     </footer>
 

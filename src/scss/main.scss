@@ -73,6 +73,14 @@ $fa-font-path: '~font-awesome/fonts';
     }
   }
     /* spinner end here */
+    #userImg img{
+      width: 50px;
+      border-radius: 50%;
+    }
+    #loginWithGoogle{
+      background: #bb0000 !important;
+    }
+   
 /* social link*/
 .social-link li,.social-login a{
   display: inline-block;
