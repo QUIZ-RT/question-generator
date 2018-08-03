@@ -5,14 +5,17 @@ import QuestionController from './controllers/questionController';
 import UserController from './controllers/userController';
 
 // import { callGoogleSignIn } from '../../firebase/firebase-signin';
-import { getQuestions, getTopics } from '../../firebase/firebase-database';
+// import { getQuestions, getTopics } from '../../firebase/firebase-database';
 import 'popper.js';
 import 'bootstrap';
 import '../scss/main.scss';
+
 // import './AjaxSetting';
 
 import { loadScreenRoute } from './shared/routes';
-// import authEventListener from './authentication';
+
+import authEventListener from './authentication';
+
 
 require('@material/top-app-bar/index');
 require('./controllers/questionManagerController');
@@ -38,5 +41,5 @@ jQuery(document).ready(() => {
   });
 
   // Commented as it is showing duplicate initialization. Refer the Firebase config and initialize only once
-  // authEventListener();
+  authEventListener();
 });

@@ -1,21 +1,15 @@
-const firebase = require('firebase/app');
+
+import firebaseinit from 'firebase';
+import firebaseClient from './shared/firebase.client.config';
+
 require('firebase/auth');
 
-firebase.initializeApp({
-  apiKey: 'AIzaSyCYbFTLJktjYHMsK7Nx_m3UMJsw2Nq0O4Y',
-  authDomain: 'quizgenx-884f0.firebaseapp.com',
-  databaseURL: 'https://quizgenx-884f0.firebaseio.com',
-  projectId: 'quizgenx-884f0',
-  storageBucket: 'quizgenx-884f0.appspot.com',
-  messagingSenderId: '826554593648',
-});
-
-const provider = new firebase.auth.GoogleAuthProvider();
+const provider = new firebaseinit.auth.GoogleAuthProvider();
 
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
 function signInWithPopup(callback) {
-  firebase.auth().signInWithPopup(provider).then((result) => {
+  firebaseClient.auth().signInWithPopup(provider).then((result) => {
     if (result.credential && result.user) {
       callback(result.user);
     }
@@ -30,7 +24,7 @@ function googleSignIn(callback) {
 }
 
 function signOutApplication(callback) {
-  firebase.auth().signOut().then(() => {
+  firebaseClient.auth().signOut().then(() => {
     callback('logout');
   }).catch((error) => {
     console.log(error);

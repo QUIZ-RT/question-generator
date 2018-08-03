@@ -1,7 +1,7 @@
 import { Toast, configureToasts } from 'toaster-js';
 
 import UserController from './controllers/userController';
-import firebaseInit from '../../firebase/firebase';
+import firebaseClient from './shared/firebase.client.config';
 
 configureToasts({
   topOrigin: -20, // [default=0] Y-axis origin of the messages.
@@ -11,7 +11,7 @@ configureToasts({
 
 const userController = new UserController();
 
-const messaging = firebaseInit.messaging();
+const messaging = firebaseClient.messaging();
 messaging.usePublicVapidKey('BG96KHcY1hTDHCBxe54kuoe594S0loDgN9KCkCtovDWt8pGT8513Kr2SgF0VGjSsSyAMtzncLni4j1rvRxleFpc');
 
 messaging.requestPermission().then(() => {
