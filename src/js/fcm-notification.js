@@ -13,14 +13,13 @@ const userController = new UserController();
 
 const messaging = firebaseInit.messaging();
 messaging.usePublicVapidKey('BG96KHcY1hTDHCBxe54kuoe594S0loDgN9KCkCtovDWt8pGT8513Kr2SgF0VGjSsSyAMtzncLni4j1rvRxleFpc');
+
 messaging.requestPermission().then(() => {
   console.log('Notification permission granted.');
   return messaging.getToken();
 }).then((currentToken) => {
   if (currentToken) {
-    // alert(`Token${currentToken}`);
-
-    sessionStorage.setItem('fcm-token', currentToken);
+    localStorage.setItem('fcm-token', currentToken);
     userController.updateFcmToken(currentToken);
   } else {
   }

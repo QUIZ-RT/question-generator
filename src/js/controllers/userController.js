@@ -37,5 +37,29 @@ class UserController {
         console.log(err);
       });
   }
+
+  updateUserAccess(accessResult) {
+    const userId = 'W8X5SCrcRfcIIhmHcqffIvOkRts2';
+    this.userService
+      .updateUserAccess(userId, accessResult)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  updateAccessRequest() {
+    const userId = 'W8X5SCrcRfcIIhmHcqffIvOkRts2';
+    this.userService
+      .updateAccessRequest(userId)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }
 export default UserController;

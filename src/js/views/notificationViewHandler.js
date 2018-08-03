@@ -1,4 +1,4 @@
-import Constants from '../shared/Constants';
+import Constants from '../shared/constants';
 import DomManager from './domManager';
 import UserController from '../services/userService';
 /* eslint-disable no-debugger */
@@ -17,14 +17,14 @@ const onClickUserDetail = (id) => {
 
 const onClickNextButtonhandler = (searchParam) => {
   const userController = new UserController();
-  const skipCount = parseInt(document.getElementById('pagingSkip').value) + Constants.PAGING_COUNT;
+  const skipCount = parseInt(document.getElementById('pagingSkip').value, 10) + Constants.PAGING_COUNT;
   userController.searchUsers(searchParam, skipCount);
   document.getElementById('pagingSkip').value = skipCount;
 };
 
 const onClickPrevButtonhandler = (searchParam) => {
   const userController = new UserController();
-  let skipCount = parseInt(document.getElementById('pagingSkip').value) - Constants.PAGING_COUNT;
+  let skipCount = parseInt(document.getElementById('pagingSkip').value, 10) - Constants.PAGING_COUNT;
   if (skipCount < 0) skipCount = 0;
   document.getElementById('pagingSkip').value = skipCount;
   userController.searchUsers(searchParam, skipCount);
