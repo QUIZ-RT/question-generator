@@ -140,6 +140,5 @@ module.exports = {
         console.log(result);
       }
     });
-  },
 
 };
