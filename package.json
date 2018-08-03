@@ -19,6 +19,7 @@
   "homepage": "https://github.com/sachinjain526/complete_porject-config#readme",
   "dependencies": {
     "@material/button": "^0.38.0",
+    "@material/dialog": "^0.38.0",
     "@material/drawer": "^0.38.0",
     "@material/top-app-bar": "^0.38.0",
     "axios": "^0.17.1",

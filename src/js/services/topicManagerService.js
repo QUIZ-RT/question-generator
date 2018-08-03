@@ -9,7 +9,7 @@ class TopicManagerService {
       contentType: 'application/json',
       dataType: 'json',
       url: '/firebase/api/topics',
-      data: JSON.stringify(topic),
+      data: JSON.stringify({}),
     }).done(response => response).fail(jqXhr => jqXhr);
 
     return promise;

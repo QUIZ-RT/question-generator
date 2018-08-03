@@ -1,10 +1,17 @@
 import TopicManagerService from '../services/topicManagerService';
-import { topic } from '../views/topic';
+import { topic, loadButtons } from '../views/topic';
 
 class TopicManagerController {
   constructor() {
     this.topicManagerService = new TopicManagerService();
+    this.addButtons();
     this.getAllTopics();
+  }
+
+  addButtons() {
+    jQuery('#mainContainer').empty();
+    const btns = loadButtons();
+    jQuery('#mainContainer').append(btns);
   }
 
   getAllTopics() {
@@ -19,13 +26,8 @@ class TopicManagerController {
 }
 
 function render(data) {
-  // console.log(data);
-  for (const topic in data) {
-    console.log(topic);
-  }
-  jQuery('#mainContainer').empty();
-  const template = topic();
-  jQuery('#mainContainer').append(template);
+  const template = topic(data);
+  jQuery('#topicManagerContainer').append(template);
 }
 
 export default TopicManagerController;
