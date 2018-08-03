@@ -3,32 +3,17 @@ const jQuery = require('jquery');
 const qManService = require('./../services/questionManagerService');
 
 module.exports = jQuery(document).ready(() => {
-  // function initiateWizard(qGenQuery) {
-  //   const url = `/api/parseTemplate${qGenQuery}`;
-  //   fetch(url)
-  //     .then((res) => {
-  //       console.log(res);
-  //       res.json().then((body) => {
-  //         // TODO Temp call below
-  //         const bodyValue = JSON.parse(body);
-  //         qManService.getNodeDataFor(bodyValue.topics[0].normal);
-  //       });
-  //     });
-  // }
-
-    $('#admin-tab').click();
-
-    function initiateWizard(qGenQuery) {
-      let url = '/api/parseTemplate' + qGenQuery;
-      fetch(url)
-      .then(function(res) {
-          // console.log(res)
-          res.json().then((body) => {
-              // TODO Temp call below
-            body = JSON.parse(body);
-            qManService.getNodeDataFor(body)
-          })
-      })
+  function initiateWizard(qGenQuery) {
+    const url = `/api/parseTemplate${qGenQuery}`;
+    fetch(url)
+      .then((res) => {
+        console.log(res);
+        res.json().then((body) => {
+          // TODO Temp call below
+          const bodyValue = JSON.parse(body);
+          qManService.getNodeDataFor(bodyValue.topics[0].normal);
+        });
+      });
   }
 
   jQuery('#btnGenerate').on('click', () => {
@@ -40,4 +25,17 @@ module.exports = jQuery(document).ready(() => {
     formQuery = `${formQuery}&template=${template}`;
     initiateWizard(formQuery);
   });
-});
+
+  function initiateWizard(qGenQuery) {
+      let url = '/api/parseTemplate' + qGenQuery;
+      fetch(url)
+      .then(function(res) {
+          // console.log(res)
+          res.json().then((body) => {
+              // TODO Temp call below
+            body = JSON.parse(body);
+            qManService.getNodeDataFor(body.topics[0].normal)
+          })
+      })
+  }
+})
