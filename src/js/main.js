@@ -12,19 +12,17 @@ import '../scss/main.scss';
 // import './AjaxSetting';
 
 import { loadScreenRoute } from './shared/routes';
-import authEventListener from './authentication';
+// import authEventListener from './authentication';
 
 require('@material/top-app-bar/index');
 require('./controllers/questionManagerController');
-// require('./fcm-notification.js');
+require('./fcm-notification.js');
 
 const drawer = new MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 document.querySelector('.menu').addEventListener('click', () => { drawer.open = true; });
 
 
 document.querySelector('#RequestAccessBtn').addEventListener('click', (e) => {
-  alert('todo going to call');
-  e.preventDefault();
   const _userController = new UserController();
   _userController.updateAccessRequest();
 });
@@ -39,5 +37,6 @@ jQuery(document).ready(() => {
     loadScreenRoute(jQuery(current).attr('data-screen'));
   });
 
-  authEventListener();
+  // Commented as it is showing duplicate initialization. Refer the Firebase config and initialize only once
+  // authEventListener();
 });
