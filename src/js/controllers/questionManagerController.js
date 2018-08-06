@@ -1,5 +1,5 @@
 
-const qManService = require('./../services/questionManagerService');
+const qManService = require('../services/questionManagerService');
 
 module.exports = $(document).ready(() => {
   $('#btnGenerate').on('click', () => {
