@@ -4,7 +4,7 @@ import { DomService } from './../services/domService';
 const $dom = new DomService();
 
 module.exports = jQuery(document).ready(() => {
-    $dom.load();
+    $dom.load(false);
     $('#btnGenerate').on('click', () => {
         // console.log('test')
         const topic = $('#topicInput').val();

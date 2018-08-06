@@ -1,12 +1,13 @@
-import { sidenav } from './../views/sidenav';
+// import { sidenav } from './../views/sidenav';
 import { footer } from './../views/footer';
 import { loginForm } from './../views/loginForm';
 import { wizardStep1 } from './../views/wizardStep1';
 import { wizardStep2 } from './../views/wizardStep2';
 import { wizardStep3 } from './../views/wizardStep3';
-import { menu } from './../views/menu';
+// import { menu } from './../views/menu';
 import { messages } from './../views/messages';
 import { line } from './../views/partition';
+import { wizardContainer } from './../views/wizardContainer';
 import { Helper } from '../utils/helper';
 const helper = new Helper();
 
@@ -14,13 +15,14 @@ export class DomService {
 
     constructor() {
         this.views =  {
-            sidenav,
+            // sidenav,
             footer,
             loginForm,
             wizardStep1,
             wizardStep2,
             wizardStep3,
-            menu,
+            wizardContainer,
+            // menu,
             messages,
             line
         };
@@ -28,40 +30,21 @@ export class DomService {
     }
 
 
-    load() {
-        // let wizardStep1Doc = document.createElement('div');
-        // let lineDoc = document.createElement('div');
-        // let wizardStep2Doc = document.createElement('div');
-        // wizardStep1Doc.innerHTML = this.views.wizardStep1;
-        // lineDoc.innerHTML = this.views.line;
-        // wizardStep2Doc.innerHTML = this.views.wizardStep2;
-        $('#sidenav').append(this.getDomObjectFromTemplate('sidenav'));
-        $('#menu').append(this.getDomObjectFromTemplate('menu'));
-        $('#messages').append(this.getDomObjectFromTemplate('messages'));
-        $('#wizardStep1').append(this.getDomObjectFromTemplate('wizardStep1'));
-        $(line).insertAfter($('#wizardStep1'));
-        $('#wizardStep2').append(this.getDomObjectFromTemplate('wizardStep2'));
-        $(line).insertAfter($('#wizardStep2'));
-        $('#wizardStep3').append(this.getDomObjectFromTemplate('wizardStep3'));
-        $(line).insertAfter($('#wizardStep3'));
+    load(navCall) {
+        if(navCall) {
+            this.createWizards();
+            $('#footer').css({'position' : 'relative'});
+        }
         $('#footer').html(this.views.footer);
-
-        $('#sidenav').removeClass('hide');
-        $('#menu').removeClass('hide');
-        $('#wizardStep1').removeClass('hide');
-        // this.disableForm('wizardStep2');
-        // this.disableForm('wizardStep3');
-        $('#wizardStep2').removeClass('hide');
-        $('#wizardStep3').removeClass('hide');
-        $('.line').removeClass('hide');
         $('#footer').removeClass('hide');
+    }
 
-        this.executeAuthorizedLoads();
-
-        // DEV TEST ONLY - to be removed!!
-        $('#admin-tab').click();
-        $('#topicInput').val('Politics');
-        $('#templateInput').val('what is the date of birth of sachin tendulkar?');
+    showWizardContainer() {
+        this.load(true);
+        let wizardContainer = document.getElementById('wizardContainer');
+        if(wizardContainer.classList.contains('hide')) {
+            wizardContainer.classList.remove('hide');
+        }
     }
 
     showWizardStep(body, step, msg) {
@@ -127,6 +110,24 @@ export class DomService {
         return pill;
     }
 
+    createWizards() {
+        $('#mainContent').html('');
+        $('#mainContent').append(this.views.wizardContainer);
+        $('#messages').append(this.getDomObjectFromTemplate('messages'));
+        $('#wizardStep1').append(this.getDomObjectFromTemplate('wizardStep1'));
+        $(line).insertAfter($('#wizardStep1'));
+        $('#wizardStep2').append(this.getDomObjectFromTemplate('wizardStep2'));
+        $(line).insertAfter($('#wizardStep2'));
+        $('#wizardStep3').append(this.getDomObjectFromTemplate('wizardStep3'));
+        $(line).insertAfter($('#wizardStep3'));
+
+        $('#wizardStep1').removeClass('hide');
+        // // this.disableForm('wizardStep2');
+        // // this.disableForm('wizardStep3');
+        $('#wizardStep2').removeClass('hide');
+        $('#wizardStep3').removeClass('hide');
+        $('.line').removeClass('hide');
+    }
     executeAuthorizedLoads() {
 
     }

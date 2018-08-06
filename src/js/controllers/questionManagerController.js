@@ -1,6 +1,7 @@
 
 const qManService = require('./../services/questionManagerService');
 import { DomService } from './../services/domService';
+const domService = new DomService();
 
 export class QuestionManagerController {
 
@@ -16,6 +17,10 @@ export class QuestionManagerController {
 
         }
     })
+  }
+
+  delegateWizardViewRequest() {
+    domService.showWizardContainer();
   }
 
   callSubjectIdentifier(subject) {

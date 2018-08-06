@@ -289,9 +289,9 @@ input[name=search1]:focus {
   margin: 20px 0;
 }
 
-#wizardStep1 {
-  margin-top: 60px;
-}
+// #wizardStep1 {
+//   margin-top: 60px;
+// }
 
 .subject-pills {
   margin-top: 30px;
@@ -315,6 +315,10 @@ input[name=search1]:focus {
 .subject-pills:hover, .clickPill{
   background: rgba(41, 23, 129, 0.7);
   cursor: pointer;
+}
+
+.messages {
+  padding-top: 60px;
 }
 
 .message {
