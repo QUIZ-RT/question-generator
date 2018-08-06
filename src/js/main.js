@@ -1,12 +1,12 @@
 import jQuery from 'jquery';
+import { MDCTopAppBar } from '@material/top-app-bar/index';
 import { MDCTemporaryDrawer } from '@material/drawer';
+import { MDCDialog, MDCDialogFoundation, util } from '@material/dialog';
+import QuestionController from './controllers/questionController';
 import UserController from './controllers/userController';
-
 import 'popper.js';
 import 'bootstrap';
 import '../scss/main.scss';
-
-// import './AjaxSetting';
 
 import { loadScreenRoute } from './shared/routes';
 import authEventListener from './authentication';
@@ -35,6 +35,7 @@ jQuery(document).ready(() => {
   jQuery('.navScreen').on('click', (e) => {
     const current = e.currentTarget;
     loadScreenRoute(jQuery(current).attr('data-screen'));
+    drawer.open = false;
   });
   reduxSubsCriber();
   // Commented as it is showing duplicate initialization. Refer the Firebase config and initialize only once

@@ -3,6 +3,8 @@ $fa-font-path: '~font-awesome/fonts';
 @import "@material/top-app-bar/mdc-top-app-bar";
 @import "@material/drawer/mdc-drawer";
 @import "@material/list/mdc-list";
+@import "@material/dialog/mdc-dialog";
+@import "@material/textfield/mdc-text-field";
 @import '~font-awesome/scss/font-awesome.scss';
 @import "~bootstrap/scss/bootstrap";
 @import "_variable.scss";
@@ -16,6 +18,10 @@ $fa-font-path: '~font-awesome/fonts';
 .foo-button {
   @include mdc-button-ink-color(teal);
   @include mdc-states(teal);
+}
+
+.mdc-text-field__input{
+  padding: 0px;
 }
 
 .loading {
