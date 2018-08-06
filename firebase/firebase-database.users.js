@@ -5,6 +5,7 @@ const fetch = require("node-fetch");
 require('firebase/database');
 
 module.exports = class firebaseDatabase {
+  
   getFirebaseData(refUrl) {
     return firebaseInit.database().ref(refUrl).once('value').then(response => response.val());
   }
@@ -45,6 +46,10 @@ module.exports = class firebaseDatabase {
   getUserById(userId) {
     // const userId = firebase.auth().currentUser.uid;
     return this.getFirebaseData(`/users/${userId}`);
+  }
+
+  getAllUsers() {
+    return this.getFirebaseData(`/users`);
   }
 
   getAdminAccessRequestedUsers() {
