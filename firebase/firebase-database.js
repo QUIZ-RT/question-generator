@@ -41,10 +41,10 @@ module.exports = class firebaseDatabase {
         if (refUrl === 'questions') {
           let tempObj = {}
           for (let i = 0; i < dataObj.options.length; i += 1) {
-            const optionKey=this.generateRandomQuizId('opt');
+            const optionKey = this.generateRandomQuizId('opt');
             tempObj[optionKey] = dataObj.options[i];
-            if(dataObj.options[i]===dataObj.answer){
-              dataObj.answer=optionKey;
+            if (dataObj.options[i] === dataObj.answer) {
+              dataObj.answer = optionKey;
             }
           }
           dataObj.options = tempObj;
@@ -86,7 +86,13 @@ module.exports = class firebaseDatabase {
     }
     return this.getFirebaseData(refUrl);
   }
-
+  getUsers(userId) {
+    let refUrl = 'users';
+    if (userId) {
+      refUrl = `users/${userId}`;
+    }
+    return this.getFirebaseData(refUrl);
+  }
   seveLoggedUserInfo(userId, loginObj, callback) {
     const loginTempObj = { ...loginObj, isauthorized: false, isUserBlocked: false };
     const refUrl = `users/${userId}`;
@@ -99,19 +105,19 @@ module.exports = class firebaseDatabase {
   }
 
 
-// saveTopics(topicObj, resolve, reject){
-  
-//   var postsRef = firebaseInit.database().ref('topics/').child("topic");
+  // saveTopics(topicObj, resolve, reject){
 
-// // we can also chain the two calls together
-// postsRef.push().set(topicObj,(error) => {
-//   if (error) {
-//     reject('there is some issue we will come back sortly');
-//   } else {
-//     resolve('SuccessFully');
-//   }
-// })
-// }
+  //   var postsRef = firebaseInit.database().ref('topics/').child("topic");
+
+  // // we can also chain the two calls together
+  // postsRef.push().set(topicObj,(error) => {
+  //   if (error) {
+  //     reject('there is some issue we will come back sortly');
+  //   } else {
+  //     resolve('SuccessFully');
+  //   }
+  // })
+  // }
 
   // saveQuestions(quizId, quizObj, callback) {
   //   const refUrl = `topics/${quizId}`;

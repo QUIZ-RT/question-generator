@@ -10,9 +10,9 @@ import 'bootstrap';
 import '../scss/main.scss';
 
 import { loadScreenRoute } from './shared/routes';
-
 import authEventListener from './authentication';
 import reduxSubsCriber from './redux.subscribe';
+import loginpageHtml from './views/loginForm';
 
 require('@material/top-app-bar/index');
 require('./controllers/questionManagerController');
@@ -33,6 +33,7 @@ export function loadScreen(screen) {
   loadScreenRoute(screen);
 }
 jQuery(document).ready(() => {
+  jQuery('#mainContent').html(loginpageHtml);
   jQuery('.navScreen').on('click', (e) => {
     const current = e.currentTarget;
     loadScreenRoute(jQuery(current).attr('data-screen'));

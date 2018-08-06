@@ -2,13 +2,13 @@
   "name": "quiz-genx",
   "version": "1.0.0",
   "description": "it about to config actual project",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "",
+    "start": "concurrently \"webpack\" \"node index.js\"",
     "test": "mocha ./tests/**/*.js",
     "build": "webpack",
     "lint": "eslint --fix ./src",
-    "serve": "concurrently \"npm run build\" \"nodemon server.js\""
+    "serve": "concurrently \"npm run build\" \"nodemon index.js\""
   },
   "repository": {
     "type": "git",

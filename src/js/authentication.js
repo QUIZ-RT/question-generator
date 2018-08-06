@@ -1,7 +1,8 @@
 
 import firebaseinit from 'firebase';
 import firebaseClient from './shared/firebase.client.config';
-
+import quizGeneratorHtml from './views/quizGenerator';
+import loginpageHtml from './views/loginForm';
 require('firebase/auth');
 
 const provider = new firebaseinit.auth.GoogleAuthProvider();
@@ -32,9 +33,10 @@ function signOutApplication(callback) {
 }
 // eventlistener start
 function togglelogin(response) {
-  jQuery('#sideBarButton,#mainContent').toggleClass('d-none');
+  jQuery('#sideBarButton').toggleClass('d-none');
   console.log(response);
   if (response) {
+    jQuery('#mainContent').html(quizGeneratorHtml);
     const haedSection = `<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" id='rightHead'>
           <a href="#" class=" mdc-top-app-bar__action-item" alt="user Profile"><img src='${response.photoURL}' class='mr-1'  alt='user profile'/>${response.displayName}</a>
           <a href="#" class=" mdc-top-app-bar__action-item" alt="logOut" id="userLogout">
@@ -43,7 +45,7 @@ function togglelogin(response) {
     jQuery('#headSection').append(haedSection);
   } else {
     jQuery('#headSection').find('#rightHead').remove();
-    jQuery('#mainContent').toggleClass('d-none');
+    jQuery('#mainContent').html(loginpageHtml);;
   }
 }
 function addCurrentUser(postUserData) {
@@ -51,7 +53,7 @@ function addCurrentUser(postUserData) {
     type: 'post',
     contentType: 'application/json',
     dataType: 'json',
-    url: '/firebase/api/users',
+    url: '/firebase/users',
     data: JSON.stringify(postUserData),
   }).done((response) => {
     togglelogin(response);
@@ -64,7 +66,7 @@ function checkUserIsAbailable(userData) {
     type: 'get',
     contentType: 'application/json',
     dataType: 'json',
-    url: `/firebase/api/users/${userData.id}`,
+    url: `/firebase/users/${userData.id}`,
   }).done((response) => {
     if (response) {
       togglelogin(response);
