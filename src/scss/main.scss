@@ -3,12 +3,16 @@ $fa-font-path: '~font-awesome/fonts';
 @import "@material/top-app-bar/mdc-top-app-bar";
 @import "@material/drawer/mdc-drawer";
 @import "@material/list/mdc-list";
+@import "@material/dialog/mdc-dialog";
+@import "@material/textfield/mdc-text-field";
 @import '~font-awesome/scss/font-awesome.scss';
 @import "~bootstrap/scss/bootstrap";
 @import "_variable.scss";
 @import "_login.scss";
 @import "_layout.scss";
 @import "_mixin.scss";
+@import "toaster-js/default.scss";
+
 /* Absolute Center Spinner */
 
 .foo-button {
@@ -16,6 +20,9 @@ $fa-font-path: '~font-awesome/fonts';
   @include mdc-states(teal);
 }
 
+.mdc-text-field__input{
+  padding: 0px;
+}
 
 .loading {
     position: fixed;
@@ -72,6 +79,19 @@ $fa-font-path: '~font-awesome/fonts';
     }
   }
     /* spinner end here */
+    #rightHead{
+      a{
+        width: auto;
+      }
+       img{
+      width: 50px;
+      border-radius: 50%;
+    }
+  }
+    #loginWithGoogle{
+      background: #bb0000 !important;
+    }
+   
 /* social link*/
 .social-link li,.social-login a{
   display: inline-block;
@@ -113,6 +133,10 @@ img.logo {
   color: black;
   @include roundedborder;
   padding: 0.5rem;
+}
+
+#mainContainer{
+  height: 70vh;
 }
 
 /* this is applied when the screen size exceeds 991px */

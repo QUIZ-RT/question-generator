@@ -2,13 +2,13 @@
   "name": "quiz-genx",
   "version": "1.0.0",
   "description": "it about to config actual project",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "",
+    "start": "concurrently \"webpack\" \"node index.js\"",
     "test": "mocha ./tests/**/*.js",
     "build": "webpack",
     "lint": "eslint --fix ./src",
-    "serve": "concurrently \"npm run build\" \"nodemon server.js\""
+    "serve": "concurrently \"npm run build\" \"nodemon index.js\""
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,12 @@
   "homepage": "https://github.com/sachinjain526/complete_porject-config#readme",
   "dependencies": {
     "@material/button": "^0.38.0",
+    "@material/dialog": "^0.38.0",
     "@material/drawer": "^0.38.0",
+    "@material/textfield": "^0.38.0",
     "@material/top-app-bar": "^0.38.0",
     "axios": "^0.17.1",
+    "babel-cli": "^6.26.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.1.3",
     "compromise": "^11.12.0",
@@ -31,6 +34,8 @@
     "font-awesome": "^4.7.0",
     "glob": "^7.1.2",
     "jquery": "^3.3.1",
+    "jsonwebtoken": "^8.3.0",
+    "node-fetch": "^2.2.0",
     "popper.js": "^1.14.3",
     "redux": "^4.0.0",
     "toaster-js": "^2.2.0"

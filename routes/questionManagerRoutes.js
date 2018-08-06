@@ -1,17 +1,13 @@
 const templateService = require('./templateParser');
 const request = require('request');
 
-module.exports = (app) => {
-  app.get('/', (req, res) => {
-    // document.write('this is we are loading to js');
-    // alert('in JS');
-    res.render('index');
-  });
+module.exports = app => {
 
-  app.get('/login', (req, res) => {
-    // alert('hit route')
-    res.render('login');
-  });
+    app.get('/', function (req, res, next) {
+        // document.write('this is we are loading to js');
+        // alert('in JS');
+        res.render('index');
+    });
 
   app.get('/api/questionManager/parseTemplate', (req, res) => {
     let subjects = {};

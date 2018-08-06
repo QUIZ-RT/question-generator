@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-
 module.exports = {
   mode: 'development',
   watch: true,
@@ -24,8 +23,12 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: [/node_modules/, /dist/,/src/, /firebase/],
+        include: [/src/, /tests/],
         loader: 'eslint-loader',
+        options: {
+          //fix: true
+        }
+
       },
       {
         test: /\.scss$/,
@@ -38,7 +41,15 @@ module.exports = {
           options: {
             includePaths: ['./node_modules'],
           },
-        }],
+          { loader: 'extract-loader' },
+          { loader: 'css-loader' },
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: ['./node_modules']
+            }
+          },
+        ]
       },
       // Font-awesome 4.7.X
       {
@@ -66,6 +77,9 @@ module.exports = {
     new CopyWebpackPlugin([{
       from: './src/assets',
       to: 'assets',
+    }]),
+    new CopyWebpackPlugin([{
+      from: './src/js/firebase-messaging-sw.js'
     }]),
     new HtmlWebpackPlugin({
       template: './src/index.html',

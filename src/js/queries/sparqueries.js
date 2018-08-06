@@ -52,12 +52,12 @@ module.exports =  {
     }
     ORDER BY xsd:integer(?propNumber)`,
 
-  similar_entities: `SELECT ?item ?itemLabel 
-    WHERE 
-    {
-        ?item wdt:P31 wd:Q146.
-        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-    }`,
+  city_query: `SELECT ?instance ?instanceLabel WHERE {
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+          ?instance wdt:P31 wd:Q515.
+          ?instance wdt:P17 #countryCode
+      }
+      LIMIT 5`,
 
   query: `select distinct ?item ?itemlabel ?country ?countryLabel ?property ?propertyLabel ?questionlabel
   where {
