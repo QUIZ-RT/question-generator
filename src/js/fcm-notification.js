@@ -8,8 +8,7 @@ configureToasts({
   deleteDelay: 500, // time until the toast is completely removed from the DOM after deleting.
 });
 
-
-const userController = new UserController();
+let userController = new UserController();
 
 const messaging = firebaseClient.messaging();
 messaging.usePublicVapidKey('BG96KHcY1hTDHCBxe54kuoe594S0loDgN9KCkCtovDWt8pGT8513Kr2SgF0VGjSsSyAMtzncLni4j1rvRxleFpc');
@@ -21,6 +20,7 @@ messaging.requestPermission().then(() => {
   if (currentToken) {
     localStorage.setItem('fcm-token', currentToken);
     userController.updateFcmToken(currentToken);
+    new Toast("You have now subscribed to receive Push notification.",  Toast.TYPE_DONE);
   } else {
   }
 }).catch((err) => {
@@ -42,17 +42,14 @@ messaging.onTokenRefresh(() => {
 });
 
 messaging.onMessage((payload) => {
-  // alert("Message is received at On opened browser");
-  console.log('Message received. on app browser ');
 
+  console.log('Message received. on app browser ');
   const element = document.createElement('div');
-  element.textContent = `${payload.notification.title} has requested for admin access.! Click to Grant.`;
+  element.textContent = `${payload.notification.body}`;
   const newToast = new Toast(element, Toast.TYPE_MESSAGE);
   element.addEventListener('click', () => {
-    const userController = new UserController();
-
-    if (payload.notification.click_action == 'AdminAccessRequest') {
-      userController.searchUsers('AdminAccessRequest');
+    if (payload.notification.click_action == '#accessRequests') {
+      userController.init();
     }
     newToast.delete();
   });

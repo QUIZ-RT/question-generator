@@ -7,6 +7,16 @@ class UserService {
     this.dataService = new DataService(Constants.WIKI_AUTH_KEY);
   }
 
+  getAdminAccessRequestedusers(queryParams) {
+    this.dataService.fetchOptions.method = 'GET';
+    let searchUrl = '';
+
+    searchUrl = `${Constants.QUIZ_GENX_API_BASE}/admin/users`;
+
+    // alert("Pending for approval users Requested: " + queryParams)
+    return this.dataService.getJSON(searchUrl);
+  }
+
   searchUsers(queryParams) {
     this.dataService.fetchOptions.method = 'GET';
     let searchUrl = '';
@@ -21,6 +31,13 @@ class UserService {
   getUserDetail(id) {
     const url = `${Constants.WIKI_API_BASE}/question/${id}`;
     return this.dataService.getJSON(url);
+  }
+
+  
+  getLocalAccessToken(userId, email) {
+    const url = `${Constants.QUIZ_GENX_API_BASE}/token`;
+    const payload = {userId : userId, email : email};
+    return this.dataService.postJSON(url, payload);
   }
 
   updateFcmToken(userId, fcmToken) {

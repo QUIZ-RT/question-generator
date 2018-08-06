@@ -3,6 +3,8 @@ import firebaseinit from 'firebase';
 import firebaseClient from './shared/firebase.client.config';
 import quizGeneratorHtml from './views/quizGenerator';
 import loginpageHtml from './views/loginForm';
+import UserService from './services/userService';
+
 require('firebase/auth');
 
 const provider = new firebaseinit.auth.GoogleAuthProvider();
@@ -33,22 +35,42 @@ function signOutApplication(callback) {
 }
 // eventlistener start
 function togglelogin(response) {
-  jQuery('#sideBarButton').toggleClass('d-none');
-  console.log(response);
   if (response) {
     jQuery('#mainContent').html(quizGeneratorHtml);
-    const haedSection = `<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" id='rightHead'>
+
+    const userService = new UserService();
+    userService.getLocalAccessToken(response.id, response.email)
+      .then((tokenData) => {
+        console.log(tokenData);
+        localStorage.setItem("accessToken", tokenData.accessToken);
+        localStorage.setItem("isAdmin", tokenData.isAdmin);
+        jQuery('#sideBarButton').toggleClass('d-none');
+        console.log(response);
+
+
+        document.querySelector('#btnREquestAdminAccess').addEventListener('click', (e) => {
+          var userId = localStorage.getItem("userId");
+          const userService = new UserService();
+          userService.updateAccessRequest(userId);
+        });
+
+        const haedSection = `<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" id='rightHead'>
           <a href="#" class=" mdc-top-app-bar__action-item" alt="user Profile"><img src='${response.photoURL}' class='mr-1'  alt='user profile'/>${response.displayName}</a>
           <a href="#" class=" mdc-top-app-bar__action-item" alt="logOut" id="userLogout">
               <i class="fa fa-sign-out mr-1"></i>LogOut</a>
               </section> `;
-    jQuery('#headSection').append(haedSection);
+        jQuery('#headSection').append(haedSection);
+
+      });
+
   } else {
     jQuery('#headSection').find('#rightHead').remove();
     jQuery('#mainContent').html(loginpageHtml);;
   }
+
 }
 function addCurrentUser(postUserData) {
+  localStorage.setItem("userId", userData.id);
   jQuery.ajax({
     type: 'post',
     contentType: 'application/json',
@@ -62,6 +84,7 @@ function addCurrentUser(postUserData) {
   });
 }
 function checkUserIsAbailable(userData) {
+  localStorage.setItem("userId", userData.id);
   jQuery.ajax({
     type: 'get',
     contentType: 'application/json',

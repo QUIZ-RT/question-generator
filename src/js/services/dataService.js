@@ -1,5 +1,6 @@
 class DataService {
   constructor(authKey) {
+    authKey = localStorage.getItem('accessToken');
     this.fetchOptions = {
       headers: { 'Content-Type': 'application/json', Authorization: authKey },
       mode: 'cors',
@@ -38,7 +39,6 @@ class DataService {
   }
 
   postJSON(url, payload) {
-    alert('data received');
     this.fetchOptions.method = 'POST';
     this.fetchOptions.body = JSON.stringify(payload);
     const dataPromise = fetch(url, this.fetchOptions);
