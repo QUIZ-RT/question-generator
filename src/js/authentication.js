@@ -76,7 +76,7 @@ function checkUserIsAbailable(userData) {
   });
 }
 function updateHeader(userData) {
-  if (userData) {
+  if (userData === 'logout') {
     const {
       displayName, email, photoURL, uid,
     } = userData;
