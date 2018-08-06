@@ -1,34 +1,29 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
-const cookieSession = require('cookie-session'); // to manage cookie and session for express server
-
-const app = express();
-
+const path = require('path');// get the path of the directories
+const jsonWebToken = require('jsonwebtoken');
+const app = express();// create obj of the express
 app.use(bodyParser.json()); // parsing data or middleware to server
-
-app.use(cookieSession({
-  maxAge: 30 * 24 * 60 * 60 * 1000, // time to save cookie in the browser
-  keys: [keys.cookieKey], // setting key to this cookie
-}));
-
-require('./src/js/routes/questionManagerRoutes')(app);
-// require('./routes/questionManagerRoutes')(app);
+app.use(express.static('dist'));// it will prefer the directory to serve the file
+// Initializing Middleware
+let middleware = require('./middleware/app-middleware').init(app, jsonWebToken);
+app.set('jwtSecret', 'ashkdbahbhabcjhbahbcjhabsuhqaedgqwdvuqbc');
+const packages = {
+  app,
+  jsonWebToken,
+  middleware,
+  express
+};
+require('./routes/questionRoutes.js')(app)// for question related endpoints
+require('./routes/topicRoutes.js')(app)// for topics related endpoints
+require('./routes/questionManagerRoutes.js')(app)// for question related endpoints
+const PORT = process.env.PORT || 8080;// finding the port number
 require('./firebase/firebase-route')(app);
+// User routes
+let userRouter = require('./routes/userRouter')(packages);
+app.use(userRouter);
 
-if (process.env.NODE_ENV === 'production') {
-  // if ode is working in prdocution to serve static page
-  app.use(express.static('client/build'));
-  const path = require('path');
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
-const PORT = 8081;// process.env.PORT || 5000;
-
-app.get('/api/test1', (req, res) => { // it will current user detail on screan
-  res.send('Hello');
-  console.log('request received ');
+app.listen(PORT, () => {
+  console.log('Listening on  port 8080');
 });
-
-app.listen(PORT);
+console.log('Application started....');
