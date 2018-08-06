@@ -37,3 +37,4 @@ const quizGeneratorHtml = `        <!-- Swatantra Changes Starts -->
     </div>
 </div>
 </div>`
+export default quizGeneratorHtml;
