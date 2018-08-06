@@ -1,8 +1,6 @@
 const firebaseDatabase = require("./firebase-database");
-const firebaseSignIn = require("./firebase-signin");
 
 const databaseFunc = new firebaseDatabase();
-const signInFunc = new firebaseSignIn();
 
 module.exports = (app) => {
     app.get('/firebase/api/questions', (req, res) => { // it will current user detail on screan
@@ -51,9 +49,9 @@ module.exports = (app) => {
                 });
         });
     });
-    app.get('/firebase/users', (req, res) => { // it will current user detail on screan
+    app.get('/firebase/currentusers', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
-            databaseFunc.getCurrentUserInfo(req.body.id, req.body).then((data) => {
+            databaseFunc.getCurrentUserInfo().then((data) => {
                 res.json(data);
                 resolve(data);
             })
@@ -64,20 +62,21 @@ module.exports = (app) => {
     });
     app.get('/firebase/users/:id', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
-            console.log(req);
-            databaseFunc.saveTopics(req.body.id,req.body, resolve, reject)
-        }).then((data) => {
-            res.json(req.body);
+            databaseFunc.getUsers(req.params.id)
+                .then((data) => {
+                    res.json(data);
+                    resolve(data);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
         })
-            .catch((err) => {
-                console.log(err)
-            });
     });
 
     app.post('/firebase/api/topics/delete', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             console.log(req);
-            databaseFunc.saveTopics(req.body.id,null, resolve, reject)
+            databaseFunc.saveTopics(req.body.id, null, resolve, reject)
         }).then((data) => {
             res.json(req.body);
         })
