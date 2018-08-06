@@ -4,7 +4,7 @@
   "description": "it about to config actual project",
   "main": "server.js",
   "scripts": {
-    "start": "",
+    "start": "concurrently \"webpack\" \"node server.js\"",
     "test": "mocha ./tests/**/*.js",
     "build": "webpack",
     "lint": "eslint --fix ./src",
