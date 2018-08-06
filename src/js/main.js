@@ -1,11 +1,7 @@
 import jQuery from 'jquery';
-import { MDCTopAppBar } from '@material/top-app-bar/index';
-import { MDCTemporaryDrawer, MDCTemporaryDrawerFoundation, util } from '@material/drawer';
-import QuestionController from './controllers/questionController';
+import { MDCTemporaryDrawer } from '@material/drawer';
 import UserController from './controllers/userController';
 
-// import { callGoogleSignIn } from '../../firebase/firebase-signin';
-// import { getQuestions, getTopics } from '../../firebase/firebase-database';
 import 'popper.js';
 import 'bootstrap';
 import '../scss/main.scss';
@@ -13,9 +9,9 @@ import '../scss/main.scss';
 // import './AjaxSetting';
 
 import { loadScreenRoute } from './shared/routes';
-
 import authEventListener from './authentication';
 import reduxSubsCriber from './redux.subscribe';
+import loginpageHtml from './views/loginForm';
 
 require('@material/top-app-bar/index');
 require('./controllers/questionManagerController');
@@ -35,6 +31,7 @@ export function loadScreen(screen) {
   loadScreenRoute(screen);
 }
 jQuery(document).ready(() => {
+  jQuery('#mainContent').html(loginpageHtml);
   jQuery('.navScreen').on('click', (e) => {
     const current = e.currentTarget;
     loadScreenRoute(jQuery(current).attr('data-screen'));

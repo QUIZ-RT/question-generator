@@ -51,7 +51,7 @@ function addCurrentUser(postUserData) {
     type: 'post',
     contentType: 'application/json',
     dataType: 'json',
-    url: '/firebase/api/users',
+    url: '/firebase/users',
     data: JSON.stringify(postUserData),
   }).done((response) => {
     togglelogin(response);
@@ -64,7 +64,7 @@ function checkUserIsAbailable(userData) {
     type: 'get',
     contentType: 'application/json',
     dataType: 'json',
-    url: `/firebase/api/users/${userData.id}`,
+    url: `/firebase/users/${userData.id}`,
   }).done((response) => {
     if (response) {
       togglelogin(response);
@@ -76,7 +76,7 @@ function checkUserIsAbailable(userData) {
   });
 }
 function updateHeader(userData) {
-  if (userData !== 'logout') {
+  if (userData) {
     const {
       displayName, email, photoURL, uid,
     } = userData;
