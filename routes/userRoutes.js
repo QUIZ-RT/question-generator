@@ -38,7 +38,7 @@ let userController = ({ app, jsonWebToken, middleware }) => {
 
     getAllUsers = (req, res) => {  
         checkAccessRight(req, res);
-        databaseFunc.getAllUsers().then((data) => {
+        databaseFunc.getAllUsers().then((data) => {            
             res.json(data);
         }).catch((err) => {
             callback(null, err, res);
@@ -48,7 +48,16 @@ let userController = ({ app, jsonWebToken, middleware }) => {
     getAdminAccessRequestedUsers = (req, res) => {
         checkAccessRight(req, res);
         databaseFunc.getAdminAccessRequestedUsers().then((data) => {
-            res.json(data);
+            let retResult = [];
+            for (const property in data) {
+                if (data.hasOwnProperty(property)) {
+                    let userItem = data[property];
+                    if(userItem.isAdmin  || (!userItem.isAdmin && userItem.adminAccessRequested)){
+                        retResult.push(userItem);
+                    }
+                }
+            } 
+            res.json(retResult);
         }).catch((err) => {
             callback(null, err, res);
         });
@@ -102,7 +111,9 @@ let userController = ({ app, jsonWebToken, middleware }) => {
             res.json(data);
             // Todo if the data data is updated now send the administrators a notification saying so 
             if (req.body.type == ServerConstants.ADMIN_ACCESS_REQUEST) {
-                databaseFunc.sendNotification(ServerConstants.NOTIFICATION_ADMIN_ACCESS, req.params.id, req.body.accessResult);
+                databaseFunc.sendNotification(ServerConstants.NOTIFICATION_ADMIN_ACCESS, 
+                    req.params.id, 
+                    req.body.accessResult);
             }
         }).catch((err) => {
             console.log(err)
