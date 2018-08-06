@@ -2,9 +2,9 @@
   "name": "quiz-genx",
   "version": "1.0.0",
   "description": "it about to config actual project",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "concurrently \"webpack\" \"node server.js\"",
+    "start": "concurrently \"webpack\" \"node index.js\"",
     "test": "mocha ./tests/**/*.js",
     "build": "webpack",
     "lint": "eslint --fix ./src",
