@@ -24,31 +24,21 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: [/node_modules/, /dist/],
+        exclude: [/node_modules/, /dist/,/src/, /firebase/],
         loader: 'eslint-loader',
-        options:{
-            fix: true
-        }
-
       },
       {
         test: /\.scss$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'bundle.css',
-            },
+        use: [{
+          loader: 'style-loader',
+        }, {
+          loader: 'css-loader',
+        }, {
+          loader: 'sass-loader',
+          options: {
+            includePaths: ['./node_modules'],
           },
-          { loader: 'extract-loader' },
-          { loader: 'css-loader' },
-          { 
-              loader: 'sass-loader',
-              options: {
-                  includePaths: ['./node_modules']
-              }
-         },
-        ]
+        }],
       },
       // Font-awesome 4.7.X
       {

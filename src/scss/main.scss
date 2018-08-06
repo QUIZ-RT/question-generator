@@ -141,8 +141,6 @@ img.logo {
 
 
 // Dashboard
-
-
 input[name=search1] {
     width: 330px;
     -webkit-transition: width 0.4s ease-in-out;
@@ -154,7 +152,146 @@ input[name=search1]:focus {
     width: 100%;
 }
 
-.hide
-{
+.hide {
   display: none;
+}
+
+// Wizard Steps
+@keyframes size-0
+{
+    0%{-webkit-transform:scaleX(0.7) scaleY(0.4); height: 200px;}
+    100%{
+      -webkit-transform:scaleX(0.4) scaleY(0.2);  
+      -webkit-transform-origin:top; 
+      -moz-transform-origin:top; 
+      height: 100px;
+      filter: blur(10px);
+      -webkit-filter: blur(10px);
+      }
+}
+
+.size-0 {
+    // position:relative;
+    animation-fill-mode: forwards;
+    -webkit-animation-name: size-0;
+    -webkit-animation-duration: 0.3s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    animation-name: size-0;
+    animation-duration: 0.3s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+@keyframes size-1
+{
+    0%{-webkit-transform:scaleX(0.9) scaleY(0.6); height: 270px;}
+    100%{
+      -webkit-transform:scaleX(0.7) scaleY(0.4);  
+      -webkit-transform-origin:top; 
+      -moz-transform-origin:top; 
+      height: 200px;
+      filter: blur(6px);
+      -webkit-filter: blur(6px);
+      }
+}
+
+.size-1 {
+    // position:relative;
+    animation-fill-mode: forwards;
+    -webkit-animation-name: size-1;
+    -webkit-animation-duration: 0.3s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    animation-name: size-1;
+    animation-duration: 0.3s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+
+@keyframes size-2
+{
+    0%{-webkit-transform:scale(1); height: 400px;}
+    100%{
+      -webkit-transform:scaleX(0.9) scaleY(0.6); 
+      -webkit-transform-origin:top; 
+      -moz-transform-origin:top; 
+      height: 270px; 
+      filter: blur(3px); 
+      -webkit-filter: blur(3px);
+    }
+}
+
+.size-2 {
+    // position:relative;
+    animation-fill-mode: forwards;
+    -webkit-animation-name: size-2;
+    -webkit-animation-duration: .3s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    animation-name: size-2;
+    animation-duration: .3s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+
+@keyframes big
+{
+    0%{-webkit-transform:scaleX(0.9) scaleY(0.6);}
+    100%{-webkit-transform:scale(1); -webkit-transform-origin:top; -moz-transform-origin:top; height: 400px;}
+}
+
+.big {
+    position:relative;
+    animation-fill-mode: forwards;
+    -webkit-animation-name: big;
+    -webkit-animation-duration: .3s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    animation-name: big;
+    animation-duration: .3s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+
+.good {
+  animation: anim .3s ease-in-out;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dashed #ddd;
+  margin: 20px 0;
+}
+
+#wizardStep1 {
+  margin-top: 60px;
+}
+
+.subject-pills {
+  margin-top: 30px;
+  width: 200px;
+  height: 70px;
+  background: rgba(15, 83, 211, 0.3);
+  border-radius: 7px;
+  color: white;
+  margin: auto;
+  font-weight: bolder;
+  font-size: 1.3em;
+  vertical-align: baseline;
+  text-align:center;
+  line-height: 70px;
+}
+
+#subject-pills-2, #subject-pills-3 {
+  display: flex;
+}
+
+.subject-pills:hover, .clickPill{
+  background: rgba(41, 23, 129, 0.7);
+  cursor: pointer;
+}
+
+.message {
+  color: whitesmoke;
 }

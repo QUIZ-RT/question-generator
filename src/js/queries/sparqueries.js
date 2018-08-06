@@ -1,12 +1,13 @@
-export const queries = {
-  entity: `SELECT ?propNumber ?propLabel ?val
+module.exports =  {
+  entity: `PREFIX entity: <http://www.wikidata.org/entity/>
+    SELECT ?propNumber ?propUrl ?propLabel ?valUrl ?val
     WHERE
     {
         hint:Query hint:optimizer 'None' .
         {
-            BIND(entity:$(var) AS ?valUrl) .
+            BIND(entity:#entity_id AS ?valUrl) .
             BIND("N/A" AS ?propUrl ) .
-            BIND("Name"@de AS ?propLabel ) .
+            BIND("Name"@en AS ?propLabel ) .
            entity:#entity_id rdfs:label ?val .
           
             FILTER (LANG(?val) = "en") 
@@ -14,14 +15,14 @@ export const queries = {
         UNION
         {   BIND(entity:#entity_id AS ?valUrl) .
           
-            BIND("AltLabel"@de AS ?propLabel ) .
+            BIND("AltLabel"@en AS ?propLabel ) .
             optional{entity:#entity_id skos:altLabel ?val}.
             FILTER (LANG(?val) = "en") 
         }
         UNION
         {   BIND(entity:#entity_id AS ?valUrl) .
           
-            BIND("Beschreibung"@de AS ?propLabel ) .
+            BIND("Description"@en AS ?propLabel ) .
             optional{entity:#entity_id schema:description ?val}.
             FILTER (LANG(?val) = "en") 
         }
@@ -58,21 +59,19 @@ export const queries = {
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
     }`,
 
-  cricketer_query: `select distinct ?item ?itemLabel ?country ?countryLabel ?placeofbirth ?placeofbirthLabel ?questionlabel
-    where {
-      ?item wdt:P106 wd:Q12299841.
-      ?item wdt:P19 ?placeofbirth .
-      ?item rdfs:label ?personlabel.
-      FILTER(LANG(?personlabel) = "en").
-      ?placeofbirth wdt:P17 ?country.
-      BIND(concat("What is the place of birth of ", ?personlabel) AS ?questionlabel).
-    
-      SERVICE wikibase:label {
-        bd:serviceParam wikibase:language "en" .
-        
-      }
+  query: `select distinct ?item ?itemlabel ?country ?countryLabel ?property ?propertyLabel ?questionlabel
+  where {
+    ?item wdt:#PRIMARY_FILTER wd:#PRIMARY_FILTER_VALUE.
+    ?item wdt:#PROPERTY ?property .
+    ?item rdfs:label ?itemlabel.
+    FILTER(LANG(?itemlabel) = "en").
+    BIND(concat(#TEMPLATE) AS ?questionlabel).
+  
+    SERVICE wikibase:label {
+      bd:serviceParam wikibase:language "en" .
+      
     }
-    LIMIT 100`,
+  }`,
 
   city_query: `SELECT ?instance ?instanceLabel WHERE {
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }

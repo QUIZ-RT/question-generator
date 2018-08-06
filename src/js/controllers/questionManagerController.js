@@ -1,41 +1,28 @@
 
-const jQuery = require('jquery');
 const qManService = require('./../services/questionManagerService');
+import { DomService } from './../services/domService';
 
-module.exports = jQuery(document).ready(() => {
-  function initiateWizard(qGenQuery) {
-    const url = `/api/parseTemplate${qGenQuery}`;
+export class QuestionManagerController {
+
+  initiateWizard(qGenQuery) {
+    let url = '/api/questionManager/parseTemplate' + qGenQuery;
     fetch(url)
-      .then((res) => {
-        console.log(res);
-        res.json().then((body) => {
-          // TODO Temp call below
-          const bodyValue = JSON.parse(body);
-          qManService.getNodeDataFor(bodyValue.topics[0].normal);
-        });
-      });
-  }
-
-  jQuery('#btnGenerate').on('click', () => {
-    // console.log('test')
-    const topic = jQuery('#topicInput').val();
-    const template = jQuery('#templateInput').val();
-    let formQuery = '';
-    formQuery = `${formQuery}?topic=${topic}`;
-    formQuery = `${formQuery}&template=${template}`;
-    initiateWizard(formQuery);
-  });
-
-  function initiateWizard(qGenQuery) {
-      let url = '/api/parseTemplate' + qGenQuery;
-      fetch(url)
-      .then(function(res) {
-          // console.log(res)
+    .then(function(res) {
+        if(res.status && res.status == 200) {
           res.json().then((body) => {
-              // TODO Temp call below
-            body = JSON.parse(body);
-            qManService.getNodeDataFor(body.topics[0].normal)
+            qManService.processResponseFromTemplateParser(body);
           })
-      })
+        } else {
+
+        }
+    })
   }
-})
+
+  callSubjectIdentifier(subject) {
+    qManService.determineNodeAndCategory(subject);
+  }
+
+  generateQuestions(itemsArray, topicCategory) {
+    qManService.generateQuestions(itemsArray, topicCategory);
+  }
+}
