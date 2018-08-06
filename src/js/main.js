@@ -27,6 +27,8 @@ document.querySelector('#RequestAccessBtn').addEventListener('click', (e) => {
   userService.updateAccessRequest(userId);
 });  
 
+// localStorage.setItem('accessToken' , 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJnTzllUUtKWWlzZTdJZ0NFR3ZnUmVqNmNra3IyIiwiZW1haWwiOiJ3aXRobG92a2FyYW5AZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiJNYWhlbmRyYSBLdW1hciBTYWhvbyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTUzMzU1NjU0MCwiZXhwIjoxNTY1MDkyNTQwfQ.3z_rbiTkEPRVm7UapbeY0dFGmTt9DTQlCaOUmKLHqps');
+
 export function loadScreen(screen) {
   loadScreenRoute(screen);
 }

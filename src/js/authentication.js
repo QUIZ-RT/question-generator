@@ -35,16 +35,18 @@ function signOutApplication(callback) {
 }
 // eventlistener start
 function togglelogin(response) {
-  const userService = new UserService(); 
-  userService.getLocalAccessToken(response.id, response.email)
-    .then((tokenData) => {
-      console.log(tokenData);
-      localStorage.setItem("accessToken", tokenData.accessToken);
-      localStorage.setItem("isAdmin", tokenData.isAdmin);
-      jQuery('#sideBarButton').toggleClass('d-none');
-      console.log(response);
-      if (response) {
-        jQuery('#mainContent').html(quizGeneratorHtml);
+  if (response) {
+    jQuery('#mainContent').html(quizGeneratorHtml);
+
+    const userService = new UserService();
+    userService.getLocalAccessToken(response.id, response.email)
+      .then((tokenData) => {
+        console.log(tokenData);
+        localStorage.setItem("accessToken", tokenData.accessToken);
+        localStorage.setItem("isAdmin", tokenData.isAdmin);
+        jQuery('#sideBarButton').toggleClass('d-none');
+        console.log(response);
+
 
         document.querySelector('#btnREquestAdminAccess').addEventListener('click', (e) => {
           var userId = localStorage.getItem("userId");
@@ -58,11 +60,13 @@ function togglelogin(response) {
               <i class="fa fa-sign-out mr-1"></i>LogOut</a>
               </section> `;
         jQuery('#headSection').append(haedSection);
-      } else {
-        jQuery('#headSection').find('#rightHead').remove();
-        jQuery('#mainContent').html(loginpageHtml);;
-      }
-    });
+
+      });
+
+  } else {
+    jQuery('#headSection').find('#rightHead').remove();
+    jQuery('#mainContent').html(loginpageHtml);;
+  }
 
 }
 function addCurrentUser(postUserData) {
