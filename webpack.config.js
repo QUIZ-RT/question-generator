@@ -32,14 +32,12 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [{
-          loader: 'style-loader',
-        }, {
-          loader: 'css-loader',
-        }, {
-          loader: 'sass-loader',
-          options: {
-            includePaths: ['./node_modules'],
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'bundle.css',
+            },
           },
           { loader: 'extract-loader' },
           { loader: 'css-loader' },
