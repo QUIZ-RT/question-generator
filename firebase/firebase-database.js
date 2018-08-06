@@ -50,6 +50,20 @@ module.exports = class firebaseDatabase {
     this.saveFirebaseData(refUrl, topicObj, resolve, reject);
   }
 
+// saveTopics(topicObj, resolve, reject){
+  
+//   var postsRef = firebaseInit.database().ref('topics/').child("topic");
+
+// // we can also chain the two calls together
+// postsRef.push().set(topicObj,(error) => {
+//   if (error) {
+//     reject('there is some issue we will come back sortly');
+//   } else {
+//     resolve('SuccessFully');
+//   }
+// })
+// }
+
   saveQuestions(quizId, quizObj, callback) {
     const refUrl = `topics/${quizId}`;
     this.saveFirebaseData(refUrl, quizObj, callback);

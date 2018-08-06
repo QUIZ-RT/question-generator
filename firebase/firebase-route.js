@@ -65,7 +65,19 @@ module.exports = (app) => {
     app.post('/firebase/api/topics', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             console.log(req);
-            databaseFunc.saveTopics(req.body.id, req.body, resolve, reject)
+            databaseFunc.saveTopics(req.body.id,req.body, resolve, reject)
+        }).then((data) => {
+            res.json(req.body);
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
+
+    app.post('/firebase/api/topics/delete', (req, res) => { // it will current user detail on screan
+        return new Promise((resolve, reject) => {
+            console.log(req);
+            databaseFunc.saveTopics(req.body.id,null, resolve, reject)
         }).then((data) => {
             res.json(req.body);
         })

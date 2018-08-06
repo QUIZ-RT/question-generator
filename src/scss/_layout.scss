@@ -54,4 +54,20 @@ footer {
 
 .topicIcon{
   font-size: 50px;
+  color:#684aee;
+}
+
+.editTopic, .deleteTopic{
+  font-size: 30px;
+  color:#684aee;
+}
+
+#topicManagerContainer{
+  width: 70vw;
+  margin:auto;
+}
+
+.inline-topic-btn{
+  width: 100%;
+  text-align: right;
 }

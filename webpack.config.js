@@ -77,6 +77,9 @@ module.exports = {
       from: './src/assets',
       to: 'assets',
     }]),
+    new CopyWebpackPlugin([{
+      from: './src/js/firebase-messaging-sw.js'
+    }]),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       chunksSortMode: 'dependency',

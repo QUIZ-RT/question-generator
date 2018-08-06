@@ -1,7 +1,7 @@
-import Constants from '../shared/Constants';
+import Constants from '../shared/constants';
 import DomManager from './domManager';
 import UserController from '../services/userService';
-
+/* eslint-disable no-debugger */
 const document = window.document;
 
 function createHTMLElement(html) {
@@ -17,14 +17,14 @@ const onClickUserDetail = (id) => {
 
 const onClickNextButtonhandler = (searchParam) => {
   const userController = new UserController();
-  const skipCount = parseInt(document.getElementById('pagingSkip').value) + Constants.PAGING_COUNT;
+  const skipCount = parseInt(document.getElementById('pagingSkip').value, 10) + Constants.PAGING_COUNT;
   userController.searchUsers(searchParam, skipCount);
   document.getElementById('pagingSkip').value = skipCount;
 };
 
 const onClickPrevButtonhandler = (searchParam) => {
   const userController = new UserController();
-  let skipCount = parseInt(document.getElementById('pagingSkip').value) - Constants.PAGING_COUNT;
+  let skipCount = parseInt(document.getElementById('pagingSkip').value, 10) - Constants.PAGING_COUNT;
   if (skipCount < 0) skipCount = 0;
   document.getElementById('pagingSkip').value = skipCount;
   userController.searchUsers(searchParam, skipCount);
@@ -48,9 +48,9 @@ class NotificationViewHandler {
     // const resultNavigationContainer = document.getElementById( 'ResultNavigationContainer');
 
     searchResultsPlaceholder.innerHTML = '';
-    const totalitemsFound = restData.results_found;
+    const totalitemsFound = restData.length;
     let paraNode;
-    if (totalitemsFound === 0 || restData.results_shown === 0) {
+    if (totalitemsFound === 0) {
       paraNode = DomManager.getAParaNode(
         'Oops, Your search returned no results !!',
         'text-danger',
@@ -61,20 +61,19 @@ class NotificationViewHandler {
     }
 
     paraNode = DomManager.getAParaNode(
-      `Showing ${restData.results_start} - ${restData.results_start
-      + Constants.PAGING_COUNT} of ${totalitemsFound} users found.`,
+      `Showing ${restData.length} users access requests found.`,
       'text-success',
     );
     let restCard;
     restData.forEach((userItem) => {
       restCard = DomManager.getAParaNode(
-        userItem.name,
+        userItem.displayName,
         '',
         // this.getRequiredUserDetails(userItem.user),
       );
 
       restCard.addEventListener('click', () => {
-        onClickUserDetail(userItem.user.id);
+        onClickUserDetail(userItem.id);
       });
 
       searchResultsPlaceholder.appendChild(restCard);
