@@ -1,4 +1,4 @@
-import { nav } from './../views/nav';
+import { sidenav } from './../views/sidenav';
 import { footer } from './../views/footer';
 import { loginForm } from './../views/loginForm';
 import { wizardStep1 } from './../views/wizardStep1';
@@ -14,7 +14,7 @@ export class DomService {
 
     constructor() {
         this.views =  {
-            nav,
+            sidenav,
             footer,
             loginForm,
             wizardStep1,
@@ -35,7 +35,7 @@ export class DomService {
         // wizardStep1Doc.innerHTML = this.views.wizardStep1;
         // lineDoc.innerHTML = this.views.line;
         // wizardStep2Doc.innerHTML = this.views.wizardStep2;
-        $('#nav').append(this.getDomObjectFromTemplate('nav'));
+        $('#sidenav').append(this.getDomObjectFromTemplate('sidenav'));
         $('#menu').append(this.getDomObjectFromTemplate('menu'));
         $('#messages').append(this.getDomObjectFromTemplate('messages'));
         $('#wizardStep1').append(this.getDomObjectFromTemplate('wizardStep1'));
@@ -46,7 +46,7 @@ export class DomService {
         $(line).insertAfter($('#wizardStep3'));
         $('#footer').html(this.views.footer);
 
-        $('#nav').removeClass('hide');
+        $('#sidenav').removeClass('hide');
         $('#menu').removeClass('hide');
         $('#wizardStep1').removeClass('hide');
         // this.disableForm('wizardStep2');
