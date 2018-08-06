@@ -52,8 +52,8 @@ class UserService {
     return this.dataService.putJSON(usersUrl, payload);
   }
 
-  updateAccessRequest(userId) {
-    const payload = { type: Constants.ADMIN_ACCESS_REQUEST, id: userId, adminAccessRequested: true };
+  updateAccessRequest(userId, name) {
+    const payload = { type: Constants.ADMIN_ACCESS_REQUEST, id: userId, adminAccessRequested: true, displayName: name };
     const usersUrl = `${Constants.QUIZ_GENX_API_BASE}/users/${userId}`;
     return this.dataService.putJSON(usersUrl, payload);
   }

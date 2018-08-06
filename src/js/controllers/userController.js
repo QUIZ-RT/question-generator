@@ -7,7 +7,7 @@ class UserController {
     this.userService = new UserService();
   }
 
-  init(){
+  init() {
     this.notificationViewHandler = new NotificationViewHandler();
     this.prepareUserView();
     this.loadAdminAccessRequestedusers();
@@ -18,11 +18,11 @@ class UserController {
     document.querySelector('#RequestAccessBtn').addEventListener('click', (e) => {
       var userId = document.getElementById("EmailAdd").value;
       this.updateAccessRequest(userId);
-    }); 
+    });
 
     jQuery('#mainContainer').empty();
     const template = this.getContainerTemplate();
-    jQuery('#mainContainer').append(template);    
+    jQuery('#mainContainer').append(template);
   }
 
   loadAdminAccessRequestedusers(query, offset) {
@@ -57,15 +57,17 @@ class UserController {
   }
 
   updateFcmToken(fcmToken) {
-    const userId = 'W8X5SCrcRfcIIhmHcqffIvOkRts2';
-    this.userService
-      .updateFcmToken(userId, fcmToken)
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      this.userService
+        .updateFcmToken(userId, fcmToken)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   updateUserAccess(userId, accessResult) {
