@@ -33,6 +33,13 @@ class UserService {
     return this.dataService.getJSON(url);
   }
 
+  
+  getLocalAccessToken(userId, email) {
+    const url = `${Constants.QUIZ_GENX_API_BASE}/token`;
+    const payload = {userId : userId, email : email};
+    return this.dataService.postJSON(url, payload);
+  }
+
   updateFcmToken(userId, fcmToken) {
     const payload = { type: Constants.FCM_TOKEN_UPDATE, id: userId, fcmToken };
     const usersUrl = `${Constants.QUIZ_GENX_API_BASE}/users/${userId}`;
