@@ -44,14 +44,20 @@ function togglelogin(response) {
         console.log(tokenData);
         localStorage.setItem("accessToken", tokenData.accessToken);
         localStorage.setItem("isAdmin", tokenData.isAdmin);
+        localStorage.setItem("displayName", tokenData.displayName);
         jQuery('#sideBarButton').toggleClass('d-none');
         console.log(response);
+        if(tokenData.isAdmin)
+        {
+          jQuery('#btnREquestAdminAccess').hide();
+        }
 
 
         document.querySelector('#btnREquestAdminAccess').addEventListener('click', (e) => {
           var userId = localStorage.getItem("userId");
+          var name = localStorage.getItem("displayName");
           const userService = new UserService();
-          userService.updateAccessRequest(userId);
+          userService.updateAccessRequest(userId, name);
         });
 
         const haedSection = `<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" id='rightHead'>
@@ -67,10 +73,10 @@ function togglelogin(response) {
     jQuery('#headSection').find('#rightHead').remove();
     jQuery('#mainContent').html(loginpageHtml);;
   }
-
 }
+
 function addCurrentUser(postUserData) {
-  localStorage.setItem("userId", userData.id);
+  localStorage.setItem("userId", postUserData.id);
   jQuery.ajax({
     type: 'post',
     contentType: 'application/json',
@@ -83,6 +89,7 @@ function addCurrentUser(postUserData) {
     console.log(jqXhr);
   });
 }
+
 function checkUserIsAbailable(userData) {
   localStorage.setItem("userId", userData.id);
   jQuery.ajax({
@@ -100,6 +107,7 @@ function checkUserIsAbailable(userData) {
     console.log(jqXhr);
   });
 }
+
 function updateHeader(userData) {
   if (userData !== 'logout') {
     const {

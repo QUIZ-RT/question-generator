@@ -52,7 +52,10 @@ let userController = ({ app, jsonWebToken, middleware }) => {
             for (const property in data) {
                 if (data.hasOwnProperty(property)) {
                     let userItem = data[property];
-                    if(userItem.isAdmin  || (!userItem.isAdmin && userItem.adminAccessRequested)){
+                    if(!userItem.hasOwnProperty("email"))
+                    continue
+                    if(userItem.isAdmin  
+                        || (!userItem.isAdmin && userItem.adminAccessRequested)){
                         retResult.push(userItem);
                     }
                 }
@@ -113,7 +116,7 @@ let userController = ({ app, jsonWebToken, middleware }) => {
             if (req.body.type == ServerConstants.ADMIN_ACCESS_REQUEST) {
                 databaseFunc.sendNotification(ServerConstants.NOTIFICATION_ADMIN_ACCESS, 
                     req.params.id, 
-                    req.body.accessResult);
+                    req.body.displayName);
             }
         }).catch((err) => {
             console.log(err)
