@@ -11,7 +11,7 @@ import '../scss/main.scss';
 import { loadScreenRoute } from './shared/routes';
 
 import authEventListener from './authentication';
-
+import reduxSubsCriber from './redux.subscribe';
 
 require('@material/top-app-bar/index');
 require('./controllers/questionManagerController');
@@ -36,7 +36,7 @@ jQuery(document).ready(() => {
     loadScreenRoute(jQuery(current).attr('data-screen'));
     drawer.open = false;
   });
-
+  reduxSubsCriber();
   // Commented as it is showing duplicate initialization. Refer the Firebase config and initialize only once
   authEventListener();
 });

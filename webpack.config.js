@@ -1,8 +1,8 @@
 const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/webpack');
+const HtmlWebpackPlugin = require('../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/html-webpack-plugin');
+const CopyWebpackPlugin = require('../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/copy-webpack-plugin');
+const CleanWebpackPlugin = require('../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/clean-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -24,10 +24,10 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: [/node_modules/, /dist/],
+        include: [/src/, /tests/],
         loader: 'eslint-loader',
-        options:{
-            fix: true
+        options: {
+          //fix: true
         }
 
       },
@@ -42,12 +42,12 @@ module.exports = {
           },
           { loader: 'extract-loader' },
           { loader: 'css-loader' },
-          { 
-              loader: 'sass-loader',
-              options: {
-                  includePaths: ['./node_modules']
-              }
-         },
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: ['./node_modules']
+            }
+          },
         ]
       },
       // Font-awesome 4.7.X
