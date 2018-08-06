@@ -1,4 +1,4 @@
-export const nav = `<nav class="mdc-drawer__drawer">
+export const sidenav = `<nav class="mdc-drawer__drawer">
     <nav class="mdc-drawer__content mdc-list-group">
         <div id="icon-with-text-demo" class="mdc-list">
             <!--
