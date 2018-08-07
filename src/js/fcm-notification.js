@@ -4,8 +4,8 @@ import UserController from './controllers/userController';
 import firebaseClient from './shared/firebase.client.config';
 
 configureToasts({
-  topOrigin: -20, // [default=0] Y-axis origin of the messages.
-  deleteDelay: 500, // time until the toast is completely removed from the DOM after deleting.
+  topOrigin: -50, // [default=0] Y-axis origin of the messages.
+  deleteDelay: 50000, // time until the toast is completely removed from the DOM after deleting.
 });
 
 let userController = new UserController();
@@ -46,7 +46,7 @@ messaging.onMessage((payload) => {
   console.log('Message received. on app browser ');
   const element = document.createElement('div');
   element.textContent = `${payload.notification.body}`;
-  const newToast = new Toast(element, Toast.TYPE_MESSAGE);
+  const newToast = new Toast(element, Toast.TYPE_WARNING);
   element.addEventListener('click', () => {
     if (payload.notification.click_action == '#accessRequests') {
       userController.init();
