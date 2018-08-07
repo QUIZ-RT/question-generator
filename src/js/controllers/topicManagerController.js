@@ -2,6 +2,7 @@ import { MDCDialog } from '@material/dialog';
 import { MDCTextField } from '@material/textfield';
 import TopicManagerService from '../services/topicManagerService';
 import Constants from '../shared/constants';
+import store from '../redux/redux.store';
 import {
   topic, loadButtons, addTopicDialog, openConfirmation,
 } from '../views/topic';
@@ -119,6 +120,11 @@ class TopicManagerController {
         id: topicId  
         
       };
+
+      store.dispatch({
+        type: 'ADD_TOPIC',
+        'topic':topicObj
+      });
       this.topicManagerService.saveTopic(topicObj)
         .then((data) => {
           console.log('saved', data);
