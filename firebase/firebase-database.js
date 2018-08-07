@@ -30,7 +30,7 @@ module.exports = class firebaseDatabase {
 
 
   saveFirebaseArrayData(refUrl, postDataObj, topicId, resolve, reject) {
-    let promiseArray = [], refId = '', topicId = '';
+    let promiseArray = [], refId = '';
     if (refUrl === 'questions') {
       refId = 'quiz';
     } else if (refUrl = 'topics') {
