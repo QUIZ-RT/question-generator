@@ -28,12 +28,17 @@ export function loadScreen(screen) {
   loadScreenRoute(screen);
 }
 jQuery(document).ready(() => {
-  jQuery('#mainContent').html(loginpageHtml);
+  // jQuery('#mainContainer').html(loginpageHtml);
   jQuery('.navScreen').on('click', (e) => {
     const current = e.currentTarget;
     loadScreenRoute(jQuery(current).attr('data-screen'));
     drawer.open = false;
   });
+
+  jQuery('.mdc-top-app-bar__title').on('click', (e) => {
+    window.location.href = '/';
+  });
+  
   reduxSubsCriber();
   // Commented as it is showing duplicate initialization. Refer the Firebase config and initialize only once
   authEventListener();

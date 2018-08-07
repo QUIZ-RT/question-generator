@@ -6,11 +6,16 @@
   padding: 5rem 0;
 }
 
+
+.mdc-top-app-bar
+{
+  background-color: #0a4a4a !important;
+}
 #main-nav {
   /* background-color: #e7f4f9; */
   margin-bottom: 15px;
 }
-#mainContent
+#mainContainer
 {
   min-height: 70vh;
 }
@@ -49,7 +54,7 @@ a.nav-link {
   margin-left: 1rem;
 }
 footer {
-  background-color: #222;
+  background-color: #134040;
   color: white;
   margin-top: 5rem;
   padding: 2rem;
