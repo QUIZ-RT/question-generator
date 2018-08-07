@@ -9,7 +9,6 @@ export const footer = `<footer class="page-footer font-small blue pt-4">
                     </label>
                     <input type="email" id="EmailAdd" placeholder="Email" class="form-control w-75 mx-auto">
                     <button type="submit" class="btn btn-dark w-50 mx-auto my-2 p-2">Submit</button>
-                    <button type="button" id="RequestAccessBtn" class="btn btn-dark w-50 mx-auto my-2 p-2">Request Admin Access</button>
                 </form>
             </section>
         </div>

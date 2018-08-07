@@ -27,11 +27,16 @@ function googleSignIn(callback) {
 }
 
 function signOutApplication(callback) {
+  clearLocalStorage();
   firebaseClient.auth().signOut().then(() => {
     callback('logout');
   }).catch((error) => {
     console.log(error);
   });
+}
+
+function clearLocalStorage(){
+  localStorage.clear();
 }
 // eventlistener start
 function togglelogin(response) {

@@ -28,8 +28,13 @@ class DataService {
     return new Promise((resolve, reject) => {
       dataPromise
         .then((res) => {
+          const httpStatus = res.status;
           res.json().then((data) => {
-            resolve(data);
+            if (httpStatus == 401) {
+              reject(data);
+            } else if (httpStatus == 200) {
+              resolve(data);
+            }
           });
         })
         .catch((err) => {
@@ -45,8 +50,13 @@ class DataService {
     return new Promise((resolve, reject) => {
       dataPromise
         .then((res) => {
+          const httpStatus = res.status;
           res.json().then((data) => {
-            resolve(data);
+            if (httpStatus == 401) {
+              reject(data);
+            } else if (httpStatus == 200) {
+              resolve(data);
+            }
           });
         })
         .catch((err) => {
