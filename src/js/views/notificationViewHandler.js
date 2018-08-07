@@ -133,7 +133,7 @@ class NotificationViewHandler {
   }
 
   loadAdminAccessRequestedUsersTemplate(data, clickFunc) {
-    let template = '<ul id="topic-ul" class="mdc-list" aria-orientation="vertical">';
+    let template = '<ul id="users-ul" class="mdc-list" aria-orientation="vertical">';
     if (data) {
       data.forEach((userItem) => {
         let btnTemplate = ``;

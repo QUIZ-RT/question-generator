@@ -71,9 +71,14 @@ footer {
   color:#3e8786;
 }
 
-#topicManagerContainer{
+#topicManagerContainer, #users-ul {
   width: 70vw;
   margin:auto;
+}
+
+#userManagerContainer {
+  width: 70vw;
+  margin: auto;
 }
 
 .inline-topic-btn{
