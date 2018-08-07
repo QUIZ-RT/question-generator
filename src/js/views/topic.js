@@ -13,7 +13,8 @@ export function topic(data, clickFunc) {
       </i></a></div></li>`;
     }
   }
-  template += '</ul';
+  template += '</ul>';
+  
   return template;
 }
 
@@ -23,8 +24,22 @@ export function loadButtons() {
  <span class="mdc-fab__label mdc-fab__mini">Add Topic</span> </button>
   
 
-</div> </div>
-`;
+</div> 
+</div>
+<div id="topicListWrapper">
+ <div class="d-none"><nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+  
+    <li class="page-item prevTopic disabled">
+      <a class="page-link"  tabindex="-1">Previous</a>
+    </li>
+    
+    <li class="page-item nextTopic">
+      <a class="page-link" >Next</a>
+    </li>
+  </ul>
+</nav></div>
+</div>`;
 }
 export function addTopicDialog(topic) {
   let topicTxt = '';

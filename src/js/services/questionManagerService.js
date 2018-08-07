@@ -143,7 +143,7 @@ module.exports = {
           quesArray.push(questionObj);
         }
         self.saveQuestions(quesArray);
-        self.generateQuestionsRecursive(propsArray, ++propsIndex);
+        self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory);
       });
   },
 
