@@ -115,7 +115,7 @@ module.exports = class firebaseDatabase {
   saveQuestions(quizObj, resolve, reject) {
     const refUrl = 'questions';
     if (quizObj && quizObj.length) {
-      topicId = quizObj[0].topic;
+      const topicId = quizObj[0].topic;
       this.saveFirebaseArrayData(refUrl, quizObj, topicId, resolve, reject);
     }
   }
