@@ -9,7 +9,12 @@
 
 .mdc-top-app-bar
 {
-  background-color: #0a4a4a !important;
+  background-color: rgb(55, 55, 55) !important;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 98%
 }
 #main-nav {
   /* background-color: #e7f4f9; */

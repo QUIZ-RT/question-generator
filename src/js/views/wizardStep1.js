@@ -1,4 +1,4 @@
-export const wizardStep1 = `<div class="row" id="wizardStep1Content">
+export const wizardStep1 = `<div class="row wizardStep" id="wizardStep1Content">
     <div class="col-lg-12 col-md-12 logindash loginform">
         <form class="form-horizontal">
             <div class="row login">
@@ -24,7 +24,7 @@ export const wizardStep1 = `<div class="row" id="wizardStep1Content">
                 </div>
             </div>
             <hr>
-            <div class="row login" style="padding-top: 1rem">
+            <div class="row login">
                 <div>
                     <button type="button" id="btnGenerate" class="btn btn-info generateBtn">
                         <i class="fa fa-sign-in"></i>  Proceed!</button>

@@ -192,7 +192,7 @@ input[name=search1]:focus {
 }
 
 // Wizard Steps
-@keyframes size-0
+@keyframes size-shrink_0
 {
     0%{-webkit-transform:scaleX(0.7) scaleY(0.4); height: 200px;}
     100%{
@@ -205,19 +205,19 @@ input[name=search1]:focus {
       }
 }
 
-.size-0 {
+.size-shrink_0 {
     // position:relative;
     animation-fill-mode: forwards;
-    -webkit-animation-name: size-0;
-    -webkit-animation-duration: 0.3s;
+    -webkit-animation-name: size-shrink_0;
+    -webkit-animation-duration: 0.1s;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-timing-function: linear;
-    animation-name: size-0;
-    animation-duration: 0.3s;
+    animation-name: size-shrink_0;
+    animation-duration: 0.1s;
     animation-iteration-count: 1;
     animation-timing-function: linear;
 }
-@keyframes size-1
+@keyframes size-shrink_1
 {
     0%{-webkit-transform:scaleX(0.9) scaleY(0.6); height: 270px;}
     100%{
@@ -230,20 +230,20 @@ input[name=search1]:focus {
       }
 }
 
-.size-1 {
+.size-shrink_1 {
     // position:relative;
     animation-fill-mode: forwards;
-    -webkit-animation-name: size-1;
-    -webkit-animation-duration: 0.3s;
+    -webkit-animation-name: size-shrink_1;
+    -webkit-animation-duration: 0.1s;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-timing-function: linear;
-    animation-name: size-1;
-    animation-duration: 0.3s;
+    animation-name: size-shrink_1;
+    animation-duration: 0.1s;
     animation-iteration-count: 1;
     animation-timing-function: linear;
 }
 
-@keyframes size-2
+@keyframes size-shrink_2
 {
     0%{-webkit-transform:scale(1); height: 400px;}
     100%{
@@ -256,34 +256,93 @@ input[name=search1]:focus {
     }
 }
 
-.size-2 {
+.size-shrink_2 {
     // position:relative;
     animation-fill-mode: forwards;
-    -webkit-animation-name: size-2;
-    -webkit-animation-duration: .3s;
+    -webkit-animation-name: size-shrink_2;
+    -webkit-animation-duration: .1s;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-timing-function: linear;
-    animation-name: size-2;
-    animation-duration: .3s;
+    animation-name: size-shrink_2;
+    animation-duration: .1s;
     animation-iteration-count: 1;
     animation-timing-function: linear;
 }
 
-@keyframes big
+@keyframes normal
 {
     0%{-webkit-transform:scaleX(0.9) scaleY(0.6);}
-    100%{-webkit-transform:scale(1); -webkit-transform-origin:top; -moz-transform-origin:top; height: 400px;}
+    100%{
+      -webkit-transform:scale(1); 
+      -webkit-transform-origin:top; 
+      -moz-transform-origin:top; 
+      height: 440px; 
+      filter: blur(0px); 
+      -webkit-filter: blur(0px);
+    }
 }
 
-.big {
+.normal {
     position:relative;
     animation-fill-mode: forwards;
-    -webkit-animation-name: big;
-    -webkit-animation-duration: .3s;
+    -webkit-animation-name: normal;
+    -webkit-animation-duration: .1s;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-timing-function: linear;
-    animation-name: big;
-    animation-duration: .3s;
+    animation-name: normal;
+    animation-duration: .1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+
+@keyframes size-grow_2
+{
+    0%{-webkit-transform:scaleX(0.7) scaleY(0.4);}
+    100%{
+      -webkit-transform:scaleX(0.9) scaleY(0.6); 
+      -webkit-transform-origin:top; 
+      -moz-transform-origin:top; 
+      height: 270px; 
+      filter: blur(3px); 
+      -webkit-filter: blur(3px);
+    }
+}
+
+.size-grow_2 {
+    position:relative;
+    animation-fill-mode: forwards;
+    -webkit-animation-name: size-grow_2;
+    -webkit-animation-duration: .1s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    animation-name: size-grow_2;
+    animation-duration: .1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+
+@keyframes size-grow_1
+{
+    0%{-webkit-transform:scaleX(0.4) scaleY(0.2);}
+    100%{
+      -webkit-transform:scaleX(0.7) scaleY(0.4);  
+      -webkit-transform-origin:top; 
+      -moz-transform-origin:top; 
+      height: 200px;
+      filter: blur(6px);
+      -webkit-filter: blur(6px);
+    }
+}
+
+.size-grow_1 {
+    position:relative;
+    animation-fill-mode: forwards;
+    -webkit-animation-name: size-grow_1;
+    -webkit-animation-duration: .1s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    animation-name: size-grow_1;
+    animation-duration: .1s;
     animation-iteration-count: 1;
     animation-timing-function: linear;
 }
@@ -328,9 +387,52 @@ input[name=search1]:focus {
 }
 
 .messages {
-  padding-top: 60px;
+  padding-top: 100px;
+  padding-left: 20px;
+  padding-right: 25px;
 }
 
 .message {
   color: whitesmoke;
 }
+
+// SPINNER
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 26px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
+
+// OVERRIDES
+.form-group {
+  margin-bottom: 0;
+}
+
+

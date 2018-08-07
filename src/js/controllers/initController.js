@@ -1,6 +1,10 @@
 import QuestionController from './questionController';
-import { QuestionManagerController } from './questionManagerController';
-import { DomService } from '../services/domService';
+import {
+  QuestionManagerController
+} from './questionManagerController';
+import {
+  DomService
+} from '../services/domService';
 
 const $dom = new DomService();
 
@@ -38,8 +42,32 @@ module.exports = jQuery(document).ready(() => {
   //         obj2.hide();
   //     }
   // });
-  // $('#wizardStep2Content').addClass('small');
-  // $('#wizardStep3Content').addClass('smaller');
+
+  $(document).on('keyup', '#templateInput', (e) => {
+    const code = (e.keyCode ? e.keyCode : e.which);
+    if (code === 13) {
+      let topic = document.getElementById('topicInput').value;
+      let template = document.getElementById('templateInput').value;
+      if(topic || topic === '' || template || template === '') {
+        DomService.prototype.showTemplateError('Topic and Question Template are both required values, please try again!')
+      }
+      $('#btnGenerate').click();
+    }
+  });
+  $(document).on('click', '#wizardContainer', function (event) {
+    var current = event.target;
+    while(current) {
+      if(!(current.id && current.id.startsWith('wizardStep'))){
+        current = current.parentElement;
+        continue;
+      }
+      if(current.id.endsWith('Content')) {
+        let step = current.id.substr('wizardStep'.length).substr(0, 1);
+        DomService.prototype.updateWizardClasses(step);
+        break;
+      }
+    }
+  });
 
   $(document).on('click', '#subject-pills-2 > .subject-pills', function () {
     // $('#subject-pills-2').on('click', '.subject-pills', function() {

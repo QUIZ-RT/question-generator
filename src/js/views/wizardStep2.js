@@ -1,4 +1,4 @@
-export const wizardStep2 = `<div class="row" id="wizardStep2Content">
+export const wizardStep2 = `<div class="row wizardStep" id="wizardStep2Content">
     <div class="col-lg-12 col-md-12 logindash loginform">
         <form class="form-horizontal">
             <div class="row login">

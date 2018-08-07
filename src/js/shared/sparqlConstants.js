@@ -15,7 +15,7 @@ export const SparqlConstants = {
       CHILD: { PID: 'P40', QUESTION_TEMPLATE: 'What one of these is #ITEM is child?' },
       COLLEGE: { PID: 'P69', QUESTION_TEMPLATE: 'Which college did #ITEM go to?' },
       AWARD: { PID: 'P166', QUESTION_TEMPLATE: 'Which of the following awards has #ITEM won?' },
-      IMAGE: { PID: 'P18', QUESTION_TEMPLATE: 'Which one of the following is #ITEM?' },
+      // IMAGE: { PID: 'P18', QUESTION_TEMPLATE: 'Which one of the following is #ITEM?' },
     },
     COUNTRY: {
       INCEPTION: 'P571',
