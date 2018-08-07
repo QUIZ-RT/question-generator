@@ -28,7 +28,7 @@ export function loadScreen(screen) {
   loadScreenRoute(screen);
 }
 jQuery(document).ready(() => {
-  jQuery('#mainContent').html(loginpageHtml);
+  // jQuery('#mainContainer').html(loginpageHtml);
   jQuery('.navScreen').on('click', (e) => {
     const current = e.currentTarget;
     loadScreenRoute(jQuery(current).attr('data-screen'));

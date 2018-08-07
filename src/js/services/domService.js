@@ -110,8 +110,8 @@ export class DomService {
     }
 
     createWizards() {
-        $('#mainContent').html('');
-        $('#mainContent').append(this.views.wizardContainer);
+        $('#mainContainer').html('');
+        $('#mainContainer').append(this.views.wizardContainer);
         $('#messages').append(this.getDomObjectFromTemplate('messages'));
         $('#wizardStep1').append(this.getDomObjectFromTemplate('wizardStep1'));
         $(line).insertAfter($('#wizardStep1'));
