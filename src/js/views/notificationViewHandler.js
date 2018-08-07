@@ -1,6 +1,8 @@
+import { Toast, configureToasts } from 'toaster-js';
 import Constants from '../shared/constants';
 import DomManager from './domManager';
 import UserService from '../services/userService';
+import UserController from '../controllers/userController';
 /* eslint-disable no-debugger */
 const document = window.document;
 
@@ -48,20 +50,30 @@ class NotificationViewHandler {
     jQuery('#topic-ul').remove();
     jQuery('#userManagerContainer').append(template);
 
-    document.querySelector('.addAccessBtn').addEventListener('click', (e) => {
+    jQuery('#mainContainer').on('click', '.addAccessBtn', (e) => {
       const userId = jQuery(e.currentTarget).attr('data-id');
       const accessResult = true;
       this.userService.updateUserAccess(userId, accessResult)
-      .then((data) => {         
-          console.log(data);
-          window.location.href = window.location.href;
-      });
+        .then((data) => {
+          //const a = new Toast("Access is now granted.", Toast.TYPE_DONE, Toast.TIME_NORMAL);
+          let userController = new UserController();
+          userController.init();
+        }).then((err) => {
+          console.log(err);
+        });
     });
 
-    document.querySelector('.revokeAccessBtn').addEventListener('click', () => {
+    jQuery('#mainContainer').on('click', '.revokeAccessBtn', (e) => {
       const userId = jQuery(e.currentTarget).attr('data-id');
       const accessResult = false;
-      this.updateUserAccess(userId, accessResult);
+      this.userService.updateUserAccess(userId, accessResult)
+        .then((data) => {
+          let userController = new UserController();
+          userController.init();
+          //const a = new Toast("Access is now revoked.", Toast.TYPE_DONE);
+        }).then((err) => {
+          console.log(err);
+        });
     });
   }
 

@@ -25,7 +25,6 @@ module.exports = {
       {
         test: /\.js$/,
         include: [/src/, /tests/],
-        exclude: [/src/, /tests/, /dist/, /firebase/],
         loader: 'eslint-loader',
         options: {
           //fix: true

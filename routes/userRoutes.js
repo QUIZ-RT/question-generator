@@ -20,11 +20,16 @@ let userController = ({ app, jsonWebToken, middleware }) => {
     checkAccessRight = (req, res) => {
         if (!(req.token.isAdmin == true)) {
             res.status(401);
-            res.send({message: "You are not authorized for this operation. You can request admin access at QuizGenx Portal."});
-        }  
+            res.send({ message: "You are not authorized for this operation. You can request admin access at QuizGenx Portal." });
+            return;
+        }
     }
 
-    getUserById =  (req, res) => { // it will current user detail on screan
+    isInAdminRole = (req) => {
+        return req.token.isAdmin == true
+    }
+
+    getUserById = (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             databaseFunc.getUserById(req.params.id).then((data) => {
                 res.json(data);
@@ -36,9 +41,9 @@ let userController = ({ app, jsonWebToken, middleware }) => {
         });
     };
 
-    getAllUsers = (req, res) => {  
+    getAllUsers = (req, res) => {
         checkAccessRight(req, res);
-        databaseFunc.getAllUsers().then((data) => {            
+        databaseFunc.getAllUsers().then((data) => {
             res.json(data);
         }).catch((err) => {
             callback(null, err, res);
@@ -46,24 +51,31 @@ let userController = ({ app, jsonWebToken, middleware }) => {
     };
 
     getAdminAccessRequestedUsers = (req, res) => {
-        checkAccessRight(req, res);
-        databaseFunc.getAdminAccessRequestedUsers().then((data) => {
-            let retResult = [];
-            for (const property in data) {
-                if (data.hasOwnProperty(property)) {
-                    let userItem = data[property];
-                    if(!userItem.hasOwnProperty("email"))
-                    continue
-                    if(userItem.isAdmin  
-                        || (!userItem.isAdmin && userItem.adminAccessRequested)){
-                        retResult.push(userItem);
+        //checkAccessRight(req, res);
+        if (!isInAdminRole(req)) {
+            res.status(401);
+            res.send({ message: "You are not authorized for this operation. You can request admin access at QuizGenx Portal." });
+        }
+        else {
+            databaseFunc.getAdminAccessRequestedUsers().then((data) => {
+                let retResult = [];
+                for (const property in data) {
+                    if (data.hasOwnProperty(property)) {
+                        let userItem = data[property];
+                        if (!userItem.hasOwnProperty("email"))
+                            continue
+                        if (userItem.isAdmin
+                            || (!userItem.isAdmin && userItem.adminAccessRequested)) {
+                            retResult.push(userItem);
+                        }
                     }
                 }
-            } 
-            res.json(retResult);
-        }).catch((err) => {
-            callback(null, err, res);
-        });
+                res.json(retResult);
+            }).catch((err) => {
+                callback(null, err, res);
+            });
+        }
+
     };
 
     getToken = app.post('/api/token', (req, res) => { // it will register the user for tokens
@@ -74,8 +86,8 @@ let userController = ({ app, jsonWebToken, middleware }) => {
         databaseFunc.getUserById(req.body.userId).then((data) => {
             if (data && data.email == req.body.email) {
                 let payload = req.body;
-                payload.displayName =data.displayName;
-                payload.isAdmin =data.isAdmin;
+                payload.displayName = data.displayName;
+                payload.isAdmin = data.isAdmin;
                 let accessToken = jsonWebToken.sign(payload, app.get('jwtSecret'), {
                     expiresIn: 3600 * 24 * 365
                 });
@@ -114,8 +126,8 @@ let userController = ({ app, jsonWebToken, middleware }) => {
             res.json(data);
             // Todo if the data data is updated now send the administrators a notification saying so 
             if (req.body.type == ServerConstants.ADMIN_ACCESS_REQUEST) {
-                databaseFunc.sendNotification(ServerConstants.NOTIFICATION_ADMIN_ACCESS, 
-                    req.params.id, 
+                databaseFunc.sendNotification(ServerConstants.NOTIFICATION_ADMIN_ACCESS,
+                    req.params.id,
                     req.body.displayName);
             }
         }).catch((err) => {

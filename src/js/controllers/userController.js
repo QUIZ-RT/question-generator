@@ -1,6 +1,8 @@
 import UserService from '../services/userService';
 import NotificationViewHandler from '../views/notificationViewHandler';
 import Constants from '../shared/constants';
+import { Toast, configureToasts , deleteAllToasts} from 'toaster-js';
+
 
 class UserController {
   constructor() {
@@ -8,6 +10,7 @@ class UserController {
   }
 
   init() {
+    deleteAllToasts();
     this.notificationViewHandler = new NotificationViewHandler();
     this.prepareUserView();
     this.loadAdminAccessRequestedusers();
@@ -15,25 +18,30 @@ class UserController {
 
   prepareUserView() {
 
-    document.querySelector('#RequestAccessBtn').addEventListener('click', (e) => {
-      var userId = document.getElementById("EmailAdd").value;
-      this.updateAccessRequest(userId);
-    });
-
     jQuery('#mainContainer').empty();
     const template = this.getContainerTemplate();
     jQuery('#mainContainer').append(template);
   }
 
   loadAdminAccessRequestedusers(query, offset) {
-    console.log(query + offset);
     this.userService.getAdminAccessRequestedusers(query)
       .then((data) => {
         // console.log(data);
         this.notificationViewHandler.displayAccessRequestedUsers(data);
+      }).then((err)=> {
+        console.log(err);
+        if(err)
+        {
+          let a = new Toast(err.message, Toast.TYPE_ERROR);
+        }
       })
       .catch((err) => {
         console.log(err);
+        if(err)
+        {
+          let a = new Toast(err.message, Toast.TYPE_ERROR);
+        }
+
       });
   }
 
@@ -93,7 +101,7 @@ class UserController {
   }
 
   getContainerTemplate() {
-    return `<div id='userManagerContainer' class='pt-5'>
+    return `<div id='userManagerContainer' class='pt-3'>
               <div class="text-center">
                 <p> <b> Access manager </b></p>
               </div> 
