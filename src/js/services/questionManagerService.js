@@ -83,6 +83,7 @@ module.exports = {
         let sparqlQuery = queries.query;
         let instanceType = dom.getHiddenValue('wizard3-instanceKeyHolder');
         let selectedProperties = [];
+        let quesArray = [];
         switch(instanceType) {
             case SparqlConstants.VALUES.INSTANCE_OF.HUMAN:
             selectedProperties = SparqlConstants.PROPS.PEOPLE;
@@ -119,16 +120,33 @@ module.exports = {
                             let options = helper.generateOptions(result, results.bindings);
                             options.push(questionObj.answer);
                             questionObj.options = options;
-                            console.log(questionObj)
+                            quesArray.push(questionObj)
                         }
                     });
                 })
+                this.saveQuestions(quesArray);
                 break;
             default:
                 break;
         }
-
     },
+
+    saveQuestions(quesArray) {
+        console.log(`after : ${quesArray}`);
+        $.ajax({
+          url: '/firebase/api/questions',
+          dataType: 'json',
+          type: 'post',
+          contentType: 'application/json',
+          data: JSON.stringify(quesArray),
+          success(data) {
+            console.log(data);
+          },
+          error(jqXhr, textStatus, errorThrown) {
+            console.log(errorThrown);
+          },
+        });
+      },
 
     determineNodeAndCategory(subject) {
         let entityURL = SparqlConstants.WIKI_ENTITY_SEARCH_URL.replace('#entity', subject);
