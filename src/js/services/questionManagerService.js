@@ -103,6 +103,7 @@ module.exports = {
                     fetch(fullUrl, {
                         headers
                     }).then(body => body.json()).then(json => {
+                        quesArray = [];
                         const {
                             head: {
                                 vars
@@ -122,9 +123,9 @@ module.exports = {
                             questionObj.options = options;
                             quesArray.push(questionObj)
                         }
+                        this.saveQuestions(quesArray);
                     });
                 })
-                this.saveQuestions(quesArray);
                 break;
             default:
                 break;

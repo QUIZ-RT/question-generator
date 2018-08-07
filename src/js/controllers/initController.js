@@ -15,13 +15,13 @@ module.exports = jQuery(document).ready(() => {
         QuestionManagerController.prototype.initiateWizard(formQuery);
     });
 
-    $(document).on("click", "#btnProceedWizardStep2", () => {
+    $(document).on("click", "#btnProceedWizardStep2", function() {
         let containerWizard = $(this).closest('#wizardStep2Content');
         let clickedElement = containerWizard.find('.clickPill');
         QuestionManagerController.prototype.callSubjectIdentifier($(`#${clickedElement.prop('id')} span`).html());
     })
 
-    $(document).on("click", "#btnProceedWizardStep3", () => {
+    $(document).on("click", "#btnProceedWizardStep3",function() {
         let containerWizard = $(this).closest('#wizardStep3Content');
         let selectedElements = containerWizard.find('.clickPill');
         let selectedElementsIdArray = [];
