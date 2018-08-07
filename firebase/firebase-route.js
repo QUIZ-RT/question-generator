@@ -136,4 +136,14 @@ module.exports = (app) => {
             });
     });
 
+    app.delete('/firebase/api/questions', (req, res) => { // it will current user detail on screan       
+        return new Promise((resolve, reject) => {
+            databaseFunc.deleteAllQuestions()
+        }).then((data) => {
+            res.json("successfully deleted");
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
 };

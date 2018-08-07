@@ -1,12 +1,14 @@
 import TopicManagerController from '../controllers/topicManagerController';
 import UserController from '../controllers/userController';
 import { QuestionManagerController } from '../controllers/questionManagerController';
+import SearchQuestionController from '../controllers/searchQuestionController';
 
 export function loadScreenRoute(screenName) {
   switch (screenName) {
-    case 'questionManager':
-
-      break;
+      case 'questionManager':
+        new SearchQuestionController();
+        break;
+        
     case 'topicManager':
       new TopicManagerController();
       break;
