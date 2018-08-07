@@ -16,7 +16,14 @@ module.exports = class firebaseDatabase {
 
   getFirebaseData(refUrl) {
     return firebaseInit.database().ref(refUrl).once('value').then(response => response.val());
+    // return firebaseInit.database().ref(refUrl).orderByChild('id').startAt(2).limitToFirst(1).once('value').then(response => response.val());
   }
+
+  // getFirebaseTopicsData(refUrl,startAt,limitTo) {
+   
+    
+  //   return firebaseInit.database().ref(refUrl).orderByChild('id').startAt(startAt).limitToFirst(limitTo).once('value').then(response => response.val());
+  // }
 
   saveFirebaseData(refUrl, postDataObj, resolve, reject) {
     firebaseInit.database().ref(refUrl).set(postDataObj, (error) => {
@@ -106,7 +113,8 @@ module.exports = class firebaseDatabase {
   }
 
   saveTopics(topicId, topicObj, resolve, reject) {
-    const refUrl = `topics/${topicId}`;
+    
+    const refUrl = `topics/${topicId}`; 
     this.saveFirebaseData(refUrl, topicObj, resolve, reject);
   }
 
