@@ -1,6 +1,8 @@
 import { MDCDialog } from '@material/dialog';
 import { MDCTextField } from '@material/textfield';
 import TopicManagerService from '../services/topicManagerService';
+import Constants from '../shared/constants';
+import store from '../redux/redux.store';
 import {
   topic, loadButtons, addTopicDialog, openConfirmation,
 } from '../views/topic';
@@ -8,11 +10,15 @@ import {
 class TopicManagerController {
   constructor() {
     this.topics = {};
+    this.total = 0;
+    this.startIndex = 0;
+    this.limit = Constants.TOPIC_PAGING_LIMIT;
     this.topicManagerService = new TopicManagerService();
 
     this.addButtons();
     this.getAllTopics();
     this.dialog;
+    
     jQuery('.addTopicBtn').on('click', () => {
       this.addEditTopic();
     });
@@ -31,8 +37,27 @@ class TopicManagerController {
         }
       }
     });
+    this.attachListner();
   }
 
+  attachListner(){
+    jQuery('#mainContainer').on('click', '.nextTopic', (e) => {
+      if(this.total > this.startIndex){
+        this.startIndex = this.startIndex + this.limit + 1;
+        console.log('next', this.startIndex)
+        this.getAllTopics();
+      }
+      
+    });
+    jQuery('#mainContainer').on('click', '.prevTopic', (e) => {
+      if(this.startIndex > 0){
+        this.startIndex = this.startIndex - this.limit - 1;
+        console.log('prev', this.startIndex)
+        this.getAllTopics();
+      }
+    });
+    
+  }
   openConfirmationModal(topicId) {
     // my-mdc-dialog-delete-confirm
     $('#dialogContainer').append(openConfirmation());
@@ -71,16 +96,19 @@ class TopicManagerController {
   saveNewTopic(selectTopic) {
     const topicTxt = jQuery('.mdc-text-field-topic input').val().trim();
     const topicIds = [];
-    let topicId;
+    let topicId = 0;
+    //let order = 0;
     if (!selectTopic) {
       for (const topicObj in this.topics) {
         const topicData = this.topics[topicObj];
         topicIds.push(topicData.id);
       }
-      topicId = topicIds.reduce((maxId, topic) => Math.max(topic, maxId), -1) + 1;
+      topicId = topicIds.reduce((maxId, id) => Math.max(id, maxId), -1) + 1;
     } else {
       topicId = selectTopic.id;
+      //order = this.topics[topicId].order
     }
+    this.total += 1;
     if (topicTxt) {
       const topicObj = {
         createdBy: window.localStorage.displayName,
@@ -89,12 +117,20 @@ class TopicManagerController {
         published: true,
         topicText: topicTxt,
         topicUrl: jQuery('.mdc-text-field-topic-url input').val(),
-        id: topicId,
+        id: topicId  
+        
       };
+
+      store.dispatch({
+        type: 'ADD_TOPIC',
+        'topic':topicObj
+      });
       this.topicManagerService.saveTopic(topicObj)
         .then((data) => {
           console.log('saved', data);
-          this.getAllTopics();
+          
+            this.getAllTopics();
+
         }).catch((err) => {
           console.log(err);
         });
@@ -121,17 +157,23 @@ class TopicManagerController {
   }
 
   getAllTopics() {
+    
     this.topicList = {};
     this.topicManagerService.getTopics()
       .then((data) => {
-        for (let i = 0; i < data.length; i++) {
-          if (!data[i]) {
+        if(data){
+          const length = data.length;
+        for (let i = 0; i < length; i++) {
+          if (!data[i] && data.length > i) {
             data.splice(i, 1);
-          }
+            i--;
+          }//else{
+          //   this.total = data[i].total;
+          // }
         }
-        console.log(data);
         this.topics = data;
         this.render(data);
+      }
       }).catch((err) => {
         console.log(err);
       });
@@ -140,7 +182,7 @@ class TopicManagerController {
   render(data) {
     const template = topic(data);
     jQuery('#topic-ul').remove();
-    jQuery('#topicManagerContainer').append(template);
+    jQuery('#topicListWrapper').prepend(template);
   }
 }
 

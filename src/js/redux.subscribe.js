@@ -9,6 +9,10 @@ function renderWidgets() {
   if (curentState.action === UPDATE_QUIZ) {
     console.log('perform some actions');
   }
+
+  if (curentState.action === 'ADD_TOPIC') {
+    console.log('perform some actions add topic');
+  }
 }
 function reduxSubsCriber() {
   store.subscribe(renderWidgets);
