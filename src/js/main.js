@@ -18,6 +18,7 @@ import loginpageHtml from './views/loginForm';
 require('@material/top-app-bar/index');
 require('./controllers/questionManagerController');
 require('./fcm-notification.js');
+require('./AjaxSetting');
 
 const drawer = new MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 document.querySelector('.menu').addEventListener('click', () => { drawer.open = true; });

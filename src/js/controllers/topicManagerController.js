@@ -83,7 +83,7 @@ class TopicManagerController {
     }
     if (topicTxt) {
       const topicObj = {
-        createdBy: 'Pallavi Jain',
+        createdBy: window.localStorage.displayName,
         createdDate: new Date(),
         modifiedDate: new Date(),
         published: true,
