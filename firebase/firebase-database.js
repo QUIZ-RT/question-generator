@@ -81,10 +81,14 @@ module.exports = class firebaseDatabase {
     return this.getFirebaseData(refUrl);
   }
 
-  getQuestions(quizId) {
+  getQuestions(topicId, quizId) {
     let refUrl = 'questions';
-    if (quizId) {
-      refUrl = `questions/${quizId}`;
+    if (topicId) {
+      refUrl = `questions/${topicId}`;
+    }
+    if (topicId && quizId) {
+      refUrl = `questions/${topicId}/${quizId}`;
+
     }
     return this.getFirebaseData(refUrl);
   }
