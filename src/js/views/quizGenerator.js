@@ -21,5 +21,5 @@ const quizGeneratorHtml = `
         </form>
     </div>
 </div>
-</div>`
+</div>`;
 export default quizGeneratorHtml;

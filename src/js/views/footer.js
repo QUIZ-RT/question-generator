@@ -48,4 +48,4 @@ export const footer = `<footer class="page-footer font-small blue pt-4">
     <div class="copyright my-2">
         <strong> Copyright &copy; 2018 -QuizGenx</strong>
     </div>
-</footer>`
+</footer>`;

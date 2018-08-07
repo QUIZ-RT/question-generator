@@ -32,4 +32,4 @@ export const wizardStep1 = `<div class="row" id="wizardStep1Content">
             </div>
         </form>
     </div>
-</div>`
+</div>`;

@@ -33,10 +33,10 @@ class UserService {
     return this.dataService.getJSON(url);
   }
 
-  
+
   getLocalAccessToken(userId, email) {
     const url = `${Constants.QUIZ_GENX_API_BASE}/token`;
-    const payload = {userId : userId, email : email};
+    const payload = { userId, email };
     return this.dataService.postJSON(url, payload);
   }
 
@@ -53,7 +53,9 @@ class UserService {
   }
 
   updateAccessRequest(userId, name) {
-    const payload = { type: Constants.ADMIN_ACCESS_REQUEST, id: userId, adminAccessRequested: true, displayName: name };
+    const payload = {
+      type: Constants.ADMIN_ACCESS_REQUEST, id: userId, adminAccessRequested: true, displayName: name,
+    };
     const usersUrl = `${Constants.QUIZ_GENX_API_BASE}/users/${userId}`;
     return this.dataService.putJSON(usersUrl, payload);
   }

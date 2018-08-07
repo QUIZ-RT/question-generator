@@ -1,7 +1,7 @@
 importScripts('https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/5.3.0/firebase-messaging.js');
 
-//todo will be checking later for background notification ie when the browser is minimized
+// todo will be checking later for background notification ie when the browser is minimized
 const config = {
   apiKey: 'AIzaSyCYbFTLJktjYHMsK7Nx_m3UMJsw2Nq0O4Y',
   authDomain: 'quizgenx-884f0.firebaseapp.com',

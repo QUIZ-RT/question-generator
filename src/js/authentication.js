@@ -35,7 +35,7 @@ function signOutApplication(callback) {
   });
 }
 
-function clearLocalStorage(){
+function clearLocalStorage() {
   localStorage.clear();
 }
 // eventlistener start
@@ -47,20 +47,19 @@ function togglelogin(response) {
     userService.getLocalAccessToken(response.id, response.email)
       .then((tokenData) => {
         console.log(tokenData);
-        localStorage.setItem("accessToken", tokenData.accessToken);
-        localStorage.setItem("isAdmin", tokenData.isAdmin);
-        localStorage.setItem("displayName", tokenData.displayName);
+        localStorage.setItem('accessToken', tokenData.accessToken);
+        localStorage.setItem('isAdmin', tokenData.isAdmin);
+        localStorage.setItem('displayName', tokenData.displayName);
         jQuery('#sideBarButton').toggleClass('d-none');
         console.log(response);
-        if(tokenData.isAdmin)
-        {
+        if (tokenData.isAdmin) {
           jQuery('#btnREquestAdminAccess').hide();
         }
 
 
         document.querySelector('#btnREquestAdminAccess').addEventListener('click', (e) => {
-          var userId = localStorage.getItem("userId");
-          var name = localStorage.getItem("displayName");
+          const userId = localStorage.getItem('userId');
+          const name = localStorage.getItem('displayName');
           const userService = new UserService();
           userService.updateAccessRequest(userId, name);
         });
@@ -71,17 +70,15 @@ function togglelogin(response) {
               <i class="fa fa-sign-out mr-1"></i>LogOut</a>
               </section> `;
         jQuery('#headSection').append(haedSection);
-
       });
-
   } else {
     jQuery('#headSection').find('#rightHead').remove();
-    jQuery('#mainContent').html(loginpageHtml);;
+    jQuery('#mainContent').html(loginpageHtml);
   }
 }
 
 function addCurrentUser(postUserData) {
-  localStorage.setItem("userId", postUserData.id);
+  localStorage.setItem('userId', postUserData.id);
   jQuery.ajax({
     type: 'post',
     contentType: 'application/json',
@@ -96,7 +93,7 @@ function addCurrentUser(postUserData) {
 }
 
 function checkUserIsAbailable(userData) {
-  localStorage.setItem("userId", userData.id);
+  localStorage.setItem('userId', userData.id);
   jQuery.ajax({
     type: 'get',
     contentType: 'application/json',

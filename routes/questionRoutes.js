@@ -6,9 +6,9 @@ const db = JSON.parse(rawdata);
 const questionsMaster = db.questions;
 
 module.exports = (app) => {
-  app.get('/', (req, res) => {
-    res.render('index');
-  });
+  // app.get('/', (req, res) => {
+  //   res.render('index.html');
+  // });
 
   app.get('/api/questions', (req, res) => { // it will current user detail on screan
     res.json(questionsMaster);

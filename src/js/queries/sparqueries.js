@@ -1,4 +1,4 @@
-module.exports =  {
+module.exports = {
   entity: `PREFIX entity: <http://www.wikidata.org/entity/>
     SELECT ?propNumber ?propUrl ?propLabel ?valUrl ?val
     WHERE
@@ -71,7 +71,8 @@ module.exports =  {
       bd:serviceParam wikibase:language "en" .
       
     }
-  }`,
+  }
+  LIMIT 300`,
 
   city_query: `SELECT ?instance ?instanceLabel WHERE {
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
@@ -90,5 +91,5 @@ module.exports =  {
       bd:serviceParam wikibase:language "en" .
       
     }
-  } order by ?country`
+  } order by ?country`,
 };

@@ -46,7 +46,7 @@ class NotificationViewHandler {
   }
 
   displayAccessRequestedUsers(restData) {
-    let template = this.loadAdminAccessRequestedUsersTemplate(restData);
+    const template = this.loadAdminAccessRequestedUsersTemplate(restData);
     jQuery('#topic-ul').remove();
     jQuery('#userManagerContainer').append(template);
 
@@ -55,8 +55,8 @@ class NotificationViewHandler {
       const accessResult = true;
       this.userService.updateUserAccess(userId, accessResult)
         .then((data) => {
-          //const a = new Toast("Access is now granted.", Toast.TYPE_DONE, Toast.TIME_NORMAL);
-          let userController = new UserController();
+          // const a = new Toast("Access is now granted.", Toast.TYPE_DONE, Toast.TIME_NORMAL);
+          const userController = new UserController();
           userController.init();
         }).then((err) => {
           console.log(err);
@@ -68,9 +68,9 @@ class NotificationViewHandler {
       const accessResult = false;
       this.userService.updateUserAccess(userId, accessResult)
         .then((data) => {
-          let userController = new UserController();
+          const userController = new UserController();
           userController.init();
-          //const a = new Toast("Access is now revoked.", Toast.TYPE_DONE);
+          // const a = new Toast("Access is now revoked.", Toast.TYPE_DONE);
         }).then((err) => {
           console.log(err);
         });
@@ -113,7 +113,6 @@ class NotificationViewHandler {
     prevAnchor.addEventListener('click', () => {
       onClickPrevButtonhandler(restData.searchParam);
     });
-
   }
 
   static getRequiredUserDetails(restData) {
@@ -132,14 +131,13 @@ class NotificationViewHandler {
     let template = '<ul id="topic-ul" class="mdc-list" aria-orientation="vertical">';
     if (data) {
       data.forEach((userItem) => {
-        let btnTemplate = ``;
+        let btnTemplate = '';
         if (userItem.isAdmin) {
           btnTemplate = ` 
           <button data-id='${userItem.id}' class="revokeAccessBtn mdc-fab mdc-fab--extended">
             <span class="material-icons mdc-fab__icon mdc-fab__mini">security</span>
             <span class="mdc-fab__label mdc-fab__mini">Revoke</span>
           </button> `;
-
         } else if (userItem.adminAccessRequested) {
           btnTemplate = `
           <button data-id='${userItem.id}' class="addAccessBtn mdc-fab mdc-fab--extended">
@@ -154,7 +152,7 @@ class NotificationViewHandler {
             <span class="inline-user-content">${userItem.displayName}</span>
             <span class="inline-user-content">${userItem.email}</span>
             <div class="inline-user-btn">
-                ` + btnTemplate + `                
+                ${btnTemplate}                
             </div>
         </li>`;
       });
@@ -174,7 +172,6 @@ class NotificationViewHandler {
   // </div> </div>
   // `;
   // }
-
 }
 
 export default NotificationViewHandler;

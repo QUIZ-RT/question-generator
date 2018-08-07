@@ -1,7 +1,7 @@
+import { Toast, configureToasts, deleteAllToasts } from 'toaster-js';
 import UserService from '../services/userService';
 import NotificationViewHandler from '../views/notificationViewHandler';
 import Constants from '../shared/constants';
-import { Toast, configureToasts , deleteAllToasts} from 'toaster-js';
 
 
 class UserController {
@@ -17,7 +17,6 @@ class UserController {
   }
 
   prepareUserView() {
-
     jQuery('#mainContainer').empty();
     const template = this.getContainerTemplate();
     jQuery('#mainContainer').append(template);
@@ -28,20 +27,17 @@ class UserController {
       .then((data) => {
         // console.log(data);
         this.notificationViewHandler.displayAccessRequestedUsers(data);
-      }).then((err)=> {
+      }).then((err) => {
         console.log(err);
-        if(err)
-        {
-          let a = new Toast(err.message, Toast.TYPE_ERROR);
+        if (err) {
+          const a = new Toast(err.message, Toast.TYPE_ERROR);
         }
       })
       .catch((err) => {
         console.log(err);
-        if(err)
-        {
-          let a = new Toast(err.message, Toast.TYPE_ERROR);
+        if (err) {
+          const a = new Toast(err.message, Toast.TYPE_ERROR);
         }
-
       });
   }
 
@@ -65,7 +61,7 @@ class UserController {
   }
 
   updateFcmToken(fcmToken) {
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem('userId');
     if (userId) {
       this.userService
         .updateFcmToken(userId, fcmToken)

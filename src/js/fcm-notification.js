@@ -8,7 +8,7 @@ configureToasts({
   deleteDelay: 50000, // time until the toast is completely removed from the DOM after deleting.
 });
 
-let userController = new UserController();
+const userController = new UserController();
 
 const messaging = firebaseClient.messaging();
 messaging.usePublicVapidKey('BG96KHcY1hTDHCBxe54kuoe594S0loDgN9KCkCtovDWt8pGT8513Kr2SgF0VGjSsSyAMtzncLni4j1rvRxleFpc');
@@ -20,7 +20,7 @@ messaging.requestPermission().then(() => {
   if (currentToken) {
     localStorage.setItem('fcm-token', currentToken);
     userController.updateFcmToken(currentToken);
-    new Toast("You have now subscribed to receive Push notification.",  Toast.TYPE_DONE);
+    new Toast('You have now subscribed to receive Push notification.', Toast.TYPE_DONE);
   } else {
   }
 }).catch((err) => {
@@ -42,7 +42,6 @@ messaging.onTokenRefresh(() => {
 });
 
 messaging.onMessage((payload) => {
-
   console.log('Message received. on app browser ');
   const element = document.createElement('div');
   element.textContent = `${payload.notification.body}`;

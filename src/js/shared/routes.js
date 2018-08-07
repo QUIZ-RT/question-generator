@@ -14,7 +14,7 @@ export function loadScreenRoute(screenName) {
       QuestionManagerController.prototype.delegateWizardViewRequest();
       break;
     case 'accessRequests':
-      let userController = new UserController();
+      const userController = new UserController();
       userController.init();
       break;
     default:

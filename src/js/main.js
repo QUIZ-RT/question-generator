@@ -2,18 +2,18 @@ import jQuery from 'jquery';
 import { MDCTopAppBar } from '@material/top-app-bar/index';
 import { MDCTemporaryDrawer } from '@material/drawer';
 import { MDCDialog, MDCDialogFoundation, util } from '@material/dialog';
+import { Toast, configureToasts } from 'toaster-js';
 import QuestionController from './controllers/questionController';
 import UserService from './services/userService';
-import { Toast, configureToasts } from 'toaster-js';
 import 'popper.js';
 import 'bootstrap';
 import '../scss/main.scss';
-
-require('./controllers/initController');
 import { loadScreenRoute } from './shared/routes';
 import authEventListener from './authentication';
 import reduxSubsCriber from './redux.subscribe';
 import loginpageHtml from './views/loginForm';
+
+require('./controllers/initController');
 
 require('@material/top-app-bar/index');
 require('./controllers/questionManagerController');

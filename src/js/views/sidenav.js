@@ -10,4 +10,4 @@ export const sidenav = ` <nav class="mdc-drawer__drawer">
             <i class="material-icons mdc-list-item__graphic" aria-hidden="true">question generator</i>Question Generator</a>
     </div>
 </nav>
-</nav>`
+</nav>`;
