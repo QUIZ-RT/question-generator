@@ -144,4 +144,45 @@ export class DomService {
             el.appendChild(div.children[0]);
         }
     }
+
+    getDomObjectFromTemplate(view) {
+      const template = document.createElement("template");
+      template.innerHTML = this.views[view];
+      let domObj = template.content.children;
+      return domObj;
+  }
+
+  updateWizardClasses(step) {
+      let id = `#wizardStep${step}`
+      let element = $(id);
+      let currentElementClass = '';
+      let classlist = element.attr('class').split(/\s+/);
+      for(let i = 0; i < this.wizardClasses.length; i++) {
+          if(classlist.contains(this.wizardClasses[i]) ) {
+              currentElementClass = this.wizardClasses[i];
+          }
+      }
+      this.enableForm(id);
+  }
+
+  setHiddenValue(value, fieldId) {
+      let hiddenFieldElement = document.getElementById(fieldId);
+      hiddenFieldElement.value = value;
+  }
+
+  getHiddenValue(fieldId) {
+      return document.getElementById(fieldId).value;
+  }
+
+  disableForm(id) {
+      $(`#${id} *`).prop("disabled", true);
+  }
+
+  enableForm(id) {
+      $(`#${id} *`).prop("disabled", false);
+  }
+  
+  isVisible(element) {
+      return element ? !element.hasClass("hide") : false;
+  }
   }
