@@ -17,7 +17,9 @@ module.exports = class firebaseDatabase {
   getFirebaseData(refUrl) {
     return firebaseInit.database().ref(refUrl).once('value').then(response => response.val());
   }
-
+ deleteFirebaseData(refUrl) {
+    return firebaseInit.database().ref(refUrl).remove();
+  }
   saveFirebaseData(refUrl, postDataObj, resolve, reject) {
     firebaseInit.database().ref(refUrl).set(postDataObj, (error) => {
       if (error) {
@@ -116,5 +118,8 @@ module.exports = class firebaseDatabase {
       topicId = quizObj[0].topic;
       this.saveFirebaseArrayData(refUrl, quizObj, topicId, resolve, reject);
     }
+  }
+  deleteAllQuestions(){
+    this.deleteFirebaseData("questions");
   }
 };
