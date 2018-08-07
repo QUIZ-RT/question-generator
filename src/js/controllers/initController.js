@@ -6,7 +6,7 @@ const $dom = new DomService();
 module.exports = jQuery(document).ready(() => {
     $dom.load(false);
     $('#btnGenerate').on('click', () => {
-        // console.log('test')
+        console.log('test')
         const topic = $('#topicInput').val();
         const template = $('#templateInput').val();
         let formQuery = '';

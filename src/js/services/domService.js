@@ -33,7 +33,6 @@ export class DomService {
     load(navCall) {
         if(navCall) {
             this.createWizards();
-            $('#footer').css({'position' : 'relative'});
         }
         $('#footer').html(this.views.footer);
         $('#footer').removeClass('hide');
