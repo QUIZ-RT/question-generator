@@ -46,9 +46,13 @@ class NotificationViewHandler {
   }
 
   displayAccessRequestedUsers(restData) {
-    const template = this.loadAdminAccessRequestedUsersTemplate(restData);
+    jQuery('#mainContainer').empty();
+    let mainTemplate = DomManager.getContainerTemplate();
+    jQuery('#mainContainer').append(mainTemplate);
+
+    let template = this.loadAdminAccessRequestedUsersTemplate(restData);
     jQuery('#topic-ul').remove();
-    jQuery('#userManagerContainer').append(template);
+    jQuery('#mainContainer').append(template);
 
     jQuery('#mainContainer').on('click', '.addAccessBtn', (e) => {
       const userId = jQuery(e.currentTarget).attr('data-id');
@@ -128,7 +132,7 @@ class NotificationViewHandler {
   }
 
   loadAdminAccessRequestedUsersTemplate(data, clickFunc) {
-    let template = '<ul id="topic-ul" class="mdc-list" aria-orientation="vertical">';
+    let template = '<ul id="users-ul" class="mdc-list" aria-orientation="vertical">';
     if (data) {
       data.forEach((userItem) => {
         let btnTemplate = '';

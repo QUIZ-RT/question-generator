@@ -18,12 +18,10 @@ export function topic(data, clickFunc) {
 }
 
 export function loadButtons() {
-  return `<div id='topicManagerContainer' class='pt-5'><div class="text-center">
-  <a  class='addTopicBtn' tabindex="-1">
-  <i class="material-icons topicIcon">
-add_circle
-</i>
-</a>
+  return `<div id='topicManagerContainer' class='pt-5'><div class="text-left mb-3">
+ <button class="addTopicBtn mdc-fab mdc-fab--extended"> <span class="material-icons mdc-fab__icon mdc-fab__mini">add</span>
+ <span class="mdc-fab__label mdc-fab__mini">Add Topic</span> </button>
+  
 
 </div> </div>
 `;
@@ -67,8 +65,8 @@ export function addTopicDialog(topic) {
   </div>
     </section>
     <footer class="mdc-dialog__footer">
-      <button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--cancel">Decline</button>
-      <button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">Accept</button>
+      <button type="button" style="color:white" class="mdc-button btn-color mdc-dialog__footer__button mdc-dialog__footer__button--cancel">Decline</button>
+      <button type="button" class="mdc-button btn-color mdc-dialog__footer__button mdc-dialog__footer__button--accept">Accept</button>
     </footer>
   </div>
   <div class="mdc-dialog__backdrop"></div>
@@ -89,8 +87,8 @@ export function openConfirmation() {
     Are you sure you want to delete this topic?
     </section>
     <footer class="mdc-dialog__footer">
-      <button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--cancel">Decline</button>
-      <button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">Accept</button>
+      <button type="button" class="mdc-button btn-color mdc-dialog__footer__button mdc-dialog__footer__button--cancel">Decline</button>
+      <button type="button" class="mdc-button btn-color mdc-dialog__footer__button mdc-dialog__footer__button--accept">Accept</button>
     </footer>
   </div>
   <div class="mdc-dialog__backdrop"></div>

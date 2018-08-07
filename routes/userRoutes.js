@@ -3,8 +3,10 @@
  */
 const firebaseDatabase = require("../firebase/firebase-database.users");
 const ServerConstants = require('../firebase/server-constants');
+const FCMNotifier = require("../firebase/firebase-fcm.notifier");
 
 const databaseFunc = new firebaseDatabase();
+const fcmNotifier = new FCMNotifier();
 
 let userController = ({ app, jsonWebToken, middleware }) => {
 
@@ -88,6 +90,7 @@ let userController = ({ app, jsonWebToken, middleware }) => {
                 let payload = req.body;
                 payload.displayName = data.displayName;
                 payload.isAdmin = data.isAdmin;
+                payload.email = data.email;
                 let accessToken = jsonWebToken.sign(payload, app.get('jwtSecret'), {
                     expiresIn: 3600 * 24 * 365
                 });
@@ -96,6 +99,7 @@ let userController = ({ app, jsonWebToken, middleware }) => {
                     accessToken: accessToken,
                     userId: data.userId,
                     isAdmin: data.isAdmin,
+                    email: data.email,
                     displayName: data.displayName
                 });
             } else {
@@ -126,7 +130,7 @@ let userController = ({ app, jsonWebToken, middleware }) => {
             res.json(data);
             // Todo if the data data is updated now send the administrators a notification saying so 
             if (req.body.type == ServerConstants.ADMIN_ACCESS_REQUEST) {
-                databaseFunc.sendNotification(ServerConstants.NOTIFICATION_ADMIN_ACCESS,
+                fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_ADMIN_ACCESS,
                     req.params.id,
                     req.body.displayName);
             }

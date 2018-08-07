@@ -122,7 +122,7 @@ $fa-font-path: '~font-awesome/fonts';
     flex:1 0 32%;
     max-width: 32%;
     border-radius:$border-radius;
-    border: 2px solid white;
+    
     text-align: $text-align;
 }
 
@@ -137,7 +137,17 @@ img.logo {
 }
 
 #mainContainer{
-  height: 70vh;
+  height: 80vh;
+  overflow:auto;
+}
+.btn-color{
+  color:white !important;
+}
+.copyright{
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  font-size:12px;
+  text-align: center;
 }
 
 /* this is applied when the screen size exceeds 991px */
