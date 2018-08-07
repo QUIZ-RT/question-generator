@@ -1,5 +1,9 @@
 const firebaseDatabase = require("./firebase-database");
+const FCMNotifier = require("./firebase-fcm.notifier");
+const ServerConstants = require('../firebase/server-constants');
 
+ 
+const fcmNotifier = new FCMNotifier();
 const databaseFunc = new firebaseDatabase();
 
 module.exports = (app) => {
@@ -101,6 +105,7 @@ module.exports = (app) => {
             databaseFunc.saveTopics(req.body.id, req.body, resolve, reject)
         }).then((data) => {
             res.json(req.body);
+            fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
         })
             .catch((err) => {
                 console.log(err)
