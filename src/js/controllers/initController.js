@@ -5,7 +5,7 @@ const $dom = new DomService();
 
 module.exports = jQuery(document).ready(() => {
     $dom.load(false);
-    $('#btnGenerate').on('click', () => {
+    $(document).on("click", "#btnGenerate", () => {
         // console.log('test')
         const topic = $('#topicInput').val();
         const template = $('#templateInput').val();
@@ -15,13 +15,13 @@ module.exports = jQuery(document).ready(() => {
         QuestionManagerController.prototype.initiateWizard(formQuery);
     });
 
-    $('#btnProceedWizardStep2').on('click', function() {
+    $(document).on("click", "#btnProceedWizardStep2", () => {
         let containerWizard = $(this).closest('#wizardStep2Content');
         let clickedElement = containerWizard.find('.clickPill');
         QuestionManagerController.prototype.callSubjectIdentifier($(`#${clickedElement.prop('id')} span`).html());
     })
 
-    $('#btnProceedWizardStep3').on('click', function() {
+    $(document).on("click", "#btnProceedWizardStep3", () => {
         let containerWizard = $(this).closest('#wizardStep3Content');
         let selectedElements = containerWizard.find('.clickPill');
         let selectedElementsIdArray = [];
@@ -31,10 +31,17 @@ module.exports = jQuery(document).ready(() => {
         }
         QuestionManagerController.prototype.generateQuestions(selectedElementsIdArray, topicCategory);
     })
+
+    // $(document).click(function(event) {
+    //     if (event.target !== obj[0]) {
+    //         obj2.hide();
+    //     }
+    // });
     // $('#wizardStep2Content').addClass('small');
     // $('#wizardStep3Content').addClass('smaller');
 
-    $('#subject-pills-2').on('click', '.subject-pills', function() {
+    $(document).on("click", "#subject-pills-2 > .subject-pills", function() {
+    // $('#subject-pills-2').on('click', '.subject-pills', function() {
         if(!$('#wizardStep2').prop("disabled") || $('#wizardStep2').prop("disabled") == false) {
             let self = $(this);
             $('#subject-pills-2').children('.subject-pills').each(function() {
@@ -46,7 +53,8 @@ module.exports = jQuery(document).ready(() => {
         }
     });
 
-    $('#subject-pills-3').on('click', '.subject-pills', function() {
+    $(document).on("click", "#subject-pills-3 > .subject-pills", function() {
+    // $('#subject-pills-3').on('click', '.subject-pills', function() {
         if(!$('#wizardStep3').prop("disabled") || $('#wizardStep3').prop("disabled") == false) {
             if($(this).hasClass('clickPill')) {
                 $(this).removeClass('clickPill');

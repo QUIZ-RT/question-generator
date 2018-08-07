@@ -86,8 +86,8 @@ module.exports = {
         switch(instanceType) {
             case SparqlConstants.VALUES.INSTANCE_OF.HUMAN:
             selectedProperties = SparqlConstants.PROPS.PEOPLE;
-                // Object.keys(selectedProperties).forEach(function(key) {
-                    let selectedProperty = selectedProperties['AWARD'];
+                Object.keys(selectedProperties).forEach(function(key) {
+                    let selectedProperty = selectedProperties[key];
                     // let selectedProperty = selectedProperties[key];
                     let sparqConcat = helper.convertToSparqConcat(selectedProperty['QUESTION_TEMPLATE']);
                     sparqlQuery = `${sparqlQuery.replace('#PRIMARY_FILTER', SparqlConstants.PROPS.PEOPLE.OCCUPATION.PID)}`;
@@ -122,7 +122,7 @@ module.exports = {
                             console.log(questionObj)
                         }
                     });
-                // })
+                })
                 break;
             default:
                 break;
