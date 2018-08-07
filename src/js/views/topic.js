@@ -18,7 +18,7 @@ export function topic(data, clickFunc) {
 }
 
 export function loadButtons() {
-  return `<div id='topicManagerContainer' class='pt-5'><div class="text-left">
+  return `<div id='topicManagerContainer' class='pt-5'><div class="text-left mb-3">
  <button class="addTopicBtn mdc-fab mdc-fab--extended"> <span class="material-icons mdc-fab__icon mdc-fab__mini">add</span>
  <span class="mdc-fab__label mdc-fab__mini">Add Topic</span> </button>
   
