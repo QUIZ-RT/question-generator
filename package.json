@@ -2,13 +2,13 @@
   "name": "quiz-genx",
   "version": "1.0.0",
   "description": "it about to config actual project",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "",
+    "start": "concurrently \"webpack\" \"node index.js\"",
     "test": "mocha ./tests/**/*.js",
     "build": "webpack",
     "lint": "eslint --fix ./src",
-    "serve": "concurrently \"npm run build\" \"nodemon server.js\""
+    "serve": "concurrently \"npm run build\" \"nodemon index.js\""
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
     "@material/button": "^0.38.0",
     "@material/dialog": "^0.38.0",
     "@material/drawer": "^0.38.0",
+    "@material/fab": "^0.38.0",
     "@material/textfield": "^0.38.0",
     "@material/top-app-bar": "^0.38.0",
     "axios": "^0.17.1",

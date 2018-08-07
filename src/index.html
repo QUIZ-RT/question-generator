@@ -7,198 +7,45 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type='text/css' href="./bundle.css">
+    <title>Quiz-RT Question Generator</title>
 </head>
 
 <body>
+    <div class=""></div>
     <input type="hidden" id="pagingSkip" name="custId" value="0">
     <aside class="mdc-drawer mdc-drawer--temporary mdc-typography" id="sideNav">
         <nav class="mdc-drawer__drawer">
-
             <nav class="mdc-drawer__content mdc-list-group">
                 <div id="icon-with-text-demo" class="mdc-list">
-                    <a class="navScreen mdc-list-item mdc-list-item--selected demo-drawer-list-item" tabindex="-1" href="#questionManager">
-                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">question manager</i>Question Manager</a>
+                    <a class="navScreen mdc-list-item demo-drawer-list-item" tabindex="-1" data-screen="questionManager" href="#questionManager">
+                        Question Manager</a>
                     <a class="navScreen mdc-list-item demo-drawer-list-item" tabindex="-1" data-screen="topicManager" href="#topicManager">
-                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">topic manager</i>Topic Manager</a>
-                    <a class="navScreen mdc-list-item demo-drawer-list-item" tabindex="-1" href="#questionGenerator">
-                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">question generator</i>Question Generator</a>
+                        Topic Manager</a>
+                    <a class="navScreen mdc-list-item demo-drawer-list-item" tabindex="-1" data-screen="questionGenerator" href="#questionGenerator">
+                        Question Generator</a>
+                    <a class="navScreen mdc-list-item demo-drawer-list-item" tabindex="-1" data-screen="accessRequests" href="#accessRequests">
+                        Access Requests</a>
 
                 </div>
             </nav>
         </nav>
     </aside>
-
     <div class="drawer-header-flex">
         <header class="mdc-top-app-bar">
             <div class="mdc-top-app-bar__row" id="headSection">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                    <button class="menu material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded"
-                        id="">menu</button>
+                    <h2 style="display:none">Menu</h2>
+                    <button class="menu material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" id="btnMenu">menu</button>
                     <span class="mdc-top-app-bar__title">Quiz RT</span>
                 </section>
             </div>
         </header>
     </div>
-
+    <div id="messages" class="messages"></div>
     <div class="clearfix"></div>
-
-    <div id="mainContainer" class="mainContainer container pt-5">
-
-        <!-- Swatantra Changes Starts -->
-
-        <div class="row">
-            <div class="col-lg-12 col-md-12 logindash loginform">
-                <form class="form-horizontal">
-                    <div class="row login">
-                        <div class="form-group has-danger col-md-12 col-lg-12 topicontainer">
-                            <h2 class="heading">QG Wizard</h2>
-                            <hr>
-                            <div class="input-group topic">
-                                <div class="input-group-addon iconspace" style="width: 2.6rem">
-                                    <i class="far fa-comments"></i>
-                                </div>
-                                <input type="text" id="topicInput" name="topic" class="form-control" placeholder="Enter topic for the question.. " required>
-                                <span class="remarks">For eg., celebrity, bollywood, space, cricket, etc.</span>
-                            </div>
-                            <hr>
-                            <div class="input-group topic">
-                                <div class="input-group-addon iconspace" style="width: 2.6rem">
-                                    <i class="far fa-comments"></i>
-                                </div>
-                                <input type="text" id="templateInput" name="template" class="form-control" placeholder="Enter a sample question to allow sampling and generation... "
-                                    required>
-                                <span class="remarks">For eg., Who was the first Prime Minister of India?</span>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row login" style="padding-top: 1rem">
-                        <div>
-                            <button type="button" id="btnGenerate" class="btn btn-info generateBtn">
-                                <i class="fa fa-sign-in"></i>Generate!</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Swatantra Changes Ends -->
-
-        <!--  
-        <div class="tab-content" id="mainContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="container">
-                    <div class="row justify-content-center pt-5">
-
-                        <div class="col-lg-3 col-md-3 logindash loginform">
-                            <h2>Please Login With Google</h2>
-                            <button class="mdc-button mdc-button--raised" id="loginWithGoogle">
-                                Sign in With
-                                <i class="fa fa-google-plus ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 logindash loginform">
-                            <form class="form-horizontal" method="POST" action="/login">
-                                <div class="row login">
-                                    <div class="form-group has-danger col-md-12 col-lg-12 topicontainer">
-                                        <h2 class="heading">QG Wizard</h2>
-                                        <hr>
-                                        <div class="input-group topic">
-                                            <div class="input-group-addon iconspace" style="width: 2.6rem">
-                                                <i class="far fa-comments"></i>
-                                            </div>
-                                            <input type="text" name="topic" class="form-control" id="topic" placeholder="Enter topic for the question.. " required>
-                                            <span class="remarks">For eg., celebrity, bollywood, space, cricket, etc.</span>
-                                        </div>
-                                        <hr>
-                                        <div class="input-group topic">
-                                            <div class="input-group-addon iconspace" style="width: 2.6rem">
-                                                <i class="far fa-comments"></i>
-                                            </div>
-                                            <input type="text" name="template" class="form-control" id="template" placeholder="Enter a sample question to allow sampling and generation... "
-                                                required>
-                                            <span class="remarks">For eg., Who was the first Prime Minister of India?</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row login" style="padding-top: 1rem">
-                                    <div>
-                                        <button type="submit" class="btn btn-info generateBtn">
-                                            <i class="fa fa-sign-in"></i>Generate!</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-       -->
-    </div>
-
+    <div class="tab-content" id="mainContainer"></div>
     <div id="dialogContainer"></div>
-
-    <footer class="page-footer font-small blue pt-4">
-        <div class="contianer-fuild mt-3 d-flex justify-content-between footer-section">
-            <div class="col-4 p-3 footer-box-section my-1 ml-2">
-                <section>
-                    <h3>Subscribe Us</h3>
-                    <form class="form-inline" id="subscribeForm">
-                        <label for="EmailAdd" aria-label="Email address">
-
-                        </label>
-                        <input type="email" id="EmailAdd" placeholder="Email" class="form-control w-75 mx-auto">
-                        <button type="submit" class="btn btn-dark w-50 mx-auto my-2 p-2">Submit</button>
-                        <button type="button" id="RequestAccessBtn" class="btn btn-dark w-50 mx-auto my-2 p-2">Request Admin Access</button>
-                    </form>
-                </section>
-            </div>
-            <div class="col-4 p-3 footer-box-section my-1">
-                <h3>Contact Us</h3>
-                <p>
-                    <strong>Mob: +91 9035430402</strong>
-                </p>
-                <p>
-                    <strong>Email:quizgenx1234@gmail.com</strong>
-                </p>
-                <address>
-                    #2239 buliding virgo, bagmane constalation tach park,doodenakundi, Near Marathalli,Bangalore-560030
-                </address>
-            </div>
-            <div class="col-4 p-3 footer-box-section my-1 mr-2">
-                <h3>Follow Us</h3>
-                <ul class="social-link mt-5">
-                    <li>
-                        <i class="fa fa-facebook"></i>
-                    </li>
-                    <li>
-                        <i class="fa fa-twitter"></i>
-                    </li>
-                    <li>
-                        <i class="fa fa-google-plus"></i>
-                    </li>
-                    <li>
-                        <i class="fa fa-linkedin"></i>
-                    </li>
-                    <li>
-                        <i class="fa fa-pinterest-p"></i>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright my-2">
-            <strong> Copyright &copy; 2018 -QuizGenx</strong>
-        </div>
-    </footer>
-    
+    <div id="footer"></div>
 </body>
 
 </html>

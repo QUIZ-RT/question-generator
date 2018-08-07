@@ -1,5 +1,6 @@
 class DataService {
   constructor(authKey) {
+    authKey = localStorage.getItem('accessToken');
     this.fetchOptions = {
       headers: { 'Content-Type': 'application/json', Authorization: authKey },
       mode: 'cors',
@@ -27,8 +28,13 @@ class DataService {
     return new Promise((resolve, reject) => {
       dataPromise
         .then((res) => {
+          const httpStatus = res.status;
           res.json().then((data) => {
-            resolve(data);
+            if (httpStatus == 401) {
+              reject(data);
+            } else if (httpStatus == 200) {
+              resolve(data);
+            }
           });
         })
         .catch((err) => {
@@ -38,15 +44,19 @@ class DataService {
   }
 
   postJSON(url, payload) {
-    alert('data received');
     this.fetchOptions.method = 'POST';
     this.fetchOptions.body = JSON.stringify(payload);
     const dataPromise = fetch(url, this.fetchOptions);
     return new Promise((resolve, reject) => {
       dataPromise
         .then((res) => {
+          const httpStatus = res.status;
           res.json().then((data) => {
-            resolve(data);
+            if (httpStatus == 401) {
+              reject(data);
+            } else if (httpStatus == 200) {
+              resolve(data);
+            }
           });
         })
         .catch((err) => {

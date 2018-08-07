@@ -1,29 +1,33 @@
 
-const qManService = require('../services/questionManagerService');
+const qManService = require('./../services/questionManagerService');
+import { DomService } from './../services/domService';
+const domService = new DomService();
 
-module.exports = $(document).ready(() => {
-  $('#btnGenerate').on('click', () => {
-    // console.log('test')
-    const topic = $('#topicInput').val();
-    const template = $('#templateInput').val();
-    let formQuery = '';
-    formQuery = `${formQuery}?topic=${topic}`;
-    formQuery = `${formQuery}&template=${template}`;
-    initiateWizard(formQuery);
-  });
+export class QuestionManagerController {
 
-  $('#admin-tab').click();
-
-  function initiateWizard(qGenQuery) {
-    const url = `/api/parseTemplate${qGenQuery}`;
+  initiateWizard(qGenQuery) {
+    let url = '/api/questionManager/parseTemplate' + qGenQuery;
     fetch(url)
-      .then((res) => {
-        // console.log(res)
-        res.json().then((body) => {
-          // TODO Temp call below
-          body = JSON.parse(body);
-          qManService.getNodeDataFor(body);
-        });
-      });
+    .then(function(res) {
+        if(res.status && res.status == 200) {
+          res.json().then((body) => {
+            qManService.processResponseFromTemplateParser(body);
+          })
+        } else {
+
+        }
+    })
   }
-});
+
+  delegateWizardViewRequest() {
+    domService.showWizardContainer();
+  }
+
+  callSubjectIdentifier(subject) {
+    qManService.determineNodeAndCategory(subject);
+  }
+
+  generateQuestions(itemsArray, topicCategory) {
+    qManService.generateQuestions(itemsArray, topicCategory);
+  }
+}

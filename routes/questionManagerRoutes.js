@@ -1,4 +1,5 @@
 const templateService = require('./templateParser');
+const request = require('request');
 
 module.exports = app => {
 
@@ -8,23 +9,28 @@ module.exports = app => {
         res.render('index');
     });
 
-    app.get('/login', function (req, res, next) {
-        // alert('hit route')
-        res.render('login');
-    });
+  app.get('/api/questionManager/parseTemplate', (req, res) => {
+    let subjects = {};
+    if (req) {
+      const data = req.query.template;
+      if (data) {
+        subjects = templateService.retrievePartialProcessedInfo(data);
+      }
+    }
+    res.json(JSON.stringify(subjects));
+  });
 
-    app.get('/api/parseTemplate', (req, res) => {
-        let subjects = {}
-        if(req) {
-            let data = req.query.template;
-            if(data) {
-                subjects = templateService.retrievePotentialSubjects(data);
-                if(subjects) {
-                    subjects.status = 200;
-                }
-            }
-            subjects.givenTopic = req.query.topic;
-        }
-        res.json(JSON.stringify(subjects));
-    });
-}
+  app.get('/api/questionManager/determineNodeAndCategory', (req, res) => {
+    if(req) {
+      let entityURL = req.query.entityURL;
+      let headers = {'Accept': 'application/sparql-results+json'};
+      request.get(entityURL, headers, (err, response, body) => {
+          if (!err && response.statusCode === 200 && body && body.length > 0) {
+            res.json(body);
+          } else {
+            res.json(err);
+          }
+      })
+    }
+  });
+};

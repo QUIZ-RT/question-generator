@@ -7,7 +7,7 @@ const questionsMaster = db.questions;
 
 module.exports = (app) => {
   app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index.html');
   });
 
   app.get('/api/questions', (req, res) => { // it will current user detail on screan

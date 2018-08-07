@@ -2,17 +2,21 @@ const nlp = require('compromise');
 
 module.exports = {
 
-  retrievePotentialSubjects(templates) {
-    const subjects = {};
+  retrievePartialProcessedInfo(templates) {
+    const response = {};
     if (templates) {
       const template = templates.toLowerCase();
       const doc = nlp(template);
-      subjects.topics = doc.topics().data();
-      subjects.nouns = doc.nouns().out('array');
-      return subjects;
+      response.topics = doc.topics().data();
+      response.nouns = doc.nouns().out('array');
+      response.template = template;
+      console.log(template);
+      // response.fixedPart = template.replace(response.nouns[0], '');
+      return response;
     }
-    console.log(`Please check question Template: ${templates}`);
-    return {};
+    console.log(`Please correct question Template: ${templates}`);
+    response.error = "Question template might be incorrect";
+    return response;
   },
-
-};
+  
+}

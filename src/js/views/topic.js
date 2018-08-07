@@ -29,8 +29,9 @@ add_circle
 </div> 
 </div>
 <div id="topicListWrapper">
- <div><nav aria-label="Page navigation example">
+ <div class="d-none"><nav aria-label="Page navigation example">
   <ul class="pagination justify-content-end">
+  
     <li class="page-item prevTopic disabled">
       <a class="page-link"  tabindex="-1">Previous</a>
     </li>

@@ -10,6 +10,10 @@
   /* background-color: #e7f4f9; */
   margin-bottom: 15px;
 }
+#mainContent
+{
+  min-height: 70vh;
+}
 
 .carousel-caption {
   max-width: 550px;
@@ -47,9 +51,11 @@ a.nav-link {
 footer {
   background-color: #222;
   color: white;
-  margin-top: 2rem;
+  margin-top: 5rem;
   padding: 2rem;
   opacity: .8;
+  // position: fixed;
+  bottom: 0;
 }
 
 .topicIcon{
@@ -62,12 +68,21 @@ footer {
   color:#684aee;
 }
 
-#topicManagerContainer{
-  width: 70vw;
-  margin:auto;
-}
-
 .inline-topic-btn{
   width: 100%;
   text-align: right;
+}
+
+.inline-user-btn{
+  // width: 33%;
+  text-align: right;
+}
+
+.inline-user-content{
+  width: 50%; 
+}
+
+.user-li
+{
+  margin-bottom : 1.2rem;
 }

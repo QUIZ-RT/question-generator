@@ -12,8 +12,8 @@ module.exports = class firebaseDatabase {
 
   getFirebaseFilteredData(refUrl) {
     return firebaseInit.database().ref(refUrl)
-      .orderByChild('isAdmin')
-      .equalTo(false)
+      //.orderByChild('isAdmin')
+      //.equalTo(false)
       .once('value')
       .then(response => response.val());
   }
@@ -56,17 +56,16 @@ module.exports = class firebaseDatabase {
     return this.getFirebaseFilteredData('users');
   }
 
-  sendNotification(notificationType, userId, result) {
-    const refUrl = `users/${userId}`;
-    return this.getFirebaseData(`/users/`).then(data => {
-      let targettedAdminFcmTokens = [];
+  sendNotification(notificationType, userId, name) {
+    return this.getFirebaseData(`/users`).then(data => {
+      let targettedAdminFcmToken;
       for (const property in data) {
         if (data[property].hasOwnProperty("isAdmin") &&
           data[property].hasOwnProperty("isAdmin") == true) {
-          console.log("<===========FCM-TOKEN============>" + data[property].fcmToken);
           if (data[property].hasOwnProperty("fcmToken")) {
-            targettedAdminFcmTokens.push(data[property].fcmToken);
-            this.pushFcmNotification(targettedAdminFcmTokens);
+            targettedAdminFcmToken = data[property].fcmToken;
+          console.log("<===========FCM-TOKEN============>" + data[property].fcmToken);
+            this.pushFcmNotification(notificationType,userId, name, targettedAdminFcmToken);
           }
         }
       }
@@ -75,16 +74,16 @@ module.exports = class firebaseDatabase {
     });
   }
 
-  pushFcmNotification(fcmTokens) {
+  pushFcmNotification(notificationType , userId,name, fcmToken) {
     let url = "https://fcm.googleapis.com/fcm/send";
     let authKey = "AAAAwHJ-MXA:APA91bHB6sWt89fC4q2-9oRZC_NqQvtujbM4-S-hLxLcUsnjPb6uJ9qkVA5tfQ2bq1zY5v25X6yqVQddir_2eWMxsineiu9v3xZw3FUmSawNQblcaQgpOkMzFD8anUkABBrEkpIHxSqoH6PW6w-KVsH6ERLJqEoZBA";
     let payload = {
       "notification": {
-        "title": "Quiz1234",
-        "body": "Background message body",
-        "click_action": "AdminAccessRequest"
+        "title": name,
+        "body": name+ " has requested admin access. Click to grant access",
+        "click_action": "#accessRequests"
       },
-      "to": fcmTokens[0]
+      "to": fcmToken
     };
 
     let fetchOptions = {
@@ -96,11 +95,11 @@ module.exports = class firebaseDatabase {
     fetch(url, fetchOptions)
       .then(res => {
         if (res.status == 200) {
-          console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$WALA&&&&&&&&&&&&&&&&&&&&&");
+          console.log("FCM Push API call success");
         }
       })
       .then((err) => {
-        console.log("Error occurred while calling FCM APIs for notification ============================>>>>>>>>>>>>>>>>>>>>>>>");
+        // console.log("Error occurred while calling FCM APIs for notification ============================>>>>>>>>>>>>>>>>>>>>>>>");
       });
   }
 };
