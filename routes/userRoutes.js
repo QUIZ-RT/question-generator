@@ -88,6 +88,7 @@ let userController = ({ app, jsonWebToken, middleware }) => {
                 let payload = req.body;
                 payload.displayName = data.displayName;
                 payload.isAdmin = data.isAdmin;
+                payload.email = data.email;
                 let accessToken = jsonWebToken.sign(payload, app.get('jwtSecret'), {
                     expiresIn: 3600 * 24 * 365
                 });
@@ -96,6 +97,7 @@ let userController = ({ app, jsonWebToken, middleware }) => {
                     accessToken: accessToken,
                     userId: data.userId,
                     isAdmin: data.isAdmin,
+                    email: data.email,
                     displayName: data.displayName
                 });
             } else {

@@ -34,6 +34,11 @@ jQuery(document).ready(() => {
     loadScreenRoute(jQuery(current).attr('data-screen'));
     drawer.open = false;
   });
+
+  jQuery('.mdc-top-app-bar__title').on('click', (e) => {
+    window.location.href = '/';
+  });
+  
   reduxSubsCriber();
   // Commented as it is showing duplicate initialization. Refer the Firebase config and initialize only once
   authEventListener();
