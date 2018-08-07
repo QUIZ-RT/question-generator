@@ -36,35 +36,37 @@ module.exports = class firebaseDatabase {
   }
 
 
-  saveFirebaseArrayData(refUrl, postDataObj, resolve, reject) {
-    let promiseArray = [], refId = '';
+  saveFirebaseArrayData(refUrl, postDataObj, topicId, resolve, reject) {
+    let promiseArray = [], refId = '', topicId = '';
     if (refUrl === 'questions') {
       refId = 'quiz';
     } else if (refUrl = 'topics') {
       refId = 'topic';
     }
-    for (let dataObj of postDataObj) {
-      promiseArray.push(new Promise((resolved, rejected) => {
-        if (refUrl === 'questions') {
-          let tempObj = {}
-          for (let i = 0; i < dataObj.options.length; i += 1) {
-            const optionKey = this.generateRandomQuizId('opt');
-            tempObj[optionKey] = dataObj.options[i];
-            if (dataObj.options[i] === dataObj.answer) {
-              dataObj.answer = optionKey;
+    if (postDataObj) {
+      for (let dataObj of postDataObj) {
+        promiseArray.push(new Promise((resolved, rejected) => {
+          if (refUrl === 'questions') {
+            let tempObj = {}
+            for (let i = 0; i < dataObj.options.length; i += 1) {
+              const optionKey = this.generateRandomQuizId('opt');
+              tempObj[optionKey] = dataObj.options[i];
+              if (dataObj.options[i] === dataObj.answer) {
+                dataObj.answer = optionKey;
+              }
             }
+            dataObj.options = tempObj;
           }
-          dataObj.options = tempObj;
-        }
-        firebaseInit.database().ref(`${refUrl}/${this.generateRandomQuizId(refId)}`).push(dataObj, (error) => {
-          if (error) {
-            rejected('there is some issue we will come back sortly');
-          } else {
-            resolved(dataObj);
-          }
-        });
-      })
-      );
+          firebaseInit.database().ref(`${refUrl}/${topicId}/${this.generateRandomQuizId(refId)}`).set(dataObj, (error) => {
+            if (error) {
+              rejected('there is some issue we will come back sortly');
+            } else {
+              resolved(dataObj);
+            }
+          });
+        })
+        );
+      }
     }
     Promise.all(promiseArray).then((savedResult) => {
       resolve(savedResult)
@@ -86,18 +88,14 @@ module.exports = class firebaseDatabase {
     return this.getFirebaseData(refUrl);
   }
 
-  saveTopicCount(key,count){
-    let refUrl = 'topics';
-    
-    refUrl = `totalTopics/`;
-    this.saveFirebaseData(refUrl, count, resolve, reject);
-    
-  }
-
-  getQuestions(quizId) {
+  getQuestions(topicId, quizId) {
     let refUrl = 'questions';
-    if (quizId) {
-      refUrl = `questions/${quizId}`;
+    if (topicId) {
+      refUrl = `questions/${topicId}`;
+    }
+    if (topicId && quizId) {
+      refUrl = `questions/${topicId}/${quizId}`;
+
     }
     return this.getFirebaseData(refUrl);
   }
@@ -120,27 +118,11 @@ module.exports = class firebaseDatabase {
     this.saveFirebaseData(refUrl, topicObj, resolve, reject);
   }
 
-
-  // saveTopics(topicObj, resolve, reject){
-
-  //   var postsRef = firebaseInit.database().ref('topics/').child("topic");
-
-  // // we can also chain the two calls together
-  // postsRef.push().set(topicObj,(error) => {
-  //   if (error) {
-  //     reject('there is some issue we will come back sortly');
-  //   } else {
-  //     resolve('SuccessFully');
-  //   }
-  // })
-  // }
-
-  // saveQuestions(quizId, quizObj, callback) {
-  //   const refUrl = `topics/${quizId}`;
-  //   this.saveFirebaseData(refUrl, quizObj, callback);
-
   saveQuestions(quizObj, resolve, reject) {
     const refUrl = 'questions';
-    this.saveFirebaseArrayData(refUrl, quizObj, resolve, reject);
+    if (quizObj && quizObj.length) {
+      topicId = quizObj[0].topic;
+      this.saveFirebaseArrayData(refUrl, quizObj, topicId, resolve, reject);
+    }
   }
 };

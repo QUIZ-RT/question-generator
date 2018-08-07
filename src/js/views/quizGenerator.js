@@ -1,6 +1,6 @@
 const quizGeneratorHtml = `        
 
-<div id="mainContainer" class="mainContainer container pt-5">
+<div id="mainHomeContainer" class="mainContainer container pt-5">
 <div class="row">
     <div class="col-lg-12 col-md-12 logindash loginform">
         <form class="form-horizontal">

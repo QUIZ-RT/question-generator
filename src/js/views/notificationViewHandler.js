@@ -46,9 +46,13 @@ class NotificationViewHandler {
   }
 
   displayAccessRequestedUsers(restData) {
+    jQuery('#mainContainer').empty();
+    let mainTemplate = DomManager.getContainerTemplate();
+    jQuery('#mainContainer').append(mainTemplate);
+
     let template = this.loadAdminAccessRequestedUsersTemplate(restData);
     jQuery('#topic-ul').remove();
-    jQuery('#userManagerContainer').append(template);
+    jQuery('#mainContainer').append(template);
 
     jQuery('#mainContainer').on('click', '.addAccessBtn', (e) => {
       const userId = jQuery(e.currentTarget).attr('data-id');
