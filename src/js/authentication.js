@@ -103,7 +103,7 @@ function checkUserIsAbailable(userData) {
     dataType: 'json',
     url: `/firebase/users/${userData.id}`,
   }).done((response) => {
-    if (response) {
+    if (response && response.email) {
       togglelogin(response);
     } else {
       addCurrentUser(userData);
