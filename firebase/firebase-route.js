@@ -62,6 +62,32 @@ module.exports = (app) => {
                 });
         });
     });
+
+    // app.post('/firebase/api/getTopics', (req,res) => {
+    //     return new Promise((resolve, reject) => {
+    //         console.log(req);
+    //         databaseFunc.getTopics(null,req.body.start, req.body.limit).then((data) => {
+    //             res.json(data);
+    //             resolve(data);
+    //         })
+    //             .catch((err) => {
+    //                 reject(err);
+    //             });
+    //     });
+    // });
+
+    // app.post('/firebase/api/topicCount', (req,res) => {
+    //     return new Promise((resolve, reject) => {
+    //         console.log(req);
+    //         databaseFunc.saveTopicCount(null,req.body.count).then((data) => {
+    //             res.json(data);
+    //             resolve(data);
+    //         })
+    //             .catch((err) => {
+    //                 reject(err);
+    //             });
+    //     });
+    // });
     app.post('/firebase/api/topics', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             console.log(req);

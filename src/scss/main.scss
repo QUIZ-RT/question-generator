@@ -136,7 +136,10 @@ img.logo {
 }
 
 #mainContainer{
-  height: 70vh;
+  height: 75vh;
+  overflow: auto;
+  width:90vw;
+  margin: auto;
 }
 
 /* this is applied when the screen size exceeds 991px */

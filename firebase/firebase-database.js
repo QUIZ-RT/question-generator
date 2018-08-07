@@ -16,7 +16,14 @@ module.exports = class firebaseDatabase {
 
   getFirebaseData(refUrl) {
     return firebaseInit.database().ref(refUrl).once('value').then(response => response.val());
+    // return firebaseInit.database().ref(refUrl).orderByChild('id').startAt(2).limitToFirst(1).once('value').then(response => response.val());
   }
+
+  // getFirebaseTopicsData(refUrl,startAt,limitTo) {
+   
+    
+  //   return firebaseInit.database().ref(refUrl).orderByChild('id').startAt(startAt).limitToFirst(limitTo).once('value').then(response => response.val());
+  // }
 
   saveFirebaseData(refUrl, postDataObj, resolve, reject) {
     firebaseInit.database().ref(refUrl).set(postDataObj, (error) => {
@@ -79,6 +86,14 @@ module.exports = class firebaseDatabase {
     return this.getFirebaseData(refUrl);
   }
 
+  saveTopicCount(key,count){
+    let refUrl = 'topics';
+    
+    refUrl = `totalTopics/`;
+    this.saveFirebaseData(refUrl, count, resolve, reject);
+    
+  }
+
   getQuestions(quizId) {
     let refUrl = 'questions';
     if (quizId) {
@@ -94,32 +109,13 @@ module.exports = class firebaseDatabase {
   }
 
   saveTopics(topicId, topicObj, resolve, reject) {
-    const refUrl = `topics/${topicId}`;
+    
+    const refUrl = `topics/${topicId}`; 
     this.saveFirebaseData(refUrl, topicObj, resolve, reject);
   }
-
-
-// saveTopics(topicObj, resolve, reject){
-  
-//   var postsRef = firebaseInit.database().ref('topics/').child("topic");
-
-// // we can also chain the two calls together
-// postsRef.push().set(topicObj,(error) => {
-//   if (error) {
-//     reject('there is some issue we will come back sortly');
-//   } else {
-//     resolve('SuccessFully');
-//   }
-// })
-// }
-
-  // saveQuestions(quizId, quizObj, callback) {
-  //   const refUrl = `topics/${quizId}`;
-  //   this.saveFirebaseData(refUrl, quizObj, callback);
 
   saveQuestions(quizObj, resolve, reject) {
     const refUrl = 'questions';
     this.saveFirebaseArrayData(refUrl, quizObj, resolve, reject);
-
   }
 };

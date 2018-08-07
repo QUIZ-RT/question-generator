@@ -13,20 +13,34 @@ export function topic(data, clickFunc) {
       </i></a></div></li>`;
     }
   }
-  template += '</ul';
+  template += '</ul>';
+  
   return template;
 }
 
 export function loadButtons() {
-  return `<div id='topicManagerContainer' class='pt-5'><div class="text-center">
+  return `<div id='topicManagerContainer' class='pt-5 pr-5'><div class="text-left">
   <a  class='addTopicBtn' tabindex="-1">
   <i class="material-icons topicIcon">
 add_circle
 </i>
 </a>
 
-</div> </div>
-`;
+</div> 
+</div>
+<div id="topicListWrapper">
+ <div><nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item prevTopic disabled">
+      <a class="page-link"  tabindex="-1">Previous</a>
+    </li>
+    
+    <li class="page-item nextTopic">
+      <a class="page-link" >Next</a>
+    </li>
+  </ul>
+</nav></div>
+</div>`;
 }
 export function addTopicDialog(topic) {
   let topicTxt = '';
