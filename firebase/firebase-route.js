@@ -9,7 +9,7 @@ const databaseFunc = new firebaseDatabase();
 module.exports = (app) => {
     app.get('/firebase/api/questions', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
-            databaseFunc.getQuestions(null, null).then((data) => {
+            databaseFunc.getQuestions().then((data) => {
                 res.json(data);
                 resolve(data);
             })
@@ -18,11 +18,14 @@ module.exports = (app) => {
                 });
         });
     });
-    app.get('/firebase/api/questions/:topicId', (req, res) => { // it will current user detail on screan
+    app.get('/firebase/api/questions/:topicId/:pagenumber?/:action?/:key?', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             const topicId = req.params.topicId;
-            console.log(topicId);
-            databaseFunc.getQuestions(topicId, null).then((data) => {
+            const pageNumber = req.params.pagenumber;
+            const action = req.params.action;
+            const key = req.params.key;
+            console.log(topicId + pageNumber + action + key);
+            databaseFunc.getQuestions(topicId, null, pageNumber, action, key).then((data) => {
                 res.json(data);
                 resolve(data);
             })
