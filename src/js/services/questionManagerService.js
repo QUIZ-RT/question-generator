@@ -47,38 +47,6 @@ module.exports = {
     });
   },
 
-
-  // generateQuestions(selfRef, topicCategory, template) {
-  //     let sparqlQuery = queries.query,
-  //         fullUrl = selfRef.endpointUrl + '?query=' + encodeURIComponent(sparqlQuery),
-  //         headers = {
-  //             'Accept': 'application/sparql-results+json'
-  //         };
-
-  //     fetch(fullUrl, {
-  //         headers
-  //     }).then(body => body.json()).then(json => {
-  //         const {
-  //             head: {
-  //                 vars
-  //             },
-  //             results
-  //         } = json;
-  //         for (const result of results.bindings) {
-  //             let questionObj = {};
-  //             questionObj.questionId = 'QID_' + dom.generateId();
-  //             questionObj.question = result.questionlabel.value;
-  //             //console.log(questionObj.question);
-  //             questionObj.answer = result.placeofbirthLabel.value;
-  //             questionObj.topic = topicCategory;
-  //             let options = helper.generateOptions(result['country']['value'])
-  //             options.push(questionObj.answer);
-  //             questionObj.options = options;
-  //             console.log(questionObj)
-  //         }
-  //     });
-  // },
-
   generateQuestions(itemsArray, topicCategory) {
     let sparqlQuery = queries.query;
     const instanceType = dom.getHiddenValue('wizard3-instanceKeyHolder');
@@ -100,29 +68,32 @@ module.exports = {
             sparqlQuery = `${sparqlQuery.replace('#PROPERTY', selectedProperty.PID)}`;
             sparqlQuery = `${sparqlQuery.replace('#TEMPLATE', sparqConcat)}`;
             // console.log(sparqlQuery);
-            propUrls.push(`${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(sparqlQuery)}`);
+            propUrls.push({'key': key, 'URL': `${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(sparqlQuery)}`});
             sparqlQuery = queries.query;
         })
-        self.generateQuestionsRecursive(propUrls, 0, topicCategory);
+        self.generateQuestionsRecursive(propUrls, 0, topicCategory, [], {});
         break;
       default:
         break;
     }
   },
 
-  generateQuestionsRecursive(propsArray, propsIndex, topicCategory) {
+  generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray, propertyQuestionMap) {
     let self = this;
-    let quesArray = [];
+    if(propsIndex > propsArray.length - 1) {
+      window.localStorage.setItem('question_data', JSON.stringify(quesArray));
+      self.getConfirmationOnGenerated(propertyQuestionMap);
+      return;
+    }
+    let propertyQuestionUrl = propsArray[propsIndex]['URL'];
+    let property = propsArray[propsIndex]['key'];
     let headers = {
         Accept: 'application/sparql-results+json',
     };
-    if(propsIndex > propsArray.length - 1) {
-        return;
-    }
-    fetch(propsArray[propsIndex], {
+    fetch(propertyQuestionUrl, {
         headers,
       }).then(body => body.json()).then((json) => {
-        quesArray = [];
+        let quesArrayPerProperty = [];
         const {
           head: {
             vars,
@@ -140,11 +111,16 @@ module.exports = {
           const options = helper.generateOptions(result, results.bindings);
           options.push(questionObj.answer);
           questionObj.options = options;
-          quesArray.push(questionObj);
+          quesArrayPerProperty.push(questionObj);
         }
-        self.saveQuestions(quesArray);
-        self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory);
+        propertyQuestionMap[property] = quesArrayPerProperty;
+        quesArray = quesArray.concat(quesArrayPerProperty);
+        self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray, propertyQuestionMap);
       });
+  },
+
+  getConfirmationOnGenerated(propertyQuestionMap) {
+    dom.showGeneratedQuestionDisplayer(propertyQuestionMap);
   },
 
   saveQuestions(quesArray) {
@@ -201,6 +177,13 @@ module.exports = {
           const occupations = helper.getPropertiesByPropertyId(occupationKey, dataArray);
           dom.setHiddenValue(matchedValue, 'wizard3-instanceKeyHolder');
           dom.showWizardStep(occupations, '3', 'Following professions match with the subject selected, do you want to generate questions related to these professionals?');
+          break;
+        case SparqlConstants.VALUES.INSTANCE_OF.COUNTRY:
+            // occupationKey = SparqlConstants.PROPS.PEOPLE.OCCUPATION.PID;
+            // // let occupationValues = helper.getPropertyValueByPropertyId(occupationKey, dataArray);
+            // occupations = helper.getPropertiesByPropertyId(occupationKey, dataArray);
+            // dom.setHiddenValue(matchedValue, 'wizard3-instanceKeyHolder');
+            // dom.showWizardStep(occupations, '3', 'Following professions match with the subject selected, do you want to generate questions related to these professionals?');
           break;
       }
     } else {

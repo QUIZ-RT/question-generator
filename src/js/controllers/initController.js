@@ -43,12 +43,18 @@ module.exports = jQuery(document).ready(() => {
   //     }
   // });
 
+  $(document).on('click', '#btnSubmitQuestions', function () {
+  // $('#btnSubmitQuestions').on('click', function() {
+    $('#btnCancelConfirm').trigger('click');
+    QuestionManagerController.prototype.delegateSaveOperation();
+
+  })
   $(document).on('keyup', '#templateInput', (e) => {
     const code = (e.keyCode ? e.keyCode : e.which);
     if (code === 13) {
       let topic = document.getElementById('topicInput').value;
       let template = document.getElementById('templateInput').value;
-      if(topic || topic === '' || template || template === '') {
+      if(!(topic && topic !== '' && template && template !== '')) {
         DomService.prototype.showTemplateError('Topic and Question Template are both required values, please try again!')
       }
       $('#btnGenerate').click();

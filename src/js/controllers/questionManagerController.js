@@ -31,4 +31,10 @@ export class QuestionManagerController {
   generateQuestions(itemsArray, topicCategory) {
     qManService.generateQuestions(itemsArray, topicCategory);
   }
+
+  delegateSaveOperation() {
+    let questions = JSON.parse(window.localStorage.getItem('question_data'));
+    qManService.saveQuestions(questions)
+  }
+
 }

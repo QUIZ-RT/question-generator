@@ -25,6 +25,9 @@ import {
     wizardContainer
 } from '../views/wizardContainer';
 import {
+    QGModal
+} from '../views/QGModal';
+import {
     Helper
 } from '../utils/helper';
 
@@ -40,6 +43,7 @@ export class DomService {
             wizardStep1,
             wizardStep2,
             wizardStep3,
+            QGModal,
             wizardContainer,
             // menu,
             messages,
@@ -153,6 +157,9 @@ export class DomService {
         $('.line').removeClass('hide');
         $('#wizardStep2Content').addClass('size-shrink_2');
         $('#wizardStep3Content').addClass('size-shrink_1');
+
+        // Modal
+        $(QGModal).insertAfter('#messages');
     }
     executeAuthorizedLoads() {
 
@@ -176,6 +183,99 @@ export class DomService {
         template.innerHTML = this.views[view];
         let domObj = template.content.children;
         return domObj;
+    }
+
+    showGeneratedQuestionDisplayer(propertyQuestionMap) {
+        let outputModal = $('#btnGeneratedQuestionsDisplay')
+        let tableHolder = $('#tableHolder');
+        outputModal.click();
+        let qGenTable = this.getQuestionTable(propertyQuestionMap);
+        tableHolder.html('');
+        tableHolder.append(qGenTable);
+    }
+
+    getQuestionTable(propertyQuestionMap) {
+        // Create Elements
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const tr_head = document.createElement("tr");
+        const th_1 = document.createElement("th");
+        const th_2 = document.createElement("th");
+        const th_3 = document.createElement("th");
+        const th_4 = document.createElement("th");
+        const th_5 = document.createElement("th");
+
+        // Add Attributes
+        table.classList.add("table", "tabled-bordered", "table-striped", "table-hover");
+        thead.classList.add("thead-dark");
+        th_1.setAttribute("scope", "col");
+        th_2.setAttribute("scope", "col");
+        th_3.setAttribute("scope", "col");
+        th_4.setAttribute("scope", "col");
+        th_5.setAttribute("scope", "col");
+
+        // Add Content
+        th_1.innerHTML = "#";
+        th_2.innerHTML = "Property";
+        th_3.innerHTML = "Generated Question";
+        th_4.innerHTML = "Options";
+        th_5.innerHTML = "Answer";
+
+        // Associations
+        tr_head.appendChild(th_1);
+        tr_head.appendChild(th_2);
+        tr_head.appendChild(th_3);
+        tr_head.appendChild(th_4);
+        tr_head.appendChild(th_5);
+        thead.appendChild(tr_head);
+        table.appendChild(thead);
+
+        // Table Data dynamic
+        const tbody = document.createElement("tbody");
+
+        Object.keys(propertyQuestionMap).forEach(function(key) {
+            let quesArray = propertyQuestionMap[key];
+            for(let i = 0; i < 3 && i < quesArray.length; i++) {
+                const currentQuestion = quesArray[i];
+                // Create Elements
+                const tr_body = document.createElement("tr");
+                const th_vertical = document.createElement("th");
+                const td_1 = document.createElement("td");
+                const td_2 = document.createElement("td");
+                const td_3 = document.createElement("td");
+                const td_4 = document.createElement("td");
+
+                 // Add Attributes
+                th_vertical.setAttribute("scope", "row");
+                tr_body.setAttribute("id", `qGen-${i}`);
+
+                // Add Inner HTML
+                th_vertical.innerHTML = i + 1;
+                td_1.innerHTML = key;
+                td_2.innerHTML = currentQuestion.question;
+                td_3.innerHTML = currentQuestion.options.join();
+                td_4.innerHTML = currentQuestion.answer;
+
+                // Associations
+                tr_body.appendChild(th_vertical);
+                tr_body.appendChild(td_1);
+                tr_body.appendChild(td_2);
+                tr_body.appendChild(td_3);
+                tr_body.appendChild(td_4);
+                tbody.appendChild(tr_body);
+            }
+            const tr_break= document.createElement("tr");
+            const td_break = document.createElement("td");
+            td_break.setAttribute('colspan', 5);
+            tr_break.appendChild(td_break);
+            tbody.appendChild(tr_break);
+            tbody.appendChild(tr_break);
+            tbody.appendChild(tr_break);
+        })
+
+        table.appendChild(tbody);
+
+        return table;
     }
 
     updateWizardClasses(step) {

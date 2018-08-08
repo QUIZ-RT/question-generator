@@ -396,6 +396,10 @@ input[name=search1]:focus {
   color: whitesmoke;
 }
 
+#qgModalContent {
+  margin: auto;
+  width: 1500px;
+}
 // SPINNER
 .lds-hourglass {
   display: inline-block;
@@ -403,7 +407,7 @@ input[name=search1]:focus {
   width: 64px;
   height: 64px;
 }
-.lds-hourglass:after {
+.lds-hourglass:before {
   content: " ";
   display: block;
   border-radius: 50%;
