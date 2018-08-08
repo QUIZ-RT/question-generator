@@ -4,7 +4,6 @@ const firebaseInit = require('./firebase');
 require('firebase/database');
 
 module.exports = class firebaseDatabase {
-
   generateRandomQuizId(name) {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -14,11 +13,28 @@ module.exports = class firebaseDatabase {
     return (`${name}-${text}`);
   }
 
-  getFirebaseData(refUrl) {
-    return firebaseInit.database().ref(refUrl).once('value').then(response => response.val());
-    // return firebaseInit.database().ref(refUrl).orderByChild('id').startAt(2).limitToFirst(1).once('value').then(response => response.val());
+  getFirebaseData(refUrl, pagiNationObj) {
+    if (pagiNationObj) {
+      if (pagiNationObj.action === "next") {
+        if (pagiNationObj.key) {
+          return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(pagiNationObj.count).startAt(pagiNationObj.key).once('value').then(response => {
+            return response.val();
+          });
+        } else {
+          return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(pagiNationObj.count).once('value').then(response => {
+            return response.val();
+          });
+        }
+      } else {
+        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(pagiNationObj.count).startAt(pagiNationObj.key).once('value').then(response => {
+          return response.val();
+        });
+      }
+    } else {
+      return firebaseInit.database().ref(refUrl).once('value').then(response => response.val());
+    }
   }
- deleteFirebaseData(refUrl) {
+  deleteFirebaseData(refUrl) {
     return firebaseInit.database().ref(refUrl).remove();
   }
   saveFirebaseData(refUrl, postDataObj, resolve, reject) {
@@ -84,8 +100,9 @@ module.exports = class firebaseDatabase {
     return this.getFirebaseData(refUrl);
   }
 
-  getQuestions(topicId, quizId) {
+  getQuestions(topicId, quizId, pageNumber, action, key) {
     let refUrl = 'questions';
+    let pagiNationObj = null;
     if (topicId) {
       refUrl = `questions/${topicId}`;
     }
@@ -93,7 +110,18 @@ module.exports = class firebaseDatabase {
       refUrl = `questions/${topicId}/${quizId}`;
 
     }
-    return this.getFirebaseData(refUrl);
+    if (pageNumber) {
+      pagiNationObj = {};
+      pagiNationObj["count"] = pageNumber * 5
+      if (key) {
+        pagiNationObj["key"] = key
+      }
+      if (action) {
+        pagiNationObj["action"] = action;
+      }
+    }
+    console.log(pagiNationObj);
+    return this.getFirebaseData(refUrl, pagiNationObj);
   }
   getUsers(userId) {
     let refUrl = 'users';
@@ -109,8 +137,8 @@ module.exports = class firebaseDatabase {
   }
 
   saveTopics(topicId, topicObj, resolve, reject) {
-    
-    const refUrl = `topics/${topicId}`; 
+
+    const refUrl = `topics/${topicId}`;
     this.saveFirebaseData(refUrl, topicObj, resolve, reject);
   }
 
@@ -121,7 +149,7 @@ module.exports = class firebaseDatabase {
       this.saveFirebaseArrayData(refUrl, quizObj, topicId, resolve, reject);
     }
   }
-  deleteAllQuestions(){
+  deleteAllQuestions() {
     this.deleteFirebaseData("questions");
   }
 };
