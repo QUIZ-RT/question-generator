@@ -1,3 +1,9 @@
+$primary-blue: #9FB6C3;
+$secondary-blue: #E3EBEF;
+$primary-turquoise: #21B7B7;
+$fg-gray: #747F8B;
+$primary-font: 'Lato';
+
 .green {
   color: green;
 }
@@ -103,4 +109,170 @@ footer {
 .user-li
 {
   margin-bottom : 1.2rem;
+}
+
+#notification_count {
+  padding: 0px 8px 2px 7px;
+  background: #ffffff;
+  color: red;
+  font-weight: bold;
+  margin-left: 14px;
+  border-radius: 21px;
+  position: absolute;
+  margin-top: -13px;
+  font-size: 11px;
+}
+
+@mixin list-border{
+  border: 0px;
+  border-left-width: 3px;
+  border-style: solid;
+  -webkit-border-image: 
+      -webkit-gradient(linear, 0 100%, 0 0, from(lighten($secondary-blue, 3%)), to(rgba(0, 0, 0, 0))) 1 20%;
+    -webkit-border-image: 
+      -webkit-linear-gradient(bottom, lighten($secondary-blue, 3%), rgba(0, 0, 0, 0)) 1 20%;
+    -moz-border-image:
+      -moz-linear-gradient(bottom, lighten($secondary-blue, 3%), rgba(0, 0, 0, 0)) 1 20%;  
+    -o-border-image:
+      -o-linear-gradient(bottom, lighten($secondary-blue, 3%), rgba(0, 0, 0, 0)) 1 20%;
+    border-image: linear-gradient(to top, lighten($secondary-blue, 3%) 0%, rgba(0, 0, 0, 0)) 1 20%;
+}
+@mixin notification-border($border-width: 1px){
+  border: 0px;
+  border-style: solid;
+  border-bottom-width: $border-width;
+    -moz-border-image:
+      -moz-linear-gradient(right, lighten($secondary-blue, 10%), lighten($primary-blue, 15%), lighten($primary-blue, 15%), lighten($secondary-blue, 10%)) 1 20%;  
+    -o-border-image:
+      -o-linear-gradient(right, lighten($secondary-blue, 10%), lighten($primary-blue, 15%), lighten($primary-blue, 15%), lighten($secondary-blue, 10%)) 1 20%;
+  border-image: linear-gradient(to right, lighten($secondary-blue, 10%) 0%, lighten($primary-blue, 15%) 40%, lighten($primary-blue, 15%) 60%,   lighten($secondary-blue, 10%) 100%) 1 20%;
+}
+@mixin transition($timing: 500ms, $easing: ease){
+  -webkit-transition: all $timing $easing; 
+  -moz-transition: all $timing $easing; 
+  -ms-transition: all $timing $easing; 
+  -o-transition: all $timing $easing; 
+  transition: all $timing $easing; 
+}
+
+.dropdowns-wrapper{
+  padding: 4px 0px;
+}
+.dropdown-container{
+  display: inline-block;
+  position: relative;
+  .dropdown{
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .dropdown-menu{
+    position: absolute;
+    display: none;
+    z-index: 1;
+    // left: -110px;
+    left: -125px;
+    top: 38px;
+    min-height: 10px;
+    min-width: 10px;
+    // width: 230px;
+    width: 280px;
+    .dropdown-header{
+      background: $white;
+      padding: 15px;
+      position: relative;
+      text-align: center;
+      color:#6d6565;
+      font-weight: bold;
+      border-radius: 10px 10px 0 0;
+      @include notification-border(1px);
+      box-shadow: 0px 2px 10px -2px lighten($primary-blue, 15%);
+      .triangle{
+        position: absolute;
+        top: -10px;
+        left: 134px;
+        height: 15px;
+        width: 15px;
+        border-radius: 6px 0px 0px 0px;
+        transform: rotate(45deg);
+        background: $white;
+      }
+      .count{
+        position: static;
+        height: 25px;
+        width: 25px;
+        display: inline-block;
+        line-height: 24px;
+        margin-left: 8px;
+        font-size: 12px;
+        vertical-align: middle;
+      }
+    }
+    .dropdown-body{
+      max-height: 292px;
+      background: lighten($fg-gray, 2%);
+      overflow-y: auto;
+      overflow-x: hidden;
+      .notification{
+        background: $secondary-blue;
+        padding: 15px;
+        @include notification-border(1px);
+        &.new{
+          @include transition;
+          background: lighten($secondary-blue, 2%);
+        // min-width: 227px;
+        // max-width: 227px;
+      }
+        .notification-image-wrapper{
+          display: table-cell;
+          vertical-align: middle;
+        }
+        .notification-image{
+          display: inline-block;
+          height: 32px;
+          width: 32px;
+          overflow: hidden;
+          border-radius: 100%;
+        }
+        .notification-text{
+          display: table-cell;
+          padding-left: 15px;
+          vertical-align: middle;
+          color: $fg-gray;
+          cursor: pointer;
+          font-size: 14px;
+          word-spacing: 2px;
+          line-height: 21px;
+          .highlight{
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+  .fa{
+    color: white;
+    font-size: 22px;
+  }
+  .count{
+    position: absolute;
+    top: -6px;
+    right: -1px;
+    height: 15px;
+    width: 15px;
+    overflow: hidden;
+    background: white;
+    color: $white;
+    text-align: center;
+    border-radius: 100%;
+    font-size: 9px;
+    font-weight: bold;
+    line-height: 15px;
+  }
+}
+.notifications{
+  margin-right: 10px;
+}
+.messages{
+  margin-left: 10px
 }

@@ -45,6 +45,7 @@ messaging.onTokenRefresh(() => {
 messaging.onMessage((payload) => {
   console.log('Message received. on app browser ');
   const element = document.createElement('div');
+  saveNotifications(payload);
   element.textContent = `${payload.notification.body}`;
   const newToast = new Toast(element, Toast.TYPE_WARNING);
   element.addEventListener('click', () => {
@@ -56,3 +57,16 @@ messaging.onMessage((payload) => {
     newToast.delete();
   });
 });
+
+function saveNotifications(payload) {
+  let notificationPayload = {
+    type: payload.notification.title,
+    content: payload.notification.body
+  };
+  let currentNotificationList = JSON.parse(localStorage.getItem("notifications"));
+  if (!currentNotificationList)
+    currentNotificationList = [];
+  currentNotificationList.push(notificationPayload)
+  jQuery("#notification_count").text(currentNotificationList.length); 
+  localStorage.setItem("notifications", JSON.stringify(currentNotificationList));
+}

@@ -23,10 +23,11 @@ jQuery(document).ready(() => {
     photoURL: photoURL,
     photoURL
   };
-  if(email)
-   togglelogin(response)
-   else
-   togglelogin(null)
+  if (email) {
+    togglelogin(response)
+  }
+  else
+    togglelogin(null)
 
 });
 
@@ -74,7 +75,7 @@ function togglelogin(response) {
         localStorage.setItem("email", response.email);
         localStorage.setItem("photoURL", response.photoURL);
         jQuery('#sideBarButton').toggleClass('d-none');
-        console.log(response);
+        console.log(response.accessToken);
         if (tokenData.isAdmin) {
           jQuery('#btnREquestAdminAccess').hide();
         }
@@ -86,18 +87,92 @@ function togglelogin(response) {
           userService.updateAccessRequest(userId, name);
         });
 
-        const haedSection = `<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" id='rightHead'>
+        const haedSection = `
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" id='rightHead'>
           <a href="#" class=" mdc-top-app-bar__action-item" alt="user Profile"><img src='${response.photoURL}' class='mr-1'  alt='user profile'/>${response.displayName}</a>
+         
+          <div class="dropdowns-wrapper">
+		          <div class="dropdown-container">
+		            <div class="notifications dropdown dd-trigger" id="showNotifications">
+                <a href="#" class=" mdc-top-app-bar__action-item" alt="notification" id="Notification">
+                <i class="fa fa-bell mr-1"></i>
+                <span id="notification_count">
+                    0
+                </span>              
+            </a>
+		            </div>
+		            <div class="dropdown-menu animated" id="notification-dropdown">
+		              <div class="dropdown-header">
+		                <span class="triangle"></span>
+		                <span class="heading">Notifications</span>
+		                <span class="count" id="dd-notifications-count">{{newNotifications.length}}</span>
+		              </div>
+		              <div id="notification-dropdown-body" class="dropdown-body">
+		                
+		              </div>
+		            </div>
+		          </div> 
+		        </div>
           <a href="#" class=" mdc-top-app-bar__action-item" alt="logOut" id="userLogout">
-              <i class="fa fa-sign-out mr-1"></i>LogOut</a>
-              </section> `;
+          <i class="fa fa-sign-out mr-1"></i>LogOut</a>
+        </section> `;
+
         jQuery('#headSection').append(haedSection);
+
+        jQuery('#headSection').on('click', '#showNotifications', (e) => {
+          loadNotifications();
+          jQuery('#notification-dropdown').toggle();
+          localStorage.removeItem("notifications");
+          setNotificationCount();
+        });
+
+        loadNotifications();
+        setNotificationCount();
       });
   } else {
     jQuery('#headSection').find('#rightHead').remove();
     jQuery('#mainContainer').html(loginpageHtml);;
     jQuery('#btnMenu').hide();
-    
+  }
+}
+
+function setNotificationCount() {
+  let notifications = JSON.parse(localStorage.getItem("notifications"));
+  let count = 0;
+  if (notifications) count = notifications.length;
+  jQuery("#notification_count").text(count);
+}
+function loadNotifications() {
+  jQuery('#notification-dropdown-body').html("");
+  let notifications = JSON.parse(localStorage.getItem("notifications"));
+  if (!notifications) {
+    let notificationBlankTemplate = `<div class="notification new" >
+    <div class="notification-image-wrapper">
+      <div class="notification-image">
+        <span> Oops :  </span>
+      </div>
+    </div>
+    <div class="notification-text">
+       <span class="highlight"></span>No more notifications received
+    </div>
+  </div>`;
+    jQuery('#notification-dropdown-body').append(notificationBlankTemplate);
+  }
+  else {
+    notifications.forEach(notification => {
+      let notificationTemplate = `<div class="notification new" >
+    <div class="notification-image-wrapper">
+      <div class="notification-image">
+        <span>${notification.type} </span>
+      </div>
+    </div>
+    <div class="notification-text">
+       <span class="highlight"></span> ${notification.content}
+    </div>
+  </div>`;
+      jQuery('#notification-dropdown-body').append(notificationTemplate);
+    });
+
   }
 }
 
