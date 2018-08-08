@@ -9,7 +9,6 @@ configureToasts({
 });
 
 let userController = new UserController();
-let topicManagerController = new TopicManagerController();
 
 const messaging = firebaseClient.messaging();
 messaging.usePublicVapidKey('BG96KHcY1hTDHCBxe54kuoe594S0loDgN9KCkCtovDWt8pGT8513Kr2SgF0VGjSsSyAMtzncLni4j1rvRxleFpc');

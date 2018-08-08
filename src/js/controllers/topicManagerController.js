@@ -17,6 +17,13 @@ class TopicManagerController {
 
     this.addButtons();
     this.getAllTopics();
+    store.subscribe(() =>{
+      const currentState = store.getState();
+      if(currentState.actionType == 'ADD_TOPIC' || 
+      currentState.actionType == 'UPDATE_TOPIC' || currentState.actionType == 'DELETE_TOPIC'){
+        this.render(currentState.topics);
+      }
+    });
     this.dialog;
     
     jQuery('.addTopicBtn').on('click', () => {
@@ -97,6 +104,7 @@ class TopicManagerController {
     const topicTxt = jQuery('.mdc-text-field-topic input').val().trim();
     const topicIds = [];
     let topicId = 0;
+    let actionType = 'ADD_TOPIC'
     //let order = 0;
     if (!selectTopic) {
       for (const topicObj in this.topics) {
@@ -106,6 +114,7 @@ class TopicManagerController {
       topicId = topicIds.reduce((maxId, id) => Math.max(id, maxId), -1) + 1;
     } else {
       topicId = selectTopic.id;
+      actionType = 'UPDATE_TOPIC';
       //order = this.topics[topicId].order
     }
     this.total += 1;
@@ -122,14 +131,14 @@ class TopicManagerController {
       };
 
       store.dispatch({
-        type: 'ADD_TOPIC',
+        type: actionType,
         'topic':topicObj
       });
       this.topicManagerService.saveTopic(topicObj)
         .then((data) => {
           console.log('saved', data);
           
-            this.getAllTopics();
+            // this.getAllTopics();
 
         }).catch((err) => {
           console.log(err);
@@ -141,10 +150,14 @@ class TopicManagerController {
     const topicObj = {
       id: topicId,
     };
+    store.dispatch({
+      type: 'DELETE_TOPIC',
+      'topic':topicObj
+    });
     this.topicManagerService.deleteTopic(topicObj)
       .then((data) => {
         console.log('deleted', data);
-        this.getAllTopics();
+        // this.getAllTopics();
       }).catch((err) => {
         console.log(err);
       });
@@ -159,6 +172,11 @@ class TopicManagerController {
   getAllTopics() {
     
     this.topicList = {};
+    // store.dispatch({
+    //   type: 'DELETE_ALL_TOPICS',
+    //   'topics':[]
+    // });
+    
     this.topicManagerService.getTopics()
       .then((data) => {
         if(data){
@@ -167,10 +185,14 @@ class TopicManagerController {
           if (!data[i] && data.length > i) {
             data.splice(i, 1);
             i--;
-          }//else{
-          //   this.total = data[i].total;
-          // }
+          }
         }
+
+        //save to redux state
+        store.dispatch({
+          type: 'ADD_ALL_TOPICS',
+          'topics':data
+        });
         this.topics = data;
         this.render(data);
       }
@@ -179,7 +201,8 @@ class TopicManagerController {
       });
   }
 
-  render(data) {
+   render(data) {
+    this.topics = data;
     const template = topic(data);
     jQuery('#topic-ul').remove();
     jQuery('#topicListWrapper').prepend(template);
