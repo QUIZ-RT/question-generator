@@ -2,7 +2,9 @@ import QuestionSearchDisplayService from '../services/questionSearchDisplayServi
 import { loadDropdownAndButton, populateDropDownValues, showQuestionsByTopic } from '../views/searchQuestions';
 
 class SearchQuestionController {
+
   constructor() {
+    let self= this;
     this.topics = {};
     this.questions = {};
     this.filteredQuestions = [];
@@ -14,8 +16,50 @@ class SearchQuestionController {
       const topicValue = $('#dropDownButton')[0].outerText;
       if (topicValue) {
         this.displayQuestionOnTopicBasis(topicValue);
+        //this.updateQuestion(newQuesObj);
       }
     });
+
+//Update Ques changes starts
+ $(document).on('click', '#btnQUSubmitQuestions',  function() {
+  //jQuery('#btnQUSubmitQuestions').on('click', () => {
+  debugger;
+  var ques =   $('#exampleInputQuestion')[0].value;
+  var ans =  $("#exampleInputAnswer")[0].value;
+    var opt1 = $("#opt1")[0].value;
+    var opt2 = $("#opt2")[0].value;
+    var opt3 = $("#opt3")[0].value;
+    var opt4 = $("#opt4")[0].value;
+
+    var topic = $("#topicIdTextbox")[0].value;
+    var questionId = $("#quesIdTextbox")[0].value;
+    debugger;   
+  let newQuesObj = {};
+  let tempObj = {}
+  tempObj["opt1"] = opt1;
+  tempObj["opt2"] = opt2;
+  tempObj["opt3"] = opt3;
+  tempObj["opt4"] = opt4;
+  //newQuesObj.answer = ans;
+  if(ans==opt1){
+    newQuesObj.answer = "opt1";
+  }else if(ans==opt2){
+    newQuesObj.answer = "opt2";
+  }else if(ans==opt3){
+    newQuesObj.answer = "opt3";
+  }else if(ans==opt4){
+    newQuesObj.answer = "opt4";
+  }else{
+    newQuesObj.answer = "None Of These";
+  }
+  
+  newQuesObj.options = tempObj;
+  newQuesObj.question=ques;
+  newQuesObj.topic = topic;
+  newQuesObj.id = questionId;
+  self.updateQuestion(newQuesObj);
+});
+
   }
 
   addDropdownAndBUtton() {
@@ -23,6 +67,7 @@ class SearchQuestionController {
     const dropDOwnAndButton = loadDropdownAndButton();
     jQuery('#mainContainer').append(dropDOwnAndButton);
   }
+
 
   getAllTopicz() {
     this.topicList = {};
@@ -51,6 +96,20 @@ class SearchQuestionController {
       });
   }
 
+updateQuestion(newQuesObj){
+let topicOfQues = newQuesObj.topic;
+this.questionSearchDisplayService.updateQuestionInDB(newQuesObj)
+.then((data) => {
+  debugger;
+  console.log('updated question is ', data);
+
+  $('#btnQUCancelConfirm').trigger('click');
+
+   this.displayQuestionOnTopicBasis(topicOfQues);
+}).catch((err) => {
+  console.log(err);
+});
+}
 
   saveNewTopic(selectTopic) {
     const topicTxt = jQuery('.mdc-text-field-topic input').val().trim();

@@ -149,6 +149,22 @@ module.exports = class firebaseDatabase {
       this.saveFirebaseArrayData(refUrl, quizObj, topicId, resolve, reject);
     }
   }
+  updateQuestion(quesId,newQuesObj, resolve, reject){      
+      const refUrl =  `questions`;
+      this.updateFirebaseData(refUrl,newQuesObj.topic,newQuesObj.id,newQuesObj, resolve, reject);
+  }
+
+  updateFirebaseData(refUrl, topic, quesId, dataObj, resolve, reject) {   
+    let variable_ref = `${refUrl}/${topic}/${quesId}`;
+      firebaseInit.database().ref(`${refUrl}/${topic}/${quesId}`).update(dataObj, (error) => {      
+      if (error) {
+        reject('there is some issue we will come back sortly');
+      } else {
+        resolve('SuccessFully');
+      }
+    });
+  }
+
   deleteAllQuestions() {
     this.deleteFirebaseData("questions");
   }

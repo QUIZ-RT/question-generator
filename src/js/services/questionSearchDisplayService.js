@@ -22,6 +22,19 @@ class DisplayQuestionTopicBasedService {
       data: JSON.stringify({}),
     }).done(response => response).fail(jqXhr => jqXhr);
   }
+
+  updateQuestionInDB(newQueObj){
+    debugger;
+    const promise = jQuery.ajax({
+      type: 'post',
+      contentType: 'application/json',
+      dataType: 'json',
+      url: '/firebase/api/updateQuestion',  
+      data: JSON.stringify(newQueObj),
+    }).done(response => response).fail(jqXhr => jqXhr);
+    debugger;
+    return promise;
+  }
 }
 
 export default DisplayQuestionTopicBasedService;

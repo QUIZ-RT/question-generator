@@ -34,7 +34,7 @@ module.exports = (app) => {
                 });
         });
     });
-    app.get('/firebase/api/questions/:topicId/:quizId', (req, res) => { // it will current user detail on screan
+    app.get('/firebase/api/questions/:topicId/:quizId', (req, res) => { // it will current user detail on screan       
         return new Promise((resolve, reject) => {
             const topicId = req.params.topicId;
             const quizId = req.params.quizId;
@@ -128,6 +128,21 @@ module.exports = (app) => {
                 console.log(err)
             });
     });
+
+    app.post('/firebase/api/updateQuestion', (req, res) => {        
+        return new Promise((resolve, reject) => {
+            databaseFunc.updateQuestion(req.body.quesId, req.body, resolve, reject)
+        }).then((data) => {
+            res.json(req.body);
+          //  fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
+
+
+
     app.post('/firebase/api/questions', (req, res) => { // it will current user detail on screan       
         return new Promise((resolve, reject) => {
             databaseFunc.saveQuestions(req.body, resolve, reject)
