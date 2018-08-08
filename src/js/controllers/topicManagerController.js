@@ -123,11 +123,13 @@ class TopicManagerController {
         modifiedDate: new Date(),
         published: true,
         topicText: topicTxt,
-        topicUrl: jQuery('.mdc-text-field-topic-url input').val(),
+        topicUrl: jQuery('.mdc-text-field-topic-url input').val().trim(),
         id: topicId,
 
       };
-
+      // if(!topicObj.topicUrl){
+      //   topicObj.topicUrl = './assets/no-image.png'
+      // }
       store.dispatch({
         type: actionType,
         'topic':topicObj
@@ -183,7 +185,11 @@ class TopicManagerController {
           if (!data[i] && data.length > i) {
             data.splice(i, 1);
             i--;
-          }
+          }//else{
+            // if(!data[i].topicUrl){
+            //   data[i].topicUrl = './assets/no-image.png'
+            // }
+          // }
         }
 
         //save to redux state
