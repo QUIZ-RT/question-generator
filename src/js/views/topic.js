@@ -3,7 +3,11 @@ export function topic(data, clickFunc) {
   if (data) {
     for (const topicObj in data) {
       const topicData = data[topicObj];
-      template += `<li class="mdc-list-item topic-li" data-id='${topicData.id}' tabindex="-1"><span>${topicData.topicText}</span>
+      let imgUrl = topicData.topicUrl ? topicData.topicUrl: './assets/no-image.png';
+
+      template += `<li class="mdc-list-item topic-li" data-id='${topicData.id}' tabindex="-1">
+      <div class='pr-2'><img src="${imgUrl}" class="topicImage"/></div><span>${topicData.topicText}</span>
+      
       <div class="inline-topic-btn">
       <a class="editTopicBtn pl-lg-1" data-id='${topicData.id}' tabindex="-1"><i class="material-icons editTopic">
       edit
@@ -14,12 +18,11 @@ export function topic(data, clickFunc) {
     }
   }
   template += '</ul>';
-  
   return template;
 }
 
 export function loadButtons() {
-  return `<div id='topicManagerContainer' class='pt-5'><div class="text-left mb-3">
+  return `<div id='topicManagerContainer'><div  class='pt-5'><div class="text-left mb-3">
  <button class="addTopicBtn mdc-fab mdc-fab--extended"> <span class="material-icons mdc-fab__icon mdc-fab__mini">add</span>
  <span class="mdc-fab__label mdc-fab__mini">Add Topic</span> </button>
   
@@ -39,14 +42,14 @@ export function loadButtons() {
     </li>
   </ul>
 </nav></div>
-</div>`;
+</div></div>`;
 }
-export function addTopicDialog(topic) {
+export function addTopicDialog(topicObj) {
   let topicTxt = '';
   let topicUrl = '';
-  if (topic) {
-    topicTxt = topic.topicText ? topic.topicText : '';
-    topicUrl = topic.topicUrl ? topic.topicUrl : '';
+  if (topicObj) {
+    topicTxt = topicObj.topicText ? topicObj.topicText : '';
+    topicUrl = topicObj.topicUrl ? topicObj.topicUrl : '';
   }
 
   return `<aside id="my-mdc-dialog"

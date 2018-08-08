@@ -20,7 +20,7 @@ class UserService {
   searchUsers(queryParams) {
     this.dataService.fetchOptions.method = 'GET';
     let searchUrl = '';
-    if (queryParams == Constants.ADMIN_ACCESS_REQUEST) {
+    if (queryParams === Constants.ADMIN_ACCESS_REQUEST) {
       searchUrl = `${Constants.QUIZ_GENX_API_BASE}/users`;
     }
 
@@ -54,7 +54,10 @@ class UserService {
 
   updateAccessRequest(userId, name) {
     const payload = {
-      type: Constants.ADMIN_ACCESS_REQUEST, id: userId, adminAccessRequested: true, displayName: name,
+      type: Constants.ADMIN_ACCESS_REQUEST,
+      id: userId,
+      adminAccessRequested: true,
+      displayName: name,
     };
     const usersUrl = `${Constants.QUIZ_GENX_API_BASE}/users/${userId}`;
     return this.dataService.putJSON(usersUrl, payload);

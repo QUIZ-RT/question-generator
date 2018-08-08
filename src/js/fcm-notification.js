@@ -9,27 +9,26 @@ configureToasts({
 });
 
 let userController = new UserController();
-let topicManagerController = new TopicManagerController();
 
 const messaging = firebaseClient.messaging();
+
 messaging.usePublicVapidKey('BG96KHcY1hTDHCBxe54kuoe594S0loDgN9KCkCtovDWt8pGT8513Kr2SgF0VGjSsSyAMtzncLni4j1rvRxleFpc');
 
 messaging.requestPermission().then(() => {
-
   console.log('Notification permission granted.');
   return messaging.getToken();
 }).then((currentToken) => {
   if (currentToken) {
     localStorage.setItem('fcm-token', currentToken);
     userController.updateFcmToken(currentToken);
-    new Toast("You have now subscribed to receive Push notification.", Toast.TYPE_DONE);
-  } else {
+    new Toast('You have now subscribed to receive Push notification.', Toast.TYPE_DONE);
   }
 }).catch((err) => {
   console.log('An error occurred while retrieving token. ', err);
-}).catch((err) => {
-  console.log('Unable to get permission to notify.', err);
-});
+})
+  .catch((err) => {
+    console.log('Unable to get permission to notify.', err);
+  });
 
 
 // Callback fired if Instance ID token is updated.
@@ -38,21 +37,33 @@ messaging.onTokenRefresh(() => {
     console.log('Token refreshed.');
   }).catch((err) => {
     console.log('Unable to retrieve refreshed token ', err);
-    showToken('Unable to retrieve refreshed token ', err);
+    // showToken('Unable to retrieve refreshed token ', err);
   });
 });
 
 messaging.onMessage((payload) => {
   console.log('Message received. on app browser ');
   const element = document.createElement('div');
+  saveNotifications(payload);
   element.textContent = `${payload.notification.body}`;
   const newToast = new Toast(element, Toast.TYPE_WARNING);
   element.addEventListener('click', () => {
-    if (payload.notification.click_action == '#accessRequests') {
+    if (payload.notification.click_action === '#accessRequests') {
       userController.init();
-    } else if (payload.notification.click_action == '#topicUpdate') {
+    } else if (payload.notification.click_action === '#topicUpdate') {
       new TopicManagerController();
     }
     newToast.delete();
   });
 });
+function saveNotifications(payload) {
+  const notificationPayload = {
+    type: payload.notification.title,
+    content: payload.notification.body,
+  };
+  let currentNotificationList = JSON.parse(localStorage.getItem('notifications'));
+  if (!currentNotificationList) currentNotificationList = [];
+  currentNotificationList.push(notificationPayload);
+  jQuery('#notification_count').text(currentNotificationList.length);
+  localStorage.setItem('notifications', JSON.stringify(currentNotificationList));
+}

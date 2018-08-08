@@ -10,12 +10,10 @@ export class QuestionManagerController {
     const url = `/api/questionManager/parseTemplate${qGenQuery}`;
     fetch(url)
       .then((res) => {
-        if (res.status && res.status == 200) {
+        if (res.status && res.status === 200) {
           res.json().then((body) => {
             qManService.processResponseFromTemplateParser(body);
           });
-        } else {
-
         }
       });
   }

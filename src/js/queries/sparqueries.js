@@ -72,14 +72,7 @@ module.exports = {
       
     }
   }
-  LIMIT 300`,
-
-  city_query: `SELECT ?instance ?instanceLabel WHERE {
-        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-        ?instance wdt:P31 wd:Q515.
-        ?instance wdt:P17 #countryCode
-    }
-    LIMIT 5`,
+  LIMIT 60`,
 
   distinct_countries: `select distinct ?country ?placeofbirth ?placeofbirthLabel
   where {

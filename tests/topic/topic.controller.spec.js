@@ -8,7 +8,7 @@ describe('TopicManager', function() {
   it('Should add topic', function() {
     const initialState = deepFreeze({
         topics: [{
-          id: Math.random()*892793492 + '',
+          id: 1,
           createdBy: 'Pallavi',
           createdDate: new Date(),
           modifiedDate: new Date(),
@@ -23,7 +23,7 @@ describe('TopicManager', function() {
 
     // console.log('store.getState()', store.getState());
     const topicObj = {
-        id: Math.random()*892793492 + '',
+        id: 2,
         createdBy: 'Pallavi',
         createdDate: new Date(),
         modifiedDate: new Date(),
@@ -34,7 +34,7 @@ describe('TopicManager', function() {
       }
 
       const topicObj1 = {
-        id: Math.random()*892793492 + '',
+        id: 3,
         createdBy: 'Pallavi Jain',
         createdDate: new Date(),
         modifiedDate: new Date(),
@@ -59,7 +59,7 @@ describe('TopicManager', function() {
     store.getState().topics[1].should.have.property('id');
     store.getState().topics[1].should.have.property('topicText').and.equal('Sports');
     store.getState().topics[1].should.have.property('published').and.equal(true);
-
-    
+   
   });
+
 });

@@ -4,7 +4,7 @@ import { DomService } from './domService';
 
 const helper = new Helper();
 const queries = require('./../queries/sparqueries');
-// require('./../../../routes/questionManagerRoutes');
+
 const dom = new DomService();
 
 module.exports = {
@@ -20,8 +20,7 @@ module.exports = {
 
   constructCountryToCityMap(callback, topicCategory) {
     const self = this;
-    // let countryToCityMap = {};
-    let cityQuery = queries.distinct_countries,
+    const cityQuery = queries.distinct_countries,
       fullUrl = `${this.endpointUrl}?query=${encodeURIComponent(cityQuery)}`,
       headers = { Accept: 'application/sparql-results+json' };
     fetch(fullUrl, {
@@ -43,16 +42,16 @@ module.exports = {
         // console.log(result['placeofbirthLabel']['value']);
       }
       callback(self, topicCategory);
+
       // console.log(countryToCityMap);
     });
   },
-
   generateQuestions(itemsArray, topicCategory) {
     let sparqlQuery = queries.query;
+    let self = this;
     const instanceType = dom.getHiddenValue('wizard3-instanceKeyHolder');
     let selectedProperties = [];
-    let propUrls = [];
-    self = this;
+    const propUrls = [];
     switch (instanceType) {
       case SparqlConstants.VALUES.INSTANCE_OF.HUMAN:
         selectedProperties = SparqlConstants.PROPS.PEOPLE;
@@ -144,12 +143,14 @@ module.exports = {
     const entityURL = SparqlConstants.WIKI_ENTITY_SEARCH_URL.replace('#entity', subject);
     const headers = { Accept: 'application/sparql-results+json' };
     const entityURLWrapper = `/api/questionManager/determineNodeAndCategory?entityURL=${encodeURIComponent(entityURL)}`;
-    fetch(entityURLWrapper, headers).then(res => res.json()).then(body => this.processEntityURLResponse(body));
+    fetch(entityURLWrapper, headers)
+      .then(res => res.json())
+      .then(body => this.processEntityURLResponse(body));
   },
 
-  processEntityURLResponse(body) {
-    if (body) {
-      body = JSON.parse(body);
+  processEntityURLResponse(bodyObj) {
+    if (bodyObj) {
+      const body = JSON.parse(bodyObj);
       if (body.search && body.search.length > 0) {
         const entityNode = body.search[0].id;
         let entityNodeType = '';
@@ -157,11 +158,14 @@ module.exports = {
         let fullUrl = `${this.endpointUrl}?query=${encodeURIComponent(entityQuery)}`;
         fullUrl = `${fullUrl}&format=json`;
         // console.log('test ============= ' + fullUrl);
-        fetch(fullUrl).then(res => res.json()).then((body) => {
-          window.sessionStorage.setItem('wiki_query_subject_data', body.results.bindings);
-          entityNodeType = helper.getPropertyValueByPropertyId(SparqlConstants.PROPS.INSTANCE_OF, body.results.bindings);
-          const matchedValues = helper.matchValue(entityNodeType, SparqlConstants.VALUES.INSTANCE_OF);
-          this.fetchSuggestions(matchedValues, body.results.bindings);
+        fetch(fullUrl).then(res => res.json()).then((response) => {
+          window.sessionStorage.setItem('wiki_query_subject_data',
+            response.results.bindings);
+          entityNodeType = helper.getPropertyValueByPropertyId(SparqlConstants.PROPS.INSTANCE_OF,
+            response.results.bindings);
+          const matchedValues = helper.matchValue(entityNodeType,
+            SparqlConstants.VALUES.INSTANCE_OF);
+          this.fetchSuggestions(matchedValues, response.results.bindings);
         });
       }
     }
@@ -171,19 +175,14 @@ module.exports = {
     if (matchedValues && matchedValues.length > 0) {
       const matchedValue = matchedValues[0];
       switch (matchedValue) {
-        case SparqlConstants.VALUES.INSTANCE_OF.HUMAN:
+        case SparqlConstants.VALUES.INSTANCE_OF.HUMAN: {
           const occupationKey = SparqlConstants.PROPS.PEOPLE.OCCUPATION.PID;
-          // let occupationValues = helper.getPropertyValueByPropertyId(occupationKey, dataArray);
           const occupations = helper.getPropertiesByPropertyId(occupationKey, dataArray);
           dom.setHiddenValue(matchedValue, 'wizard3-instanceKeyHolder');
           dom.showWizardStep(occupations, '3', 'Following professions match with the subject selected, do you want to generate questions related to these professionals?');
           break;
-        case SparqlConstants.VALUES.INSTANCE_OF.COUNTRY:
-            // occupationKey = SparqlConstants.PROPS.PEOPLE.OCCUPATION.PID;
-            // // let occupationValues = helper.getPropertyValueByPropertyId(occupationKey, dataArray);
-            // occupations = helper.getPropertiesByPropertyId(occupationKey, dataArray);
-            // dom.setHiddenValue(matchedValue, 'wizard3-instanceKeyHolder');
-            // dom.showWizardStep(occupations, '3', 'Following professions match with the subject selected, do you want to generate questions related to these professionals?');
+        }
+        default:
           break;
       }
     } else {
@@ -191,22 +190,19 @@ module.exports = {
     }
   },
 
-  processResponseFromTemplateParser(responseFromTemplateParser) {
-    responseFromTemplateParser = JSON.parse(responseFromTemplateParser);
+  processResponseFromTemplateParser(responseFromTemplateParserObj) {
+    const responseFromTemplateParser = JSON.parse(responseFromTemplateParserObj);
     if (responseFromTemplateParser) {
-      const topics = responseFromTemplateParser.topics;
-      const nouns = responseFromTemplateParser.nouns;
-      if (topics && topics.length == 1) {
+      const { topics, nouns } = responseFromTemplateParser;
+      if (topics && topics.length === 1) {
         const topic = topics[0].normal;
         dom.showWizardStep(topic, '2', 'Topic Identified, please confirm');
-        // this.determineNodeAndCategory(topic);
       } else if (nouns) {
-        if (nouns.length == 0) {
+        if (nouns.length === 0) {
           dom.showTemplateError('Unable to extract usable nouns, please try again with a different template');
-        } else if (nouns.length == 1) {
+        } else if (nouns.length === 1) {
           const topic = nouns[0];
           dom.showWizardStep(topic, '2', 'None of the terms could be identified as topic, please confirm to use below noun as topic.');
-          // this.determineNodeAndCategory(topic);
         } else {
           dom.showWizardStep(nouns, '2', 'Following subjects were identified as potential subjects, please select the one to use as primary for questions.');
         }
@@ -215,24 +211,4 @@ module.exports = {
       dom.showTemplateError();
     }
   },
-
-  // ================================= SERVICES for SERVER-SIDE CALLS ======================================== //
-  // determineNodeAndCategoryInternal() {
-  //     if (!err1 && res1.statusCode === 200 && body1 && body1.search && body1.search.length > 0) {
-  //         entityNode = body1.search[0].id;
-  //         let entityNode = '';
-  //         let entityNodeType = '';
-  //         let entityQuery = queries.entity.replace('#entity_id', entityNode);
-  //         let fullUrl = this.endpointUrl + '?query=' + encodeURIComponent(entityQuery);
-  //         console.log('test ============= ' + fullUrl);
-  //         request.get(fullUrl, headers, function (err2, res2, body2) {
-  //             if (!err2 && res2.statusCode === 200 && body2 && body2.length > 0) {
-  //                 console.log(body2);
-  //             } else {
-  //                 console.log(err2);
-  //             }
-  //         })
-  //     }
-  // }
-
 };

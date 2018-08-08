@@ -1,8 +1,5 @@
-import SearchQuestionController from './../controllers/searchQuestionController';
 export function loadDropdownAndButton() {
-
-  debugger;
-  return `<div id='searchQuestionOnTopicContainer' class='pt-5'><div class="text-center">
+  return `<div id='uestionOnTopicContainer' class='pt-5'><div class="text-center">
 
     <div class="dropdown">
     <button type="button" id="dropDownButton" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -18,35 +15,22 @@ export function loadDropdownAndButton() {
 }
 
 export function populateDropDownValues(topics) {
-  $.each(topics, function (i, item) {
-    $('#topicDropDown').append($('<a>', { 
-        class : "dropdown-item",
-        href :"#",
-        text : item.topicText
+  $.each(topics, (i, item) => {
+    $('#topicDropDown').append($('<a>', {
+      class: 'dropdown-item',
+      href: '#',
+      text: item.topicText,
     }));
-});
+  });
 
 
-$('#topicDropDown').on('click', '.dropdown-item', function(){
-  let selectedValue = $(this).html();
-  $('#dropDownButton').html(selectedValue);
-})
-
+  $('#topicDropDown').on('click', '.dropdown-item', function () {
+    const selectedValue = $(this).html();
+    $('#dropDownButton').html(selectedValue);
+  });
 }
-
-export function showQuestionsByTopic(myData){
-  debugger;
-  var quesArea = document.getElementById("display_question");
-  if(quesArea){
-    jQuery('#display_question').remove();
-  }
-  $('#searchQuestionOnTopicContainer').append(getQuestionTable(myData));
-}
-
-
 
 export function getQuestionTable(myArray) {
-  debugger;
   return `<div id='display_question'>
     
   <table class="table table-bordered table-striped table-hover">
@@ -77,5 +61,11 @@ export function getQuestionTable(myArray) {
  
   </div>
   `;
-
+}
+export function showQuestionsByTopic(myData) {
+  const quesArea = document.getElementById('display_question');
+  if (quesArea) {
+    jQuery('#display_question').remove();
+  }
+  $('#uestionOnTopicContainer').append(getQuestionTable(myData));
 }

@@ -3,11 +3,11 @@ const request = require('request');
 
 module.exports = app => {
 
-    app.get('/', function (req, res, next) {
-        // document.write('this is we are loading to js');
-        // alert('in JS');
-        res.render('index');
-    });
+    // app.get('/', function (req, res, next) {
+    //     // document.write('this is we are loading to js');
+    //     // alert('in JS');
+    //     res.render('index');
+    // });
 
   app.get('/api/questionManager/parseTemplate', (req, res) => {
     let subjects = {};

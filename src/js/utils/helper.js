@@ -1,5 +1,3 @@
-import { SparqlConstants } from '../shared/sparqlConstants';
-
 export class Helper {
   generateRange(pCount, pMin, pMax, result, results) {
     const min = pMin < pMax ? pMin : pMax;
@@ -8,19 +6,20 @@ export class Helper {
     if (pMax < pCount) {
       pCount = pMax;
     }
-    let resultArr = [],
-      randNumber,
-      foundMatch = false;
+    const resultArr = [];
+    let randNumber = 0;
+    let foundMatch = false;
+
     while (pCount > 0) {
       foundMatch = false;
       randNumber = Math.round(min + Math.random() * (max - min));
-      if (resultArr.indexOf(randNumber) == -1) {
+      if (resultArr.indexOf(randNumber) === -1) {
         const randomItem = results[randNumber];
         const randomItemId = randomItem.item.value;
         if (itemId !== randomItemId) {
-          for (let j = 0; j < resultArr.length; j++) {
+          for (let j = 0; j < resultArr.length; j += 1) {
             const resultObj = results[j];
-            if (resultObj.property.value == randomItem.property.value) {
+            if (resultObj.property.value === randomItem.property.value) {
               foundMatch = true;
               break;
             }
@@ -29,18 +28,21 @@ export class Helper {
             continue;
           }
           resultArr.push(randNumber);
-          pCount--;
+          pCount -= 1;
         }
       }
     }
     return resultArr;
   }
 
-  generateOptions(result, results, number_of_options) {
+  generateOptions(result, results, numberOfOptions) {
     let optionIndices = [];
     const options = [];
-    if (number_of_options) optionIndices = this.generateRange(number_of_options, 0, results.length - 1, result, results);
-    else optionIndices = this.generateRange(3, 0, results.length - 1, result, results);
+    if (numberOfOptions) {
+      optionIndices = this.generateRange(numberOfOptions, 0, results.length - 1, result, results);
+    } else {
+      optionIndices = this.generateRange(3, 0, results.length - 1, result, results);
+    }
     for (const index of optionIndices) {
       options.push(results[index].propertyLabel.value);
     }
@@ -65,7 +67,7 @@ export class Helper {
     const result = [];
     for (const property of propertyArray) {
       if (property.propLabel) {
-        if (`P${property.propLabel.value}` == propLabel) {
+        if (`P${property.propLabel.value}` === propLabel) {
           const propertyValue = property.valUrl.value;
           result.push(propertyValue.substring(propertyValue.lastIndexOf('/') + 1));
         }
@@ -78,7 +80,7 @@ export class Helper {
     const result = [];
     for (const property of propertyArray) {
       if (property.propNumber) {
-        if (`P${property.propNumber.value}` == propertyId) {
+        if (`P${property.propNumber.value}` === propertyId) {
           const propertyValue = property.valUrl.value;
           result.push(propertyValue.substring(propertyValue.lastIndexOf('/') + 1));
         }
@@ -91,7 +93,7 @@ export class Helper {
     const result = [];
     for (const property of propertyArray) {
       if (property.propNumber) {
-        if (`P${property.propNumber.value}` == propertyId) {
+        if (`P${property.propNumber.value}` === propertyId) {
           result.push(property);
         }
       }

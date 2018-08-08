@@ -1,6 +1,6 @@
 class DataService {
-  constructor(authKey) {
-    authKey = localStorage.getItem('accessToken');
+  constructor() {
+    const authKey = localStorage.getItem('accessToken');
     this.fetchOptions = {
       headers: { 'Content-Type': 'application/json', Authorization: authKey },
       mode: 'cors',
@@ -30,9 +30,9 @@ class DataService {
         .then((res) => {
           const httpStatus = res.status;
           res.json().then((data) => {
-            if (httpStatus == 401) {
+            if (httpStatus === 401) {
               reject(data);
-            } else if (httpStatus == 200) {
+            } else if (httpStatus === 200) {
               resolve(data);
             }
           });
@@ -52,9 +52,9 @@ class DataService {
         .then((res) => {
           const httpStatus = res.status;
           res.json().then((data) => {
-            if (httpStatus == 401) {
+            if (httpStatus === 401) {
               reject(data);
-            } else if (httpStatus == 200) {
+            } else if (httpStatus === 200) {
               resolve(data);
             }
           });

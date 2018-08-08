@@ -1,75 +1,55 @@
-import { MDCDialog } from '@material/dialog';
-import { MDCTextField } from '@material/textfield';
 import QuestionSearchDisplayService from '../services/questionSearchDisplayService';
-import { } from './topicManagerController';
-import {loadDropdownAndButton,populateDropDownValues,showQuestionsByTopic} from '../views/searchQuestions';
+import { loadDropdownAndButton, populateDropDownValues, showQuestionsByTopic } from '../views/searchQuestions';
 
- class SearchQuestionController {
-
+class SearchQuestionController {
   constructor() {
     this.topics = {};
-     this.questions = {};
-     this.filteredQuestions=[];
-debugger;
+    this.questions = {};
+    this.filteredQuestions = [];
     this.questionSearchDisplayService = new QuestionSearchDisplayService();
     this.addDropdownAndBUtton();
-     this.getAllTopicz();
- 
-    //  jQuery('.searchQuestionOnTopicBtn').on('click', () => {
-    //     this.populateDropdown();
-    //   });
+    this.getAllTopicz();
 
-      jQuery('#topicDropDown').on('click', () => {
-        debugger;
-        const topicValue = $('#dropDownButton')[0].outerText;
-        if(topicValue){     
-          this.displayQuestionOnTopicBasis(topicValue);
-        }
-        
-      });
+    jQuery('#topicDropDown').on('click', () => {
+      const topicValue = $('#dropDownButton')[0].outerText;
+      if (topicValue) {
+        this.displayQuestionOnTopicBasis(topicValue);
+      }
+    });
   }
-  
-  addDropdownAndBUtton() {   
+
+  addDropdownAndBUtton() {
     jQuery('#mainContainer').empty();
     const dropDOwnAndButton = loadDropdownAndButton();
     jQuery('#mainContainer').append(dropDOwnAndButton);
   }
 
   getAllTopicz() {
-  this.topicList = {};
-  this.questionSearchDisplayService.getTopicz()
-    .then((data) => {
-    //   for (let i = 0; i < data.length; i++) {
-    //     console.log(data[i]);
-    //     if (!data[i]) {
-    //       data.splice(i, 1);
-    //     }      
-    // }    
-      this.topics = data;
-     const dropDownSelectedValue =  populateDropDownValues(this.topics); 
-    }).catch((err) => {
-      console.log(err);
-    });
-}
+    this.topicList = {};
+    this.questionSearchDisplayService.getTopicz()
+      .then((data) => {
+        this.topics = data;
+        const dropDownSelectedValue = populateDropDownValues(this.topics);
+      }).catch((err) => {
+        console.log(err);
+      });
+  }
 
-displayQuestionOnTopicBasis(selectedTopic){
-  // Display Questions on basis of topic
- 
-  this.questionSearchDisplayService.getQuestionsOnTopicBasis(selectedTopic)
-    .then((data) => {      
-      var myData = [];
-      for(var qKey in data){
-       var ques = data[qKey];
-       ques.qid = qKey;
-        myData.push(ques);
-      }
-    
-  showQuestionsByTopic(myData);
-    }).catch((err) => {
-      console.log(err);
-    });
-}
+  displayQuestionOnTopicBasis(selectedTopic) {
+    this.questionSearchDisplayService.getQuestionsOnTopicBasis(selectedTopic)
+      .then((data) => {
+        const myData = [];
+        for (const qKey in data) {
+          const ques = data[qKey];
+          ques.qid = qKey;
+          myData.push(ques);
+        }
 
+        showQuestionsByTopic(myData);
+      }).catch((err) => {
+        console.log(err);
+      });
+  }
 
 
   saveNewTopic(selectTopic) {
