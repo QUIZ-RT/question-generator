@@ -4,6 +4,7 @@ import firebaseClient from './shared/firebase.client.config';
 import quizGeneratorHtml from './views/quizGenerator';
 import loginpageHtml from './views/loginForm';
 import UserService from './services/userService';
+import UserController from './controllers/userController';
 
 require('firebase/auth');
 
@@ -60,16 +61,17 @@ function loadNotifications() {
     jQuery('#notification-dropdown-body').append(notificationBlankTemplate);
   } else {
     notifications.forEach((notification) => {
-      const notificationTemplate = `<div class="notification new" >
-    <div class="notification-image-wrapper">
-      <div class="notification-image">
-        <span>${notification.type} </span>
-      </div>
-    </div>
-    <div class="notification-text">
-       <span class="highlight"></span> ${notification.content}
-    </div>
-  </div>`;
+      const notificationTemplate = `
+      <div class="notification new" >
+        <div class="notification-image-wrapper">
+          <div class="notification-image">
+            <span>${notification.type} </span>
+          </div>
+        </div>
+        <div class="notification-text">
+          <span class="highlight"></span> ${notification.content}
+        </div>
+    </div>`;
       jQuery('#notification-dropdown-body').append(notificationTemplate);
     });
   }
@@ -121,10 +123,8 @@ function togglelogin(response) {
 		              <div class="dropdown-header">
 		                <span class="triangle"></span>
 		                <span class="heading">Notifications</span>
-		                <span class="count" id="dd-notifications-count">{{newNotifications.length}}</span>
 		              </div>
 		              <div id="notification-dropdown-body" class="dropdown-body">
-		                
 		              </div>
 		            </div>
 		          </div> 
@@ -140,6 +140,11 @@ function togglelogin(response) {
           jQuery('#notification-dropdown').toggle();
           localStorage.removeItem('notifications');
           setNotificationCount();
+        });
+
+        jQuery('#headSection').on('click', '.notification-text', (e) => {
+          const userCtrl = new  UserController();
+          userCtrl.init();
         });
 
         loadNotifications();
