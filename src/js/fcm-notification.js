@@ -7,7 +7,9 @@ configureToasts({
   topOrigin: -50, // [default=0] Y-axis origin of the messages.
   deleteDelay: 5000, // time until the toast is completely removed from the DOM after deleting.
 });
-const userController = new UserController();
+
+let userController = new UserController();
+
 const messaging = firebaseClient.messaging();
 
 messaging.usePublicVapidKey('BG96KHcY1hTDHCBxe54kuoe594S0loDgN9KCkCtovDWt8pGT8513Kr2SgF0VGjSsSyAMtzncLni4j1rvRxleFpc');
