@@ -5,20 +5,21 @@ import SearchQuestionController from '../controllers/searchQuestionController';
 
 export function loadScreenRoute(screenName) {
   switch (screenName) {
-      case 'questionManager':
-        new SearchQuestionController();
-        break;
-        
+    case 'questionManager':
+      new SearchQuestionController();
+      break;
+
     case 'topicManager':
       new TopicManagerController();
       break;
     case 'questionGenerator':
       QuestionManagerController.prototype.delegateWizardViewRequest();
       break;
-    case 'accessRequests':
+    case 'accessRequests': {
       const userController = new UserController();
       userController.init();
       break;
+    }
     default:
       console.log('oh');
   }

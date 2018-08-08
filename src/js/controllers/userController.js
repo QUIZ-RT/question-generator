@@ -1,8 +1,6 @@
 import { Toast, configureToasts, deleteAllToasts } from 'toaster-js';
 import UserService from '../services/userService';
 import NotificationViewHandler from '../views/notificationViewHandler';
-import Constants from '../shared/constants';
-
 
 class UserController {
   constructor() {

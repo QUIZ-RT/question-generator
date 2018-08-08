@@ -18,7 +18,6 @@ class TopicManagerController {
     this.addButtons();
     this.getAllTopics();
     this.dialog;
-    
     jQuery('.addTopicBtn').on('click', () => {
       this.addEditTopic();
     });
@@ -29,8 +28,8 @@ class TopicManagerController {
 
     jQuery('#mainContainer').on('click', '.editTopicBtn', (e) => {
       const topicId = jQuery(e.currentTarget).attr('data-id');
-      for (let i = 0; i < this.topics.length; i++) {
-        if (Number(topicId) == this.topics[i].id) {
+      for (let i = 0; i < this.topics.length; i += 1) {
+        if (Number(topicId) === this.topics[i].id) {
           const selectTopic = this.topics[i];
           this.addEditTopic(selectTopic);
           break;
@@ -40,24 +39,23 @@ class TopicManagerController {
     this.attachListner();
   }
 
-  attachListner(){
+  attachListner() {
     jQuery('#mainContainer').on('click', '.nextTopic', (e) => {
-      if(this.total > this.startIndex){
+      if (this.total > this.startIndex) {
         this.startIndex = this.startIndex + this.limit + 1;
-        console.log('next', this.startIndex)
+        console.log('next', this.startIndex);
         this.getAllTopics();
       }
-      
     });
     jQuery('#mainContainer').on('click', '.prevTopic', (e) => {
-      if(this.startIndex > 0){
+      if (this.startIndex > 0) {
         this.startIndex = this.startIndex - this.limit - 1;
-        console.log('prev', this.startIndex)
+        console.log('prev', this.startIndex);
         this.getAllTopics();
       }
     });
-    
   }
+
   openConfirmationModal(topicId) {
     // my-mdc-dialog-delete-confirm
     $('#dialogContainer').append(openConfirmation());
@@ -97,7 +95,7 @@ class TopicManagerController {
     const topicTxt = jQuery('.mdc-text-field-topic input').val().trim();
     const topicIds = [];
     let topicId = 0;
-    //let order = 0;
+    // let order = 0;
     if (!selectTopic) {
       for (const topicObj in this.topics) {
         const topicData = this.topics[topicObj];
@@ -106,7 +104,7 @@ class TopicManagerController {
       topicId = topicIds.reduce((maxId, id) => Math.max(id, maxId), -1) + 1;
     } else {
       topicId = selectTopic.id;
-      //order = this.topics[topicId].order
+      // order = this.topics[topicId].order
     }
     this.total += 1;
     if (topicTxt) {
@@ -117,20 +115,19 @@ class TopicManagerController {
         published: true,
         topicText: topicTxt,
         topicUrl: jQuery('.mdc-text-field-topic-url input').val(),
-        id: topicId  
-        
+        id: topicId,
+
       };
 
       store.dispatch({
         type: 'ADD_TOPIC',
-        'topic':topicObj
+        topic: topicObj,
       });
       this.topicManagerService.saveTopic(topicObj)
         .then((data) => {
           console.log('saved', data);
-          
-            this.getAllTopics();
 
+          this.getAllTopics();
         }).catch((err) => {
           console.log(err);
         });
@@ -157,23 +154,20 @@ class TopicManagerController {
   }
 
   getAllTopics() {
-    
     this.topicList = {};
     this.topicManagerService.getTopics()
       .then((data) => {
-        if(data){
-          const length = data.length;
-        for (let i = 0; i < length; i++) {
-          if (!data[i] && data.length > i) {
-            data.splice(i, 1);
-            i--;
-          }//else{
-          //   this.total = data[i].total;
-          // }
+        if (data) {
+          const dataLength = data.length;
+          for (let i = 0; i < dataLength; i += 1) {
+            if (!data[i] && dataLength > i) {
+              data.splice(i, 1);
+              i -= 1;
+            }
+          }
+          this.topics = data;
+          this.render(data);
         }
-        this.topics = data;
-        this.render(data);
-      }
       }).catch((err) => {
         console.log(err);
       });

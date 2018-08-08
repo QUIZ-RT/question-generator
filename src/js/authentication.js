@@ -10,27 +10,6 @@ require('firebase/auth');
 const provider = new firebaseinit.auth.GoogleAuthProvider();
 
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-
-jQuery(document).ready(() => {
-  const email = localStorage.getItem("email");
-  const userId = localStorage.getItem("userId");
-  const displayName = localStorage.getItem("displayName");
-  const photoURL = localStorage.getItem("photoURL");
-  const response = {
-    email: email,
-    id: userId,
-    displayName: displayName,
-    photoURL: photoURL,
-    photoURL
-  };
-  if (email) {
-    togglelogin(response)
-  }
-  else
-    togglelogin(null)
-
-});
-
 function signInWithPopup(callback) {
   firebaseClient.auth().signInWithPopup(provider).then((result) => {
     if (result.credential && result.user) {
@@ -45,6 +24,9 @@ function signInWithPopup(callback) {
 function googleSignIn(callback) {
   signInWithPopup(callback);
 }
+function clearLocalStorage() {
+  localStorage.clear();
+}
 
 function signOutApplication(callback) {
   clearLocalStorage();
@@ -55,9 +37,44 @@ function signOutApplication(callback) {
   });
 }
 
-function clearLocalStorage() {
-  localStorage.clear();
+function setNotificationCount() {
+  const notifications = JSON.parse(localStorage.getItem('notifications'));
+  let count = 0;
+  if (notifications) count = notifications.length;
+  jQuery('#notification_count').text(count);
 }
+function loadNotifications() {
+  jQuery('#notification-dropdown-body').html('');
+  const notifications = JSON.parse(localStorage.getItem('notifications'));
+  if (!notifications) {
+    const notificationBlankTemplate = `<div class="notification new" >
+    <div class="notification-image-wrapper">
+      <div class="notification-image">
+        <span> Oops :  </span>
+      </div>
+    </div>
+    <div class="notification-text">
+       <span class="highlight"></span>No more notifications received
+    </div>
+  </div>`;
+    jQuery('#notification-dropdown-body').append(notificationBlankTemplate);
+  } else {
+    notifications.forEach((notification) => {
+      const notificationTemplate = `<div class="notification new" >
+    <div class="notification-image-wrapper">
+      <div class="notification-image">
+        <span>${notification.type} </span>
+      </div>
+    </div>
+    <div class="notification-text">
+       <span class="highlight"></span> ${notification.content}
+    </div>
+  </div>`;
+      jQuery('#notification-dropdown-body').append(notificationTemplate);
+    });
+  }
+}
+
 // eventlistener start
 function togglelogin(response) {
   if (response) {
@@ -69,11 +86,11 @@ function togglelogin(response) {
     userService.getLocalAccessToken(response.id, response.email)
       .then((tokenData) => {
         console.log(tokenData);
-        localStorage.setItem("accessToken", tokenData.accessToken);
-        localStorage.setItem("isAdmin", tokenData.isAdmin);
-        localStorage.setItem("displayName", tokenData.displayName);
-        localStorage.setItem("email", response.email);
-        localStorage.setItem("photoURL", response.photoURL);
+        localStorage.setItem('accessToken', tokenData.accessToken);
+        localStorage.setItem('isAdmin', tokenData.isAdmin);
+        localStorage.setItem('displayName', tokenData.displayName);
+        localStorage.setItem('email', response.email);
+        localStorage.setItem('photoURL', response.photoURL);
         jQuery('#sideBarButton').toggleClass('d-none');
         console.log(response.accessToken);
         if (tokenData.isAdmin) {
@@ -81,9 +98,8 @@ function togglelogin(response) {
         }
 
         jQuery('#mainContainer').on('click', '#btnREquestAdminAccess', (e) => {
-          var userId = localStorage.getItem("userId");
-          var name = localStorage.getItem("displayName");
-          const userService = new UserService();
+          const userId = localStorage.getItem('userId');
+          const name = localStorage.getItem('displayName');
           userService.updateAccessRequest(userId, name);
         });
 
@@ -122,7 +138,7 @@ function togglelogin(response) {
         jQuery('#headSection').on('click', '#showNotifications', (e) => {
           loadNotifications();
           jQuery('#notification-dropdown').toggle();
-          localStorage.removeItem("notifications");
+          localStorage.removeItem('notifications');
           setNotificationCount();
         });
 
@@ -131,51 +147,10 @@ function togglelogin(response) {
       });
   } else {
     jQuery('#headSection').find('#rightHead').remove();
-    jQuery('#mainContainer').html(loginpageHtml);;
+    jQuery('#mainContainer').html(loginpageHtml);
     jQuery('#btnMenu').hide();
   }
 }
-
-function setNotificationCount() {
-  let notifications = JSON.parse(localStorage.getItem("notifications"));
-  let count = 0;
-  if (notifications) count = notifications.length;
-  jQuery("#notification_count").text(count);
-}
-function loadNotifications() {
-  jQuery('#notification-dropdown-body').html("");
-  let notifications = JSON.parse(localStorage.getItem("notifications"));
-  if (!notifications) {
-    let notificationBlankTemplate = `<div class="notification new" >
-    <div class="notification-image-wrapper">
-      <div class="notification-image">
-        <span> Oops :  </span>
-      </div>
-    </div>
-    <div class="notification-text">
-       <span class="highlight"></span>No more notifications received
-    </div>
-  </div>`;
-    jQuery('#notification-dropdown-body').append(notificationBlankTemplate);
-  }
-  else {
-    notifications.forEach(notification => {
-      let notificationTemplate = `<div class="notification new" >
-    <div class="notification-image-wrapper">
-      <div class="notification-image">
-        <span>${notification.type} </span>
-      </div>
-    </div>
-    <div class="notification-text">
-       <span class="highlight"></span> ${notification.content}
-    </div>
-  </div>`;
-      jQuery('#notification-dropdown-body').append(notificationTemplate);
-    });
-
-  }
-}
-
 function addCurrentUser(postUserData) {
   localStorage.setItem('userId', postUserData.id);
   jQuery.ajax({
@@ -231,4 +206,21 @@ function authEventListener() {
   });
 }
 
+jQuery(document).ready(() => {
+  const email = localStorage.getItem('email');
+  const userId = localStorage.getItem('userId');
+  const displayName = localStorage.getItem('displayName');
+  const photoURL = localStorage.getItem('photoURL');
+  const response = {
+    email,
+    id: userId,
+    displayName,
+    photoURL,
+  };
+  if (email) {
+    togglelogin(response);
+  } else {
+    togglelogin(null);
+  }
+});
 export default authEventListener;

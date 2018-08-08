@@ -1,9 +1,9 @@
 import QuestionController from './questionController';
 import {
-  QuestionManagerController
+  QuestionManagerController,
 } from './questionManagerController';
 import {
-  DomService
+  DomService,
 } from '../services/domService';
 
 const $dom = new DomService();
@@ -37,32 +37,26 @@ module.exports = jQuery(document).ready(() => {
     QuestionManagerController.prototype.generateQuestions(selectedElementsIdArray, topicCategory);
   });
 
-  // $(document).click(function(event) {
-  //     if (event.target !== obj[0]) {
-  //         obj2.hide();
-  //     }
-  // });
-
   $(document).on('keyup', '#templateInput', (e) => {
     const code = (e.keyCode ? e.keyCode : e.which);
     if (code === 13) {
-      let topic = document.getElementById('topicInput').value;
-      let template = document.getElementById('templateInput').value;
-      if(topic || topic === '' || template || template === '') {
-        DomService.prototype.showTemplateError('Topic and Question Template are both required values, please try again!')
+      const topic = document.getElementById('topicInput').value;
+      const template = document.getElementById('templateInput').value;
+      if (topic || topic === '' || template || template === '') {
+        DomService.prototype.showTemplateError('Topic and Question Template are both required values, please try again!');
       }
       $('#btnGenerate').click();
     }
   });
-  $(document).on('click', '#wizardContainer', function (event) {
-    var current = event.target;
-    while(current) {
-      if(!(current.id && current.id.startsWith('wizardStep'))){
+  $(document).on('click', '#wizardContainer', (event) => {
+    let current = event.target;
+    while (current) {
+      if (!(current.id && current.id.startsWith('wizardStep'))) {
         current = current.parentElement;
         continue;
       }
-      if(current.id.endsWith('Content')) {
-        let step = current.id.substr('wizardStep'.length).substr(0, 1);
+      if (current.id.endsWith('Content')) {
+        const step = current.id.substr('wizardStep'.length).substr(0, 1);
         DomService.prototype.updateWizardClasses(step);
         break;
       }
@@ -71,10 +65,10 @@ module.exports = jQuery(document).ready(() => {
 
   $(document).on('click', '#subject-pills-2 > .subject-pills', function () {
     // $('#subject-pills-2').on('click', '.subject-pills', function() {
-    if (!$('#wizardStep2').prop('disabled') || $('#wizardStep2').prop('disabled') == false) {
+    if (!$('#wizardStep2').prop('disabled') || $('#wizardStep2').prop('disabled') === false) {
       const self = $(this);
       $('#subject-pills-2').children('.subject-pills').each(function () {
-        if (self != $(this) && $(this).hasClass('clickPill')) {
+        if (self !== $(this) && $(this).hasClass('clickPill')) {
           $(this).removeClass('clickPill');
         }
       });
@@ -84,7 +78,7 @@ module.exports = jQuery(document).ready(() => {
 
   $(document).on('click', '#subject-pills-3 > .subject-pills', function () {
     // $('#subject-pills-3').on('click', '.subject-pills', function() {
-    if (!$('#wizardStep3').prop('disabled') || $('#wizardStep3').prop('disabled') == false) {
+    if (!$('#wizardStep3').prop('disabled') || $('#wizardStep3').prop('disabled') === false) {
       if ($(this).hasClass('clickPill')) {
         $(this).removeClass('clickPill');
       } else {

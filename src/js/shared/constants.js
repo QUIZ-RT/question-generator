@@ -35,7 +35,7 @@ class Constants {
     return { q_words: ['What is', 'Who is', 'Where is', 'Which is'], q_preps: ['of', 'in', 'on', 'at'] };
   }
 
-  static get TOPIC_PAGING_LIMIT(){
+  static get TOPIC_PAGING_LIMIT() {
     return 5;
   }
 }

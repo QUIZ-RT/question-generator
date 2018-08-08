@@ -6,4 +6,4 @@ export const menu = `<header class="mdc-top-app-bar">
             <span  class="mdc-top-app-bar__title">Quiz GenX</span>
         </section>
     </div>
-</header>`
+</header>`;

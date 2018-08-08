@@ -4,7 +4,6 @@ import DomManager from './domManager';
 import UserService from '../services/userService';
 import UserController from '../controllers/userController';
 /* eslint-disable no-debugger */
-const document = window.document;
 
 function createHTMLElement(html) {
   const template = document.createElement('template');
@@ -47,10 +46,10 @@ class NotificationViewHandler {
 
   displayAccessRequestedUsers(restData) {
     jQuery('#mainContainer').empty();
-    let mainTemplate = DomManager.getContainerTemplate();
+    const mainTemplate = DomManager.getContainerTemplate();
     jQuery('#mainContainer').append(mainTemplate);
 
-    let template = this.loadAdminAccessRequestedUsersTemplate(restData);
+    const template = this.loadAdminAccessRequestedUsersTemplate(restData);
     jQuery('#topic-ul').remove();
     jQuery('#mainContainer').append(template);
 

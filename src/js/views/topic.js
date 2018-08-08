@@ -14,7 +14,6 @@ export function topic(data, clickFunc) {
     }
   }
   template += '</ul>';
-  
   return template;
 }
 
@@ -41,12 +40,12 @@ export function loadButtons() {
 </nav></div>
 </div>`;
 }
-export function addTopicDialog(topic) {
+export function addTopicDialog(topicObj) {
   let topicTxt = '';
   let topicUrl = '';
-  if (topic) {
-    topicTxt = topic.topicText ? topic.topicText : '';
-    topicUrl = topic.topicUrl ? topic.topicUrl : '';
+  if (topicObj) {
+    topicTxt = topicObj.topicText ? topicObj.topicText : '';
+    topicUrl = topicObj.topicUrl ? topicObj.topicUrl : '';
   }
 
   return `<aside id="my-mdc-dialog"

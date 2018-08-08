@@ -7,15 +7,18 @@ const initailState = {
 const createReducer = function (state = initailState, action) {
   switch (action.type) {
     case 'ADD_TOPIC':
-    return Object.assign({}, state, {
-      topics: [...state.topics, {id: action.topic.id, topicText: action.topic.topicText, 
-      topicUrl: action.topic.topicUrl, createdBy: action.topic.createdBy,
-      createdDate: new Date(),
-      modifiedDate: new Date(),
-      published: true,
-      }]
-    });
-      
+      return Object.assign({}, state, {
+        topics: [...state.topics, {
+          id: action.topic.id,
+          topicText: action.topic.topicText,
+          topicUrl: action.topic.topicUrl,
+          createdBy: action.topic.createdBy,
+          createdDate: new Date(),
+          modifiedDate: new Date(),
+          published: true,
+        }],
+      });
+
     case UPDATE_TOPIC:
       console.log('UPDATE_TOPIC');
       break;
@@ -25,5 +28,6 @@ const createReducer = function (state = initailState, action) {
     default:
       return state;
   }
+  return state;
 };
 export default createReducer;

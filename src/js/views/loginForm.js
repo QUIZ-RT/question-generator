@@ -1,4 +1,4 @@
-const loginpageHtml = `<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+const loginForm = `<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="container">
                 <div class="row justify-content-center pt-5">
 
@@ -11,4 +11,4 @@ const loginpageHtml = `<div class="tab-pane fade show active" id="home" role="ta
                     </div>
                 </div>
             </div>`;
-export default loginpageHtml;
+export default loginForm;
