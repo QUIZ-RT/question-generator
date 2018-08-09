@@ -50,7 +50,7 @@ module.exports = (app) => {
         return new Promise((resolve, reject) => {
             const pageNumber = parseInt(req.params.pageNumber);
             console.log("......." + pageNumber);
-            databaseFunc.getTopics(null, pageNumber).then((data) => {
+            databaseFunc.getTopicsPage(null, pageNumber).then((data) => {
                 res.json(data);
                 resolve(data);
             })
@@ -139,6 +139,20 @@ module.exports = (app) => {
                 console.log(err)
             });
     });
+
+    app.post('/firebase/api/topicsPagination', (req, res) => { // it will current user detail on screan
+        return new Promise((resolve, reject) => {
+            console.log(req);
+            databaseFunc.saveTopicsPage(req.body.id, req.body, resolve, reject)
+        }).then((data) => {
+            res.json(req.body);
+            fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
+
 
     app.post('/firebase/api/updateQuestion', (req, res) => {
         return new Promise((resolve, reject) => {

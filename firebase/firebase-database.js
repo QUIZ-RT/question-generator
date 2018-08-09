@@ -1,5 +1,6 @@
 const firebase = require('firebase/app');
 const firebaseInit = require('./firebase');
+const serverConstants = require('./server-constants')
 const keysStoreObj = {};
 require('firebase/database');
 
@@ -17,7 +18,7 @@ module.exports = class firebaseDatabase {
     console.log(pagiNationObj);
     if (pagiNationObj) {
       if (pagiNationObj.key) {
-        return firebaseInit.database().ref(refUrl).orderByKey().startAt(pagiNationObj.key).limitToFirst(3).once('value').then(response => {
+        return firebaseInit.database().ref(refUrl).orderByKey().startAt(pagiNationObj.key).limitToFirst(serverConstants.PAGINATION_LIMIT).once('value').then(response => {
           const result = response.val();
           if (result) {
             const keys = Object.keys(result);
@@ -28,13 +29,14 @@ module.exports = class firebaseDatabase {
               const thisKey = keys[keys.length - 1];
               keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = thisKey
               console.log(thisKey);
+              if(keys.length > 2)
               delete result[thisKey];
             }
           }
           return result;
         });
       } else {
-        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(3).once('value').then(response => {
+        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(serverConstants.PAGINATION_LIMIT).once('value').then(response => {
           const result = response.val();
           if (result) {
             const keys = Object.keys(result);
@@ -45,6 +47,7 @@ module.exports = class firebaseDatabase {
               const thisKey = keys[keys.length - 1];
               keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = thisKey
               console.log(thisKey);
+              if(keys.length > 2)
               delete result[thisKey];
             }
           }
@@ -134,6 +137,25 @@ module.exports = class firebaseDatabase {
     return this.getFirebaseData(refUrl, pagiNationObj);
   }
 
+  getTopicsPage(topicId, pageNumber) {
+    let refUrl = 'topicsTest';
+    let pagiNationObj = null;
+    if (topicId) {
+      refUrl = `topicsTest/${topicId}`;
+    }
+    if (pageNumber) {
+      console.log(keysStoreObj);
+      pagiNationObj = {};
+      pagiNationObj["pageNumber"] = pageNumber;
+      pagiNationObj["refCollection"] = 'topics';
+      const thisObj = keysStoreObj['topics'];
+      if (thisObj && thisObj[pageNumber]) {
+        pagiNationObj["key"] = thisObj[pageNumber];
+      }
+    }
+    return this.getFirebaseData(refUrl, pagiNationObj);
+  }
+
   getQuestions(topicId, quizId, pageNumber) {
     let refUrl = 'questions';
     let pagiNationObj = null;
@@ -172,6 +194,12 @@ module.exports = class firebaseDatabase {
   saveTopics(topicId, topicObj, resolve, reject) {
 
     const refUrl = `topics/${topicId}`;
+    this.saveFirebaseData(refUrl, topicObj, resolve, reject);
+  }
+
+  saveTopicsPage(topicId, topicObj, resolve, reject) {
+
+    const refUrl = `topicsTest/${topicId}`;
     this.saveFirebaseData(refUrl, topicObj, resolve, reject);
   }
 
