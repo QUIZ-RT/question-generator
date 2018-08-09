@@ -14,9 +14,10 @@ module.exports = class firebaseDatabase {
   }
 
   getFirebaseData(refUrl, pagiNationObj) {
+    console.log(pagiNationObj);
     if (pagiNationObj) {
       if (pagiNationObj.key) {
-        return firebaseInit.database().ref(refUrl).orderByKey().startAt(pagiNationObj.key).limitToFirst(2).once('value').then(response => {
+        return firebaseInit.database().ref(refUrl).orderByKey().startAt(pagiNationObj.key).limitToFirst(3).once('value').then(response => {
           const result = response.val();
           if (result) {
             const keys = Object.keys(result);
@@ -24,14 +25,16 @@ module.exports = class firebaseDatabase {
               if (!keysStoreObj[pagiNationObj.refCollection]) {
                 keysStoreObj[pagiNationObj.refCollection] = {};
               }
-              keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = keys[keys.length - 1]
-              console.log(keys[keys.length - 1]);
+              const thisKey = keys[keys.length - 1];
+              keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = thisKey
+              console.log(thisKey);
+              delete result[thisKey];
             }
           }
           return result;
         });
       } else {
-        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(2).once('value').then(response => {
+        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(3).once('value').then(response => {
           const result = response.val();
           if (result) {
             const keys = Object.keys(result);
@@ -39,8 +42,10 @@ module.exports = class firebaseDatabase {
               if (!keysStoreObj[pagiNationObj.refCollection]) {
                 keysStoreObj[pagiNationObj.refCollection] = {};
               }
-              keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = keys[keys.length - 1]
-              console.log(keys[keys.length - 1]);
+              const thisKey = keys[keys.length - 1];
+              keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = thisKey
+              console.log(thisKey);
+              delete result[thisKey];
             }
           }
           return result;
@@ -126,8 +131,7 @@ module.exports = class firebaseDatabase {
         pagiNationObj["key"] = thisObj[pageNumber];
       }
     }
-    console.log(pagiNationObj);
-    return this.getFirebaseData(refUrl);
+    return this.getFirebaseData(refUrl, pagiNationObj);
   }
 
   getQuestions(topicId, quizId, pageNumber) {
@@ -150,7 +154,6 @@ module.exports = class firebaseDatabase {
         pagiNationObj["key"] = thisObj[pageNumber]
       }
     }
-    console.log(pagiNationObj);
     return this.getFirebaseData(refUrl, pagiNationObj);
   }
   getUsers(userId) {
