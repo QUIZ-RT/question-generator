@@ -123,7 +123,7 @@ module.exports = (app) => {
             console.log(req);
             databaseFunc.saveTopics(req.body.id, null, resolve, reject)
         }).then((data) => {
-            res.json(req.body);
+            res.json(data);
         })
             .catch((err) => {
                 console.log(err)
@@ -133,7 +133,7 @@ module.exports = (app) => {
         return new Promise((resolve, reject) => {
             databaseFunc.seveLoggedUserInfo(req.body.id, req.body, resolve, reject)
         }).then((data) => {
-            res.json(req.body);
+            res.json(data);
         })
             .catch((err) => {
                 res.end(err);
@@ -145,7 +145,7 @@ module.exports = (app) => {
             console.log(req);
             databaseFunc.saveTopics(req.body.id, req.body, resolve, reject)
         }).then((data) => {
-            res.json(req.body);
+            res.json(data);
             fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
         })
             .catch((err) => {
@@ -157,7 +157,7 @@ module.exports = (app) => {
         return new Promise((resolve, reject) => {
             databaseFunc.updateQuestion(req.body.quesId, req.body, resolve, reject)
         }).then((data) => {
-            res.json(req.body);
+            res.json(data);
             //  fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
         })
             .catch((err) => {
@@ -171,7 +171,7 @@ module.exports = (app) => {
         return new Promise((resolve, reject) => {
             databaseFunc.saveQuestions(req.body, resolve, reject)
         }).then((data) => {
-            res.json(req.body);
+            res.json(data);
         })
             .catch((err) => {
                 console.log(err)
