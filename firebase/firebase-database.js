@@ -1,6 +1,6 @@
 const firebase = require('firebase/app');
 const firebaseInit = require('./firebase');
-
+const keysArr = {};
 require('firebase/database');
 
 module.exports = class firebaseDatabase {
@@ -15,28 +15,40 @@ module.exports = class firebaseDatabase {
 
   getFirebaseData(refUrl, pagiNationObj) {
     if (pagiNationObj) {
-      if (pagiNationObj.action === "next") {
-        if (pagiNationObj.key) {
-          return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(pagiNationObj.count).startAt(pagiNationObj.key).once('value').then(response => {
-            return response.val();
-          });
-        } else {
-          return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(pagiNationObj.count).once('value').then(response => {
-            return response.val();
-          });
-        }
+      if (pagiNationObj.key) {
+        return firebaseInit.database().ref(refUrl).orderByKey().startAt(pagiNationObj.key).limitToFirst(10).once('value').then(response => {
+          const result = response.val();
+          if (result) {
+            const keys = Object.keys(result);
+            if (keys && keys.length) {
+              keysArr[pagiNationObj.pageNumber + 1] = keys[keys.length - 1]
+              console.log(keys[keys.length - 1]);
+            }
+          }
+          return result;
+        });
       } else {
-        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(pagiNationObj.count).startAt(pagiNationObj.key).once('value').then(response => {
-          return response.val();
+        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(10).once('value').then(response => {
+          const result = response.val();
+          if (result) {
+            const keys = Object.keys(result);
+            if (keys && keys.length) {
+              keysArr[pagiNationObj.pageNumber + 1] = keys[keys.length - 1];
+              console.log(keys[keys.length - 1]);
+            }
+          }
+          return result;
         });
       }
     } else {
       return firebaseInit.database().ref(refUrl).once('value').then(response => response.val());
     }
   }
+
   deleteFirebaseData(refUrl) {
     return firebaseInit.database().ref(refUrl).remove();
   }
+
   saveFirebaseData(refUrl, postDataObj, resolve, reject) {
     firebaseInit.database().ref(refUrl).set(postDataObj, (error) => {
       if (error) {
@@ -111,13 +123,11 @@ module.exports = class firebaseDatabase {
 
     }
     if (pageNumber) {
+      console.log(keysArr);
       pagiNationObj = {};
-      pagiNationObj["count"] = pageNumber * 5
-      if (key) {
-        pagiNationObj["key"] = key
-      }
-      if (action) {
-        pagiNationObj["action"] = action;
+      pagiNationObj["pageNumber"] = pageNumber;
+      if (keysArr[pageNumber]) {
+        pagiNationObj["key"] = keysArr[pageNumber]
       }
     }
     console.log(pagiNationObj);
@@ -149,14 +159,14 @@ module.exports = class firebaseDatabase {
       this.saveFirebaseArrayData(refUrl, quizObj, topicId, resolve, reject);
     }
   }
-  updateQuestion(quesId,newQuesObj, resolve, reject){      
-      const refUrl =  `questions`;
-      this.updateFirebaseData(refUrl,newQuesObj.topic,newQuesObj.id,newQuesObj, resolve, reject);
+  updateQuestion(quesId, newQuesObj, resolve, reject) {
+    const refUrl = `questions`;
+    this.updateFirebaseData(refUrl, newQuesObj.topic, newQuesObj.id, newQuesObj, resolve, reject);
   }
 
-  updateFirebaseData(refUrl, topic, quesId, dataObj, resolve, reject) {   
+  updateFirebaseData(refUrl, topic, quesId, dataObj, resolve, reject) {
     let variable_ref = `${refUrl}/${topic}/${quesId}`;
-      firebaseInit.database().ref(`${refUrl}/${topic}/${quesId}`).update(dataObj, (error) => {      
+    firebaseInit.database().ref(`${refUrl}/${topic}/${quesId}`).update(dataObj, (error) => {
       if (error) {
         reject('there is some issue we will come back sortly');
       } else {

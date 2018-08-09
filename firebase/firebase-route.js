@@ -18,14 +18,12 @@ module.exports = (app) => {
                 });
         });
     });
-    app.get('/firebase/api/questions/:topicId/:pagenumber?/:action?/:key?', (req, res) => { // it will current user detail on screan
+    app.get('/firebase/api/questions/:topicId/:pagenumber?', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             const topicId = req.params.topicId;
-            const pageNumber = req.params.pagenumber;
-            const action = req.params.action;
-            const key = req.params.key;
-            console.log(topicId + pageNumber + action + key);
-            databaseFunc.getQuestions(topicId, null, pageNumber, action, key).then((data) => {
+            const pageNumber = parseInt(req.params.pagenumber);
+            console.log(topicId + "......." + pageNumber);
+            databaseFunc.getQuestions(topicId, null, pageNumber).then((data) => {
                 res.json(data);
                 resolve(data);
             })
@@ -129,12 +127,12 @@ module.exports = (app) => {
             });
     });
 
-    app.post('/firebase/api/updateQuestion', (req, res) => {        
+    app.post('/firebase/api/updateQuestion', (req, res) => {
         return new Promise((resolve, reject) => {
             databaseFunc.updateQuestion(req.body.quesId, req.body, resolve, reject)
         }).then((data) => {
             res.json(req.body);
-          //  fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
+            //  fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
         })
             .catch((err) => {
                 console.log(err)
