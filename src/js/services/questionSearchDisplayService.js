@@ -15,9 +15,7 @@ let self= this;
                 }
             });
 
-            $(document).on('click', '#nextPageButton', function () {
-              console.log("Next Button CLicked");
-              alert(" !!! NEXT BUTTON !!!");
+            $(document).on('click', '#nextPageButton', function () {              
               const selectedTopicValue = $('#dropDownButton')[0].outerText;
               debugger;
               if (selectedTopicValue) {
@@ -25,9 +23,7 @@ let self= this;
                }
             });
 
-            $(document).on('click', '#previousPageButton', function () {
-              console.log("Previous Button CLicked");
-              alert(" !!! Previous BUTTON !!!");
+            $(document).on('click', '#previousPageButton', function () {    
               const selectedTopicValue = $('#dropDownButton')[0].outerText;
               debugger;
               if (selectedTopicValue) {
