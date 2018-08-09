@@ -48,7 +48,7 @@ module.exports = (app) => {
     });
     app.get('/firebase/api/topics/:pageNumber?', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
-            const pageNumber = parseInt(req.params.pagenumber);
+            const pageNumber = parseInt(req.params.pageNumber);
             console.log("......." + pageNumber);
             databaseFunc.getTopics(null, pageNumber).then((data) => {
                 res.json(data);
