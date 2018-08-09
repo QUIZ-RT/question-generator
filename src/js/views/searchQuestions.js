@@ -1,41 +1,60 @@
 import {updateQuesModal} from './updateQuesModal';
 import {quesUpdateView} from './quesUpdateView';
+import {displayQuestionOnTopicBasis} from '../services/questionSearchDisplayService';
 
 export function loadDropdownAndButton() {
-  return `<div id='questionOnTopicContainer' class='pt-5'><div class="text-center">
-
-    <div class="dropdown">
-    <button type="button" id="dropDownButton" class="btn btn-primary dropdown-toggle topicButton" data-toggle="dropdown">
-      Topics
-    </button>
-    <div class="dropdown-menu" id="topicDropDown">
-
-    </div>
-  </div>
+  return `<div id='questionOnTopicContainer' class='pt-5'>
+ <table>
+ <tr>
+ <td>
+ <h1> <span class="badge badge-secondary marginLeft">Select the topic</span></h1>
+ </td>
  
-          <div>
-          <input type="hidden" id="quesIdTextbox" value=""/>
-          <input type="hidden" id="batchIdTextbox" value=""/>
-          <input type="hidden" id="topicIdTextbox" value=""/>
+ <td>
+
+    <div class="dropdown marginLeft">
+          <button type="button" id="dropDownButton" class="btn btn-primary dropdown-toggle topicButton" data-toggle="dropdown">
+            Topics
+          </button>
+          <div class="dropdown-menu" id="topicDropDown">
           </div>
+  </div>
+  </td>
+  <td>
+ 
+          <div class="text-right marginLeft">
+              <nav aria-label="Page navigation example">
+                  <ul class="pagination">                    
+                  <li class="page-item marginLeft-small invisible" id="previousPageButton"><a class="page-link" href="#">Previous</a></li>
+                  <li class="page-item marginLeft-small invisible" id="nextPageButton"><a class="page-link" href="#">Next</a></li>
+                  </ul>
+                </nav>
+       </div>
+       </td>
+</tr></table>
+
+<div>
+<input type="hidden" id="quesIdTextbox" value=""/>
+<input type="hidden" id="batchIdTextbox" value=""/>
+<input type="hidden" id="topicIdTextbox" value=""/>
+<input type="hidden" id="storePageNumberTextbox" value=""/>
+
+</div>
+
 
   </div>
   `;
 }
 
-export function populateDropDownValues(topics) { 
+export function populateDropDownValues(topics) {   
   $.each(topics, (i, item) => {
+    if(item){
     $('#topicDropDown').append($('<a>', {
       class: 'dropdown-item',
       href: '#',
       text: item.topicText,
     }));
-  });
-
-
-  $('#topicDropDown').on('click', '.dropdown-item', function () {
-    const selectedValue = $(this).html();
-    $('#dropDownButton').html(selectedValue);
+  }
   });
 
   $(document).on('click', '.clickToDisplayQues',  function(event) {
