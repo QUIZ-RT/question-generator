@@ -46,11 +46,22 @@ module.exports = (app) => {
                 });
         });
     });
-    app.get('/firebase/api/topics/:pageNumber?', (req, res) => { // it will current user detail on screan
+    app.get('/firebase/api/topicsPagination/:pageNumber?', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             const pageNumber = parseInt(req.params.pagenumber);
             console.log("......." + pageNumber);
             databaseFunc.getTopics(null, pageNumber).then((data) => {
+                res.json(data);
+                resolve(data);
+            })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    });
+    app.get('/firebase/api/topics', (req, res) => { // it will current user detail on screan
+        return new Promise((resolve, reject) => {
+            databaseFunc.getTopics(null).then((data) => {
                 res.json(data);
                 resolve(data);
             })

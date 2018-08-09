@@ -205,6 +205,16 @@ class TopicManagerController {
       });
   }
 
+  generateTopicId(){
+    let text;
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < 6; i += 1) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return 'topic-'+text;
+  }
+
    render(data) {
     this.topics = data;
     const template = topic(data);

@@ -16,7 +16,7 @@ module.exports = class firebaseDatabase {
   getFirebaseData(refUrl, pagiNationObj) {
     if (pagiNationObj) {
       if (pagiNationObj.key) {
-        return firebaseInit.database().ref(refUrl).orderByKey().startAt(pagiNationObj.key).limitToFirst(10).once('value').then(response => {
+        return firebaseInit.database().ref(refUrl).orderByKey().startAt(pagiNationObj.key).limitToFirst(2).once('value').then(response => {
           const result = response.val();
           if (result) {
             const keys = Object.keys(result);
@@ -31,7 +31,7 @@ module.exports = class firebaseDatabase {
           return result;
         });
       } else {
-        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(10).once('value').then(response => {
+        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(2).once('value').then(response => {
           const result = response.val();
           if (result) {
             const keys = Object.keys(result);
@@ -112,6 +112,7 @@ module.exports = class firebaseDatabase {
 
   getTopics(topicId, pageNumber) {
     let refUrl = 'topics';
+    let pagiNationObj = null;
     if (topicId) {
       refUrl = `topics/${topicId}`;
     }
