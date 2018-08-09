@@ -46,9 +46,11 @@ module.exports = (app) => {
                 });
         });
     });
-    app.get('/firebase/api/topics', (req, res) => { // it will current user detail on screan
+    app.get('/firebase/api/topics/:pageNumber?', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
-            databaseFunc.getTopics(null).then((data) => {
+            const pageNumber = parseInt(req.params.pagenumber);
+            console.log("......." + pageNumber);
+            databaseFunc.getTopics(null, pageNumber).then((data) => {
                 res.json(data);
                 resolve(data);
             })

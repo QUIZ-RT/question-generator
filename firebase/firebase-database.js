@@ -1,6 +1,6 @@
 const firebase = require('firebase/app');
 const firebaseInit = require('./firebase');
-const keysArr = {};
+const keysStoreObj = {};
 require('firebase/database');
 
 module.exports = class firebaseDatabase {
@@ -21,7 +21,10 @@ module.exports = class firebaseDatabase {
           if (result) {
             const keys = Object.keys(result);
             if (keys && keys.length) {
-              keysArr[pagiNationObj.pageNumber + 1] = keys[keys.length - 1]
+              if (!keysStoreObj[pagiNationObj.refCollection]) {
+                keysStoreObj[pagiNationObj.refCollection] = {};
+              }
+              keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = keys[keys.length - 1]
               console.log(keys[keys.length - 1]);
             }
           }
@@ -33,7 +36,10 @@ module.exports = class firebaseDatabase {
           if (result) {
             const keys = Object.keys(result);
             if (keys && keys.length) {
-              keysArr[pagiNationObj.pageNumber + 1] = keys[keys.length - 1];
+              if (!keysStoreObj[pagiNationObj.refCollection]) {
+                keysStoreObj[pagiNationObj.refCollection] = {};
+              }
+              keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = keys[keys.length - 1]
               console.log(keys[keys.length - 1]);
             }
           }
@@ -104,15 +110,26 @@ module.exports = class firebaseDatabase {
     return this.getFirebaseData(`/users/${userId}`);
   }
 
-  getTopics(topicId) {
+  getTopics(topicId, pageNumber) {
     let refUrl = 'topics';
     if (topicId) {
       refUrl = `topics/${topicId}`;
     }
+    if (pageNumber) {
+      console.log(keysStoreObj);
+      pagiNationObj = {};
+      pagiNationObj["pageNumber"] = pageNumber;
+      pagiNationObj["refCollection"] = 'topics';
+      const thisObj = keysStoreObj['topics'];
+      if (thisObj && thisObj[pageNumber]) {
+        pagiNationObj["key"] = thisObj[pageNumber];
+      }
+    }
+    console.log(pagiNationObj);
     return this.getFirebaseData(refUrl);
   }
 
-  getQuestions(topicId, quizId, pageNumber, action, key) {
+  getQuestions(topicId, quizId, pageNumber) {
     let refUrl = 'questions';
     let pagiNationObj = null;
     if (topicId) {
@@ -123,11 +140,13 @@ module.exports = class firebaseDatabase {
 
     }
     if (pageNumber) {
-      console.log(keysArr);
+      console.log(keysStoreObj);
       pagiNationObj = {};
       pagiNationObj["pageNumber"] = pageNumber;
-      if (keysArr[pageNumber]) {
-        pagiNationObj["key"] = keysArr[pageNumber]
+      pagiNationObj["refCollection"] = 'questions';
+      const thisObj = keysStoreObj['questions'];
+      if (thisObj && thisObj[pageNumber]) {
+        pagiNationObj["key"] = thisObj[pageNumber]
       }
     }
     console.log(pagiNationObj);
