@@ -6,7 +6,25 @@ const helper = new Helper();
 const queries = require('./../queries/sparqueries');
 
 const dom = new DomService();
-
+function pushDataToQuizEngine(quizData) {
+  $.ajax({
+    header: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    url: 'https://quiz-engine.herokuapp.com/api/questions',
+    dataType: 'json',
+    cors: 'no-cors',
+    type: 'post',
+    contentType: 'application/json',
+    data: quizData,
+    success(msg) {
+      console.log(msg);
+    },
+    error(jqXhr, textStatus, errorThrown) {
+      console.log(errorThrown);
+    },
+  });
+}
 module.exports = {
   endpointUrl: SparqlConstants.END_POINT_URL,
   countryToCityMap: {},
@@ -56,19 +74,19 @@ module.exports = {
       case SparqlConstants.VALUES.INSTANCE_OF.HUMAN:
         selectedProperties = SparqlConstants.PROPS.PEOPLE;
         Object.keys(selectedProperties).forEach((key) => {
-            const selectedProperty = selectedProperties[key];
-            // let selectedProperty = selectedProperties[key];
-            if(selectedProperty.PID === 'P106') {
-                return true;
-            }
-            const sparqConcat = helper.convertToSparqConcat(selectedProperty.QUESTION_TEMPLATE);
-            sparqlQuery = `${sparqlQuery.replace('#PRIMARY_FILTER', SparqlConstants.PROPS.PEOPLE.OCCUPATION.PID)}`;
-            sparqlQuery = `${sparqlQuery.replace('#PRIMARY_FILTER_VALUE', itemsArray[0])}`;
-            sparqlQuery = `${sparqlQuery.replace('#PROPERTY', selectedProperty.PID)}`;
-            sparqlQuery = `${sparqlQuery.replace('#TEMPLATE', sparqConcat)}`;
-            // console.log(sparqlQuery);
-            propUrls.push({'key': key, 'URL': `${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(sparqlQuery)}`});
-            sparqlQuery = queries.query;
+          const selectedProperty = selectedProperties[key];
+          // let selectedProperty = selectedProperties[key];
+          if (selectedProperty.PID === 'P106') {
+            return true;
+          }
+          const sparqConcat = helper.convertToSparqConcat(selectedProperty.QUESTION_TEMPLATE);
+          sparqlQuery = `${sparqlQuery.replace('#PRIMARY_FILTER', SparqlConstants.PROPS.PEOPLE.OCCUPATION.PID)}`;
+          sparqlQuery = `${sparqlQuery.replace('#PRIMARY_FILTER_VALUE', itemsArray[0])}`;
+          sparqlQuery = `${sparqlQuery.replace('#PROPERTY', selectedProperty.PID)}`;
+          sparqlQuery = `${sparqlQuery.replace('#TEMPLATE', sparqConcat)}`;
+          // console.log(sparqlQuery);
+          propUrls.push({ 'key': key, 'URL': `${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(sparqlQuery)}` });
+          sparqlQuery = queries.query;
         })
         self.generateQuestionsRecursive(propUrls, 0, topicCategory, [], {});
         break;
@@ -79,7 +97,7 @@ module.exports = {
 
   generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray, propertyQuestionMap) {
     let self = this;
-    if(propsIndex > propsArray.length - 1) {
+    if (propsIndex > propsArray.length - 1) {
       window.localStorage.setItem('question_data', JSON.stringify(quesArray));
       self.getConfirmationOnGenerated(propertyQuestionMap);
       return;
@@ -87,41 +105,40 @@ module.exports = {
     let propertyQuestionUrl = propsArray[propsIndex]['URL'];
     let property = propsArray[propsIndex]['key'];
     let headers = {
-        Accept: 'application/sparql-results+json',
+      Accept: 'application/sparql-results+json',
     };
     fetch(propertyQuestionUrl, {
-        headers,
-      }).then(body => body.json()).then((json) => {
-        let quesArrayPerProperty = [];
-        const {
-          head: {
-            vars,
-          },
-          results,
-        } = json;
-        const batchId = helper.generateId();
-        for (const result of results.bindings) {
-          const questionObj = {};
-          questionObj.batchId = batchId;
-          questionObj.question = result.questionlabel.value;
-          // console.log(questionObj.question);
-          questionObj.answer = result.propertyLabel.value;
-          questionObj.topic = topicCategory;
-          const options = helper.generateOptions(result, results.bindings);
-          options.push(questionObj.answer);
-          questionObj.options = options;
-          quesArrayPerProperty.push(questionObj);
-        }
-        propertyQuestionMap[property] = quesArrayPerProperty;
-        quesArray = quesArray.concat(quesArrayPerProperty);
-        self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray, propertyQuestionMap);
-      });
+      headers,
+    }).then(body => body.json()).then((json) => {
+      let quesArrayPerProperty = [];
+      const {
+        head: {
+          vars,
+        },
+        results,
+      } = json;
+      const batchId = helper.generateId();
+      for (const result of results.bindings) {
+        const questionObj = {};
+        questionObj.batchId = batchId;
+        questionObj.question = result.questionlabel.value;
+        // console.log(questionObj.question);
+        questionObj.answer = result.propertyLabel.value;
+        questionObj.topic = topicCategory;
+        const options = helper.generateOptions(result, results.bindings);
+        options.push(questionObj.answer);
+        questionObj.options = options;
+        quesArrayPerProperty.push(questionObj);
+      }
+      propertyQuestionMap[property] = quesArrayPerProperty;
+      quesArray = quesArray.concat(quesArrayPerProperty);
+      self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray, propertyQuestionMap);
+    });
   },
 
   getConfirmationOnGenerated(propertyQuestionMap) {
     dom.showGeneratedQuestionDisplayer(propertyQuestionMap);
   },
-
   saveQuestions(quesArray) {
     // console.log(`after : ${quesArray}`);
     $.ajax({
@@ -130,8 +147,8 @@ module.exports = {
       type: 'post',
       contentType: 'application/json',
       data: JSON.stringify(quesArray),
-      success(data) {
-        console.log(data);
+      success(quizData) {
+        pushDataToQuizEngine(quizData);
       },
       error(jqXhr, textStatus, errorThrown) {
         console.log(errorThrown);

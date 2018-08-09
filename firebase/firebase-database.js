@@ -92,11 +92,12 @@ module.exports = class firebaseDatabase {
             }
             dataObj.options = tempObj;
           }
-          firebaseInit.database().ref(`${refUrl}/${topicId}/${this.generateRandomQuizId(refId)}`).set(dataObj, (error) => {
+          const tempKey = this.generateRandomQuizId(refId);
+          firebaseInit.database().ref(`${refUrl}/${topicId}/${tempKey}`).set(dataObj, (error) => {
             if (error) {
               rejected('there is some issue we will come back sortly');
             } else {
-              resolved(dataObj);
+              resolved({ id: tempKey, data: dataObj });
             }
           });
         })
@@ -104,7 +105,18 @@ module.exports = class firebaseDatabase {
       }
     }
     Promise.all(promiseArray).then((savedResult) => {
-      resolve(savedResult)
+      if (savedResult) {
+        const savedObj = {};
+        savedObj[topicId] = {};
+        for (var i = 0; i < savedResult.length; i++) {
+          const thisRes = savedResult[i];
+          savedObj[topicId][thisRes.id] = thisRes.data;
+        }
+        resolve(savedObj);
+      }
+      else {
+        resolve(savedResult);
+      }
     }).catch((error) => {
       reject(error);
     });
