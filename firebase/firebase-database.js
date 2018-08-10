@@ -29,8 +29,8 @@ module.exports = class firebaseDatabase {
               const thisKey = keys[keys.length - 1];
               keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = thisKey
               console.log(thisKey);
-              if(keys.length>2){
-              delete result[thisKey];
+              if (keys.length > serverConstants.PAGINATION_LIMIT - 1) {
+                delete result[thisKey];
               }
             }
           }
@@ -48,9 +48,9 @@ module.exports = class firebaseDatabase {
               const thisKey = keys[keys.length - 1];
               keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = thisKey
               console.log(thisKey);
-              if(keys.length>2){
+              if (keys.length > serverConstants.PAGINATION_LIMIT - 1) {
                 delete result[thisKey];
-                }
+              }
             }
           }
           return result;
