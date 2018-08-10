@@ -105,11 +105,11 @@ module.exports = (app) => {
                 });
         });
     });
-    app.get('/firebase/api/topicsTest', (req, res) => { // it will current user detail on screan
+    app.get('/firebase/api/topics', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             databaseFunc.getTopics().then((data) => {
                 res.json(Object.values(data));
-                resolve(returnData);
+                resolve(data);
             })
                 .catch((err) => {
                     reject(err);
