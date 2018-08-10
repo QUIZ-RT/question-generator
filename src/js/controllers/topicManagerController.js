@@ -124,7 +124,7 @@ class TopicManagerController {
         published: true,
         topicText: topicTxt,
         topicUrl: jQuery('.mdc-text-field-topic-url input').val().trim(),
-        id: topicId,
+        id: topicTxt,
 
       };
       // if(!topicObj.topicUrl){
