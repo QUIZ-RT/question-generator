@@ -7,6 +7,7 @@ const fcmNotifier = new FCMNotifier();
 const databaseFunc = new firebaseDatabase();
 
 module.exports = (app) => {
+    // Quetion releted api call
     app.get('/firebase/api/questions', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             databaseFunc.getQuestions().then((data) => {
@@ -59,6 +60,38 @@ module.exports = (app) => {
                 });
         });
     });
+    app.post('/firebase/api/updateQuestion', (req, res) => {
+        return new Promise((resolve, reject) => {
+            databaseFunc.updateQuestion(req.body.quesId, req.body, resolve, reject)
+        }).then((data) => {
+            res.json(data);
+            //  fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
+    app.post('/firebase/api/questions', (req, res) => { // it will current user detail on screan       
+        return new Promise((resolve, reject) => {
+            databaseFunc.saveQuestions(req.body, resolve, reject)
+        }).then((data) => {
+            res.json(data);
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
+    app.delete('/firebase/api/questions', (req, res) => { // it will current user detail on screan       
+        return new Promise((resolve, reject) => {
+            databaseFunc.deleteAllQuestions()
+        }).then((data) => {
+            res.json("successfully deleted");
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
+    // topics releted api call
     app.get('/firebase/api/topics/pagination/:pageNumber', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             const pageNumber = parseInt(req.params.pageNumber);
@@ -75,7 +108,7 @@ module.exports = (app) => {
     app.get('/firebase/api/topics', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             databaseFunc.getTopics().then((data) => {
-                res.json(data);
+                res.json(Object.values(data));
                 resolve(data);
             })
                 .catch((err) => {
@@ -94,6 +127,30 @@ module.exports = (app) => {
                 });
         });
     });
+    app.post('/firebase/api/topics/delete', (req, res) => { // it will current user detail on screan
+        return new Promise((resolve, reject) => {
+            console.log(req);
+            databaseFunc.saveTopics(req.body.id, null, resolve, reject)
+        }).then((data) => {
+            res.json(data);
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
+    app.post('/firebase/api/topics', (req, res) => { // it will current user detail on screan
+        return new Promise((resolve, reject) => {
+            console.log(req);
+            databaseFunc.saveTopics(req.body.id.toLowerCase(), req.body, resolve, reject)
+        }).then((data) => {
+            res.json(data);
+            fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+    });
+    // user releted api call
     app.get('/firebase/currentusers', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             databaseFunc.getCurrentUserInfo().then((data) => {
@@ -117,18 +174,6 @@ module.exports = (app) => {
                 });
         })
     });
-
-    app.post('/firebase/api/topics/delete', (req, res) => { // it will current user detail on screan
-        return new Promise((resolve, reject) => {
-            console.log(req);
-            databaseFunc.saveTopics(req.body.id, null, resolve, reject)
-        }).then((data) => {
-            res.json(data);
-        })
-            .catch((err) => {
-                console.log(err)
-            });
-    });
     app.post('/firebase/users', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             databaseFunc.seveLoggedUserInfo(req.body.id, req.body, resolve, reject)
@@ -137,69 +182,6 @@ module.exports = (app) => {
         })
             .catch((err) => {
                 res.end(err);
-            });
-    });
-
-    app.post('/firebase/api/topics', (req, res) => { // it will current user detail on screan
-        return new Promise((resolve, reject) => {
-            console.log(req);
-            databaseFunc.saveTopics(req.body.id, req.body, resolve, reject)
-        }).then((data) => {
-            res.json(data);
-            fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
-        })
-            .catch((err) => {
-                console.log(err)
-            });
-    });
-
-    app.post('/firebase/api/topicsPagination', (req, res) => { // it will current user detail on screan
-        return new Promise((resolve, reject) => {
-            console.log(req);
-            databaseFunc.saveTopicsPage(req.body.id, req.body, resolve, reject)
-        }).then((data) => {
-            res.json(req.body);
-            fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
-        })
-            .catch((err) => {
-                console.log(err)
-            });
-    });
-
-
-    app.post('/firebase/api/updateQuestion', (req, res) => {
-        return new Promise((resolve, reject) => {
-            databaseFunc.updateQuestion(req.body.quesId, req.body, resolve, reject)
-        }).then((data) => {
-            res.json(data);
-            //  fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
-        })
-            .catch((err) => {
-                console.log(err)
-            });
-    });
-
-
-
-    app.post('/firebase/api/questions', (req, res) => { // it will current user detail on screan       
-        return new Promise((resolve, reject) => {
-            databaseFunc.saveQuestions(req.body, resolve, reject)
-        }).then((data) => {
-            res.json(data);
-        })
-            .catch((err) => {
-                console.log(err)
-            });
-    });
-
-    app.delete('/firebase/api/questions', (req, res) => { // it will current user detail on screan       
-        return new Promise((resolve, reject) => {
-            databaseFunc.deleteAllQuestions()
-        }).then((data) => {
-            res.json("successfully deleted");
-        })
-            .catch((err) => {
-                console.log(err)
             });
     });
 };
