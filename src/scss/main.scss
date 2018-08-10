@@ -446,9 +446,10 @@ input[name=search1]:focus {
 .topicButton{
   margin-bottom: 10px;
   width: 300px;
-  background-color: rgb(240, 233, 233);
-  border: none;
-  color: rgb(40,40,40)
+  height:45px;
+  background-color: blue;
+  color: whitesmoke;
+  border: none
 }
 
 .questionTable{
@@ -456,3 +457,19 @@ input[name=search1]:focus {
   color: white;
 }
 
+.marginLeft{
+margin-left: 150px;
+}
+.marginLeft-small{
+    margin-left: 20px;
+    width: 130px;
+    text-align: center;
+  }
+
+  .visible {
+    visibility: visible;
+  }
+  .invisible {
+    visibility: hidden;
+  }
+  

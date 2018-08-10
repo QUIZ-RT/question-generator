@@ -18,7 +18,20 @@ module.exports = (app) => {
                 });
         });
     });
-    app.get('/firebase/api/questions/:topicId/:pagenumber?', (req, res) => { // it will current user detail on screan
+    app.get('/firebase/api/questions/:topicId', (req, res) => { // it will current user detail on screan
+        return new Promise((resolve, reject) => {
+            const topicId = req.params.topicId;
+            console.log(topicId + ".......");
+            databaseFunc.getQuestions(topicId).then((data) => {
+                res.json(data);
+                resolve(data);
+            })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    });
+    app.get('/firebase/api/questions/pagination/:topicId/:pagenumber', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             const topicId = req.params.topicId;
             const pageNumber = parseInt(req.params.pagenumber);
@@ -46,7 +59,7 @@ module.exports = (app) => {
                 });
         });
     });
-    app.get('/firebase/api/topicsPagination/:pageNumber?', (req, res) => { // it will current user detail on screan
+    app.get('/firebase/api/topics/pagination/:pageNumber', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             const pageNumber = parseInt(req.params.pageNumber);
             console.log("......." + pageNumber);
@@ -61,7 +74,7 @@ module.exports = (app) => {
     });
     app.get('/firebase/api/topics', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
-            databaseFunc.getTopics(null).then((data) => {
+            databaseFunc.getTopics().then((data) => {
                 res.json(data);
                 resolve(data);
             })
@@ -110,7 +123,7 @@ module.exports = (app) => {
             console.log(req);
             databaseFunc.saveTopics(req.body.id, null, resolve, reject)
         }).then((data) => {
-            res.json(req.body);
+            res.json(data);
         })
             .catch((err) => {
                 console.log(err)
@@ -120,7 +133,7 @@ module.exports = (app) => {
         return new Promise((resolve, reject) => {
             databaseFunc.seveLoggedUserInfo(req.body.id, req.body, resolve, reject)
         }).then((data) => {
-            res.json(req.body);
+            res.json(data);
         })
             .catch((err) => {
                 res.end(err);
@@ -132,7 +145,7 @@ module.exports = (app) => {
             console.log(req);
             databaseFunc.saveTopics(req.body.id, req.body, resolve, reject)
         }).then((data) => {
-            res.json(req.body);
+            res.json(data);
             fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
         })
             .catch((err) => {
@@ -158,7 +171,7 @@ module.exports = (app) => {
         return new Promise((resolve, reject) => {
             databaseFunc.updateQuestion(req.body.quesId, req.body, resolve, reject)
         }).then((data) => {
-            res.json(req.body);
+            res.json(data);
             //  fcmNotifier.sendNotification(ServerConstants.NOTIFICATION_TOPIC_UPDATE, req.body.id, req.body.createdBy);
         })
             .catch((err) => {
@@ -172,7 +185,7 @@ module.exports = (app) => {
         return new Promise((resolve, reject) => {
             databaseFunc.saveQuestions(req.body, resolve, reject)
         }).then((data) => {
-            res.json(req.body);
+            res.json(data);
         })
             .catch((err) => {
                 console.log(err)

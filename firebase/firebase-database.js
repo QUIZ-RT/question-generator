@@ -1,6 +1,6 @@
 const firebase = require('firebase/app');
 const firebaseInit = require('./firebase');
-const serverConstants = require('./server-constants')
+const serverConstants = require('./server-constants');
 const keysStoreObj = {};
 require('firebase/database');
 
@@ -29,8 +29,9 @@ module.exports = class firebaseDatabase {
               const thisKey = keys[keys.length - 1];
               keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = thisKey
               console.log(thisKey);
-              if(keys.length > 2)
+              if(keys.length>2){
               delete result[thisKey];
+              }
             }
           }
           return result;
@@ -47,8 +48,9 @@ module.exports = class firebaseDatabase {
               const thisKey = keys[keys.length - 1];
               keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = thisKey
               console.log(thisKey);
-              if(keys.length > 2)
-              delete result[thisKey];
+              if(keys.length>2){
+                delete result[thisKey];
+                }
             }
           }
           return result;
@@ -95,11 +97,12 @@ module.exports = class firebaseDatabase {
             }
             dataObj.options = tempObj;
           }
-          firebaseInit.database().ref(`${refUrl}/${topicId}/${this.generateRandomQuizId(refId)}`).set(dataObj, (error) => {
+          const tempKey = this.generateRandomQuizId(refId);
+          firebaseInit.database().ref(`${refUrl}/${topicId}/${tempKey}`).set(dataObj, (error) => {
             if (error) {
               rejected('there is some issue we will come back sortly');
             } else {
-              resolved(dataObj);
+              resolved({ id: tempKey, data: dataObj });
             }
           });
         })
@@ -107,7 +110,18 @@ module.exports = class firebaseDatabase {
       }
     }
     Promise.all(promiseArray).then((savedResult) => {
-      resolve(savedResult)
+      if (savedResult) {
+        const savedObj = {};
+        savedObj[topicId] = {};
+        for (var i = 0; i < savedResult.length; i++) {
+          const thisRes = savedResult[i];
+          savedObj[topicId][thisRes.id] = thisRes.data;
+        }
+        resolve(savedObj);
+      }
+      else {
+        resolve(savedResult);
+      }
     }).catch((error) => {
       reject(error);
     });
