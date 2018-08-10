@@ -1,5 +1,6 @@
 const firebase = require('firebase/app');
 const firebaseInit = require('./firebase');
+const serverConstants = require('./server-constants');
 const keysStoreObj = {};
 require('firebase/database');
 
@@ -17,7 +18,7 @@ module.exports = class firebaseDatabase {
     console.log(pagiNationObj);
     if (pagiNationObj) {
       if (pagiNationObj.key) {
-        return firebaseInit.database().ref(refUrl).orderByKey().startAt(pagiNationObj.key).limitToFirst(21).once('value').then(response => {
+        return firebaseInit.database().ref(refUrl).orderByKey().startAt(pagiNationObj.key).limitToFirst(serverConstants.PAGINATION_LIMIT).once('value').then(response => {
           const result = response.val();
           if (result) {
             const keys = Object.keys(result);
@@ -28,13 +29,15 @@ module.exports = class firebaseDatabase {
               const thisKey = keys[keys.length - 1];
               keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = thisKey
               console.log(thisKey);
+              if(keys.length>2){
               delete result[thisKey];
+              }
             }
           }
           return result;
         });
       } else {
-        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(21).once('value').then(response => {
+        return firebaseInit.database().ref(refUrl).orderByKey().limitToFirst(serverConstants.PAGINATION_LIMIT).once('value').then(response => {
           const result = response.val();
           if (result) {
             const keys = Object.keys(result);
@@ -45,7 +48,9 @@ module.exports = class firebaseDatabase {
               const thisKey = keys[keys.length - 1];
               keysStoreObj[pagiNationObj.refCollection][pagiNationObj.pageNumber + 1] = thisKey
               console.log(thisKey);
-              delete result[thisKey];
+              if(keys.length>2){
+                delete result[thisKey];
+                }
             }
           }
           return result;
