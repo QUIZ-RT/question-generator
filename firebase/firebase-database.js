@@ -69,8 +69,6 @@ module.exports = class firebaseDatabase {
       }
     });
   }
-
-
   saveFirebaseArrayData(refUrl, postDataObj, topicId, resolve, reject) {
     let promiseArray = [], refId = '';
     if (refUrl === 'questions') {
@@ -180,9 +178,7 @@ module.exports = class firebaseDatabase {
     const refUrl = `users/${userId}`;
     this.saveFirebaseData(refUrl, loginTempObj, callback);
   }
-
   saveTopics(topicId, topicObj, resolve, reject) {
-
     const refUrl = `topics/${topicId}`;
     this.saveFirebaseData(refUrl, topicObj, resolve, reject);
   }
@@ -190,7 +186,7 @@ module.exports = class firebaseDatabase {
   saveQuestions(quizObj, resolve, reject) {
     const refUrl = 'questions';
     if (quizObj && quizObj.length) {
-      const topicId = quizObj[0].topic;
+      const topicId = quizObj[0].topic.toLowerCase();
       this.saveFirebaseArrayData(refUrl, quizObj, topicId, resolve, reject);
     }
   }
