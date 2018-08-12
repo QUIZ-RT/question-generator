@@ -9,7 +9,7 @@ export const wizardStep1 = `<div class="row wizardStep" id="wizardStep1Content">
                         <div class="input-group-addon iconspace" style="width: 2.6rem">
                             <i class="far fa-comments"></i>
                         </div>
-                        <input type="text" id="topicInput" name="topic" class="form-control" placeholder="Enter topic for the question.. " required>
+                        <input type="text" id="topicInput" name="topic" class="form-control" placeholder="Type topic to select from the list or create anew.. "  autocomplete="off" required>
                         <span class="remarks">For eg., celebrity, bollywood, space, cricket, etc.</span>
                     </div>
                     <hr>
@@ -17,7 +17,7 @@ export const wizardStep1 = `<div class="row wizardStep" id="wizardStep1Content">
                         <div class="input-group-addon iconspace" style="width: 2.6rem">
                             <i class="far fa-comments"></i>
                         </div>
-                        <input type="text" id="templateInput" name="template" class="form-control" placeholder="Enter a sample question to allow sampling and generation... "
+                        <input type="text" id="templateInput" name="template" class="form-control" placeholder="Enter a question template to allow sampling and generation... "
                             required>
                         <span class="remarks">For eg., Who was the first Prime Minister of India?</span>
                     </div>

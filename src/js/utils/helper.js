@@ -45,7 +45,11 @@ export class Helper {
     }
     for (const index of optionIndices) {
       if(isDate) {
-        options.push(results[index].property.value);
+        let optVal = results[index].property.value;
+        if(optVal.includes('T')) {
+          optVal = optVal.substr(0, optVal.indexOf('T'));
+        }
+        options.push(optVal);
       } else {
         options.push(results[index].propertyLabel.value);
       }

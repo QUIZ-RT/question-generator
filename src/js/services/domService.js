@@ -28,8 +28,13 @@ import {
     QGModal
 } from '../views/QGModal';
 import {
+    topicCreateModal
+} from '../views/topicCreateModal';
+import {
     Helper
 } from '../utils/helper';
+import TopicManagerService from '../services/topicManagerService';
+let topicManagerService = new TopicManagerService();
 
 const helper = new Helper();
 
@@ -44,6 +49,7 @@ export class DomService {
             wizardStep2,
             wizardStep3,
             QGModal,
+            topicCreateModal,
             wizardContainer,
             // menu,
             messages,
@@ -55,6 +61,18 @@ export class DomService {
     load(navCall) {
         if (navCall) {
             this.createWizards();
+            let topics = [];
+            topicManagerService.getTopics().then((data) => {
+                if (data) {
+                    for (const topicObj in data) {
+                        const topicData = data[topicObj];
+                        topics.push(topicData.topicText);
+                    }
+                    this.autocomplete(document.getElementById("topicInput"), topics);
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
         }
         $('#footer').html(this.views.footer);
         $('#footer').removeClass('hide');
@@ -151,23 +169,26 @@ export class DomService {
         $('#wizardStep2Content').addClass('size-shrink_2');
         $('#wizardStep3Content').addClass('size-shrink_1');
 
+        $('#btnGenerate').attr('disabled', 'disabled');
+
         // Active wizardStep
         let wizardStepStatusHolder = document.createElement('input');
         wizardStepStatusHolder.setAttribute('type', 'hidden');
         wizardStepStatusHolder.setAttribute('id', 'wizardStepStatusHolder');
         wizardStepStatusHolder.value = 1;
-        this.getDomObjectFromTemplate('wizardContainer')[0].appendChild(wizardStepStatusHolder);
+        $('#wizardContainer').append($(wizardStepStatusHolder));
 
         // Modal
         $(QGModal).insertAfter('#messages');
+        $(topicCreateModal).insertAfter('#messages');
     }
     executeAuthorizedLoads() {
 
     }
 
     showTemplateError(msg) {
-        $('#msgFailure').html(msg)
-        $('#failureAlert').removeClass('hide');
+        $('#msgFailure').html("<strong>" + msg + "</strong>")
+        $('#failureAlert').show();
     }
 
     appendHtml(el, str) {
@@ -186,7 +207,7 @@ export class DomService {
     }
 
     showGeneratedQuestionDisplayer(questionArrayPerProperty, key) {
-        if(!$('#generatedQuestionsDisplay').is(':visible')) {
+        if (!$('#generatedQuestionsDisplay').is(':visible')) {
             let btnOutputModal = $('#btnGeneratedQuestionsDisplay')
             let tableHolder = $('#tableHolder');
             let qGenTable = this.getQuestionTable(questionArrayPerProperty, key);
@@ -200,7 +221,7 @@ export class DomService {
 
     getQuestionTable(questionArrayPerProperty, key) {
         let questionSampleTable = document.getElementById('tableQuestionResultsDisplay');
-        if(!questionSampleTable) {
+        if (!questionSampleTable) {
             questionSampleTable = this.createTableStructure();
         }
         // Object.keys(propertyQuestionMap).forEach(function(key) {
@@ -213,7 +234,7 @@ export class DomService {
     updateQuestionDisplayTable(questionArrayPerProperty, key) {
         let questionSampleTable = document.getElementById('tableQuestionResultsDisplay');
         const tbody = questionSampleTable.childNodes[1];
-        for(let i = 0; i < 3 && i < questionArrayPerProperty.length; i++) {
+        for (let i = 0; i < 3 && i < questionArrayPerProperty.length; i++) {
             const currentQuestion = questionArrayPerProperty[i];
             // Create Elements
             const tr_body = document.createElement("tr");
@@ -223,7 +244,7 @@ export class DomService {
             const td_3 = document.createElement("td");
             const td_4 = document.createElement("td");
 
-                // Add Attributes
+            // Add Attributes
             th_vertical.setAttribute("scope", "row");
             tr_body.setAttribute("id", `qGen-${i}`);
 
@@ -231,7 +252,7 @@ export class DomService {
             th_vertical.innerHTML = i + 1;
             td_1.innerHTML = key;
             td_2.innerHTML = currentQuestion.question;
-            td_3.innerHTML = currentQuestion.options.join();
+            td_3.appendChild(this.getOptionsTable(currentQuestion.options, `qGen-${i}`));
             td_4.innerHTML = currentQuestion.answer;
 
             // Associations
@@ -242,7 +263,7 @@ export class DomService {
             tr_body.appendChild(td_4);
             tbody.appendChild(tr_body);
         }
-        const tr_break= document.createElement("tr");
+        const tr_break = document.createElement("tr");
         const td_break = document.createElement("td");
         td_break.setAttribute('colspan', 5);
         tr_break.appendChild(td_break);
@@ -296,9 +317,34 @@ export class DomService {
         return table;
     }
 
+    getOptionsTable(options, rowId) {
+        const table = document.createElement("table");
+        table.classList.add("table", "tabled-bordered", "table-striped", "table-hover");
+        table.setAttribute('id', 'options-for-question-rowId');
+        for(let i = 0; i < options.length; i++) {
+            const tr_body = document.createElement("tr");
+            const th_vertical = document.createElement("th");
+            const td_1 = document.createElement("td");
+
+            // Add Attributes
+            th_vertical.setAttribute("scope", "row");
+            tr_body.setAttribute("id", `qGen-${rowId}-option-${i}`);
+
+            // Add Inner HTML
+            th_vertical.innerHTML = i + 1;
+            td_1.innerHTML = options[i];
+
+            // Associations
+            tr_body.appendChild(th_vertical);
+            tr_body.appendChild(td_1);
+            table.appendChild(tr_body);
+        }
+        return table;
+    }
+
     updateWizardClasses(step) {
         step = parseInt(step);
-        if(step === $('#wizardStepStatusHolder').val()) {
+        if (step === parseInt($('#wizardStepStatusHolder').val())) {
             return;
         }
         let decrementalIterator = step - 1;
@@ -313,7 +359,7 @@ export class DomService {
         while (decrementalIterator > 0) {
             let id = `wizardStep${decrementalIterator}Content`
             let element = $(`#${id}`);
-            if(element) {
+            if (element) {
                 element.attr('class', `row wizardStep size-shrink_${classStartsWith}`);
             }
             classStartsWith = classStartsWith - 1;
@@ -324,7 +370,7 @@ export class DomService {
         while (incrementalIterator <= (wizardSteps.length / 2)) { // divide by two to account for line divs added after each wizard step
             let id = `wizardStep${incrementalIterator}Content`
             let element = $(`#${id}`);
-            if(element) {
+            if (element) {
                 element.attr('class', `row wizardStep size-grow_${classStartsWith}`);
             }
             classStartsWith = classStartsWith - 1;
@@ -354,4 +400,93 @@ export class DomService {
     isVisible(element) {
         return element ? !element.hasClass("hide") : false;
     }
+
+    // AUTO-COMPLETE FUNCTIONALITY
+    autocomplete(inp, arr) {
+        let self = this;
+        var currentFocus;
+        inp.addEventListener("input", function (e) {
+            var a, b, i, val = this.value;
+            closeAllLists();
+            if (!val) {
+                return false;
+            }
+            currentFocus = -1;
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            this.parentNode.appendChild(a);
+            for (i = 0; i < arr.length; i++) {
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    b = document.createElement("DIV");
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    b.addEventListener("click", function (e) {
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+            b = document.createElement("DIV");
+            b.classList.add('topicNotFound');
+            b.innerHTML = "<strong>Create Topic: " + val.toUpperCase() + "?</strong>";
+            b.innerHTML += "<input type='hidden' value='" + val + "'>";
+            b.addEventListener("click", function (e) {
+                $('#btnTopicCreateModal').click();
+                $('#topicInputViaQG').val(val);
+                closeAllLists();
+            });
+            a.appendChild(b);
+        });
+        inp.addEventListener("keydown", function (e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                currentFocus++;
+                addActive(x);
+            } else if (e.keyCode == 38) { //up
+                currentFocus--;
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+    
+        function addActive(x) {
+            if (!x) return false;
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+    
+        function removeActive(x) {
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+    
+        function closeAllLists(elmnt) {
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+            var x = document.getElementsByClassName("topicNotFound");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+      }
 }

@@ -195,7 +195,7 @@ module.exports = {
             questionObj.answer = result.propertyLabel.value;
           }
           questionObj.topic = topicCategory;
-          const options = helper.generateOptions(result, results.bindings, isDate);
+          const options = helper.generateOptions(result, results.bindings, 4, isDate);
           options.push(questionObj.answer);
           questionObj.options = options;
           quesArrayPerProperty.push(questionObj);

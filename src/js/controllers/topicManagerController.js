@@ -98,38 +98,8 @@ class TopicManagerController {
     });
   }
 
-  saveNewTopic(selectTopic) {
-    const topicTxt = jQuery('.mdc-text-field-topic input').val().trim();
-    const topicIds = [];
-    let topicId = 0;
-    let actionType = 'ADD_TOPIC'
-    //let order = 0;
-    if (!selectTopic) {
-      for (const topicObj in this.topics) {
-        const topicData = this.topics[topicObj];
-        topicIds.push(topicData.id);
-      }
-      topicId = topicIds.reduce((maxId, id) => Math.max(id, maxId), -1) + 1; //this.generateTopicId()//
-    } else {
-      topicId = selectTopic.id;
-      actionType = 'UPDATE_TOPIC';
-      //order = this.topics[topicId].order
-    }
-    this.total += 1;
-    if (topicTxt) {
-      const topicObj = {
-        createdBy: window.localStorage.displayName,
-        createdDate: new Date(),
-        modifiedDate: new Date(),
-        published: true,
-        topicText: topicTxt,
-        topicUrl: jQuery('.mdc-text-field-topic-url input').val().trim(),
-        id: topicTxt,
-
-      };
-      // if(!topicObj.topicUrl){
-      //   topicObj.topicUrl = './assets/no-image.png'
-      // }
+  saveNewTopic(selectTopic, fromQG) {
+    if(fromQG) {
       store.dispatch({
         type: actionType,
         'topic':topicObj
@@ -144,6 +114,54 @@ class TopicManagerController {
         }).catch((err) => {
           console.log(err);
         });
+      return;
+    } else {
+      const topicTxt = jQuery('.mdc-text-field-topic input').val().trim();
+      const topicIds = [];
+      let topicId = 0;
+      let actionType = 'ADD_TOPIC'
+      //let order = 0;
+      if (!selectTopic) {
+        for (const topicObj in this.topics) {
+          const topicData = this.topics[topicObj];
+          topicIds.push(topicData.id);
+        }
+        topicId = topicIds.reduce((maxId, id) => Math.max(id, maxId), -1) + 1; //this.generateTopicId()//
+      } else {
+        topicId = selectTopic.id;
+        actionType = 'UPDATE_TOPIC';
+        //order = this.topics[topicId].order
+      }
+      this.total += 1;
+      if (topicTxt) {
+        const topicObj = {
+          createdBy: window.localStorage.displayName,
+          createdDate: new Date(),
+          modifiedDate: new Date(),
+          published: true,
+          topicText: topicTxt,
+          topicUrl: jQuery('.mdc-text-field-topic-url input').val().trim(),
+          id: topicTxt,
+
+        };
+        // if(!topicObj.topicUrl){
+        //   topicObj.topicUrl = './assets/no-image.png'
+        // }
+        store.dispatch({
+          type: actionType,
+          'topic':topicObj
+        });
+        this.topicManagerService.saveTopic(topicObj)
+          .then((data) => {
+            console.log('saved', data);
+            
+              // this.getAllTopics();
+
+            this.getAllTopics();
+          }).catch((err) => {
+            console.log(err);
+          });
+      }
     }
   }
 

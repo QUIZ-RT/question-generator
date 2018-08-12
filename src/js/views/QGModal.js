@@ -1,4 +1,4 @@
-export const QGModal = `<div class="modal" id="generatedQuestionsDisplay" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+export const QGModal = `<div class="modal good" id="generatedQuestionsDisplay" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" id="qgModalContent">
             <div class="modal-header">

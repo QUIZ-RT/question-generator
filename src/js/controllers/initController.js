@@ -5,6 +5,7 @@ import {
 import {
   DomService,
 } from '../services/domService';
+import TopicManagerController from './topicManagerController';
 
 const $dom = new DomService();
 
@@ -50,17 +51,24 @@ module.exports = jQuery(document).ready(() => {
 
   })
  
-  $(document).on('keyup', '#templateInput', (e) => {
+  $(document).on('keyup', '#templateInput, #topicInput', (e) => {
     const code = (e.keyCode ? e.keyCode : e.which);
+    const topic = document.getElementById('topicInput').value;
+    const template = document.getElementById('templateInput').value;
+    if(topic && topic !== '' && template && template !== '') {
+      $('#btnGenerate').removeAttr("disabled");
+    } else {
+      $('#btnGenerate').attr("disabled", 'disabled');
+    }
     if (code === 13) {
-      const topic = document.getElementById('topicInput').value;
-      const template = document.getElementById('templateInput').value;
       if(!(topic && topic !== '' && template && template !== '')) {
-        DomService.prototype.showTemplateError('Topic and Question Template are both required values, please try again!');
+        DomService.prototype.showTemplateError('Topic and Question Template are both required values, please add these fields and try again!');
+      } else {
+        $('#btnGenerate').click();
       }
-      $('#btnGenerate').click();
     }
   });
+
   $(document).on('click', '#wizardContainer', (event) => {
     let current = event.target;
     while (current) {
@@ -99,4 +107,22 @@ module.exports = jQuery(document).ready(() => {
       }
     }
   });
+
+  $(document).on('click', '#btnTopicCreateSubmit', function(event) {
+    const topicObj = {
+      createdBy: window.localStorage.displayName,
+      createdDate: new Date(),
+      modifiedDate: new Date(),
+      published: true,
+      topicText: $('#topicInputViaQG').val(),
+      topicUrl: $('#topicURLViaQG').val(),
+      id: $('#topicInputViaQG').val(),
+    };
+    TopicManagerController.prototype.addEditTopic(topicObj, true);
+  });
+
+  $(document).on('click', '.close', function (event) {
+    let msg = $(event.target).closest('.alert');
+    msg.hide('slow');
+  })
 });

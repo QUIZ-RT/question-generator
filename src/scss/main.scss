@@ -13,7 +13,6 @@ $fa-font-path: '~font-awesome/fonts';
 @import "_layout.scss";
 @import "_mixin.scss";
 @import "toaster-js/default.scss";
-
 /* Absolute Center Spinner */
 
 .foo-button {
@@ -21,80 +20,87 @@ $fa-font-path: '~font-awesome/fonts';
   @include mdc-states(teal);
 }
 
-.mdc-text-field__input{
+.mdc-text-field__input {
   padding: 0px;
 }
 
 .loading {
-    position: fixed;
-    z-index: 999;
-    height: 2em;
-    width: 2em;
-    overflow: show;
-    margin: auto;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+
+.loading:not(:required) {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  /* Transparent Overlay */
-  .loading:before {
-    content: '';
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.3);
+  100% {
+    transform: rotate(360deg);
   }
-  
-  /* :not(:required) hides these rules from IE9 and below */
-  .loading:not(:required) {
-    font: 0/0 a;
-    color: transparent;
-    text-shadow: none;
-    background: transparent;
-    border: 0;
+}
+
+/* spinner end here */
+
+#rightHead {
+  a {
+    width: auto;
   }
-  
-  .loading:not(:required):after {
-    content: '';
-    display: block;
-    font-size: 10px;
-    width: 1em;
-    height: 1em;
-    margin-top: -0.5em;
-    animation: spinner 1500ms infinite linear;
-    border-radius: 0.5em;
-    box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+  img {
+    width: 50px;
+    border-radius: 50%;
   }
-  
-  @keyframes spinner {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-    /* spinner end here */
-    #rightHead{
-      a{
-        width: auto;
-      }
-       img{
-      width: 50px;
-      border-radius: 50%;
-    }
-  }
-    #loginWithGoogle{
-      background: #bb0000 !important;
-    }
-   
+}
+
+#loginWithGoogle {
+  background: #bb0000 !important;
+}
+
 /* social link*/
-.social-link li,.social-login a{
+
+.social-link li,
+.social-login a {
   display: inline-block;
   width: 37px;
   border-radius: 50%;
@@ -103,32 +109,37 @@ $fa-font-path: '~font-awesome/fonts';
   @include textprop(20px, $white);
 }
 
-.social-link li:nth-child(1){
-  background: #3b5998 ;
-  }
-  .social-link li:nth-child(2){ 
-      background: #00aced ;
-  }
-  .social-link li:nth-child(3){
-      background: #bb0000   ;
-  }
-  .social-link li:nth-child(4){
-      background: #007bb6 ;
-  }
-  .social-link li:nth-child(5){ 
-      background: #cb2027 ;
-  }
-  .footer-box-section{
-    flex:1 0 32%;
-    max-width: 32%;
-    border-radius:$border-radius;
-    
-    text-align: $text-align;
+.social-link li:nth-child(1) {
+  background: #3b5998;
+}
+
+.social-link li:nth-child(2) {
+  background: #00aced;
+}
+
+.social-link li:nth-child(3) {
+  background: #bb0000;
+}
+
+.social-link li:nth-child(4) {
+  background: #007bb6;
+}
+
+.social-link li:nth-child(5) {
+  background: #cb2027;
+}
+
+.footer-box-section {
+  flex: 1 0 32%;
+  max-width: 32%;
+  border-radius: $border-radius;
+  text-align: $text-align;
 }
 
 img.logo {
   max-width: 2rem;
 }
+
 .about-text {
   background-color: whitesmoke;
   color: black;
@@ -136,23 +147,25 @@ img.logo {
   padding: 0.5rem;
 }
 
-#mainContainer{
+#mainContainer {
   height: 80vh;
-  overflow:auto;
+  overflow: auto;
 }
-.btn-color{
-  color:white !important;
+
+.btn-color {
+  color: white !important;
 }
-.copyright{
+
+.copyright {
   border-top: 1px solid #eee;
   padding-top: 10px;
-  font-size:12px;
+  font-size: 12px;
   text-align: center;
 }
 
 /* this is applied when the screen size exceeds 991px */
-@media screen and (min-width: 991px) {
-}
+
+@media screen and (min-width: 991px) {}
 
 @media (min-width: 40em) {
   .carousel-caption p {
@@ -164,27 +177,27 @@ img.logo {
 
 @media (max-width: 40em) {
   .carousel-caption p {
-    margin-bottom: 1.25rem; 
+    margin-bottom: 1.25rem;
     font-size: 0.25rem;
     line-height: 1.4;
   }
 }
 
-.roundedCorner{
-    @include roundedborder;
+.roundedCorner {
+  @include roundedborder;
 }
-
 
 // Dashboard
 input[name=search1] {
-    width: 330px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
+  width: 330px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
 }
 
 /* When the input field gets focus, change its width to 100% */
+
 input[name=search1]:focus {
-    width: 100%;
+  width: 100%;
 }
 
 .hide {
@@ -192,163 +205,189 @@ input[name=search1]:focus {
 }
 
 // Wizard Steps
-@keyframes size-shrink_0
-{
-    0%{-webkit-transform:scaleX(0.7) scaleY(0.4); height: 200px;}
-    100%{
-      -webkit-transform:scaleX(0.4) scaleY(0.2);  
-      -webkit-transform-origin:top; 
-      -moz-transform-origin:top; 
-      height: 100px;
-      filter: blur(10px);
-      -webkit-filter: blur(10px);
-      }
+@keyframes size-shrink_0 {
+  0% {
+    -webkit-transform: scaleX(0.7) scaleY(0.4);
+    height: 200px;
+  }
+  100% {
+    -webkit-transform: scaleX(0.4) scaleY(0.2);
+    -webkit-transform-origin: top;
+    -moz-transform-origin: top;
+    height: 100px;
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
+  }
 }
 
 .size-shrink_0 {
-    // position:relative;
-    animation-fill-mode: forwards;
-    -webkit-animation-name: size-shrink_0;
-    -webkit-animation-duration: 0.1s;
-    -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: linear;
-    animation-name: size-shrink_0;
-    animation-duration: 0.1s;
-    animation-iteration-count: 1;
-    animation-timing-function: linear;
+  // position:relative;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: size-shrink_0;
+  -webkit-animation-duration: 0.1s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: linear;
+  animation-name: size-shrink_0;
+  animation-duration: 0.1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
 }
-@keyframes size-shrink_1
-{
-    0%{-webkit-transform:scaleX(0.9) scaleY(0.6); height: 270px;}
-    100%{
-      -webkit-transform:scaleX(0.7) scaleY(0.4);  
-      -webkit-transform-origin:top; 
-      -moz-transform-origin:top; 
-      height: 200px;
-      filter: blur(6px);
-      -webkit-filter: blur(6px);
-      }
+
+@keyframes size-shrink_1 {
+  0% {
+    -webkit-transform: scaleX(0.9) scaleY(0.6);
+    height: 270px;
+  }
+  100% {
+    -webkit-transform: scaleX(0.7) scaleY(0.4);
+    -webkit-transform-origin: top;
+    -moz-transform-origin: top;
+    height: 200px;
+    filter: blur(6px);
+    -webkit-filter: blur(6px);
+  }
 }
 
 .size-shrink_1 {
-    // position:relative;
-    animation-fill-mode: forwards;
-    -webkit-animation-name: size-shrink_1;
-    -webkit-animation-duration: 0.1s;
-    -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: linear;
-    animation-name: size-shrink_1;
-    animation-duration: 0.1s;
-    animation-iteration-count: 1;
-    animation-timing-function: linear;
+  // position:relative;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: size-shrink_1;
+  -webkit-animation-duration: 0.1s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: linear;
+  animation-name: size-shrink_1;
+  animation-duration: 0.1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
 }
 
-@keyframes size-shrink_2
-{
-    0%{-webkit-transform:scale(1); height: 400px;}
-    100%{
-      -webkit-transform:scaleX(0.9) scaleY(0.6); 
-      -webkit-transform-origin:top; 
-      -moz-transform-origin:top; 
-      height: 270px; 
-      filter: blur(3px); 
-      -webkit-filter: blur(3px);
-    }
+@keyframes size-shrink_2 {
+  0% {
+    -webkit-transform: scale(1);
+    height: 400px;
+  }
+  100% {
+    -webkit-transform: scaleX(0.9) scaleY(0.6);
+    -webkit-transform-origin: top;
+    -moz-transform-origin: top;
+    height: 270px;
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+  }
 }
 
 .size-shrink_2 {
-    // position:relative;
-    animation-fill-mode: forwards;
-    -webkit-animation-name: size-shrink_2;
-    -webkit-animation-duration: .1s;
-    -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: linear;
-    animation-name: size-shrink_2;
-    animation-duration: .1s;
-    animation-iteration-count: 1;
-    animation-timing-function: linear;
+  // position:relative;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: size-shrink_2;
+  -webkit-animation-duration: .1s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: linear;
+  animation-name: size-shrink_2;
+  animation-duration: .1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
 }
 
-@keyframes normal
-{
-    0%{-webkit-transform:scaleX(0.9) scaleY(0.6);}
-    100%{
-      -webkit-transform:scale(1); 
-      -webkit-transform-origin:top; 
-      -moz-transform-origin:top; 
-      height: 440px; 
-      filter: blur(0px); 
-      -webkit-filter: blur(0px);
-    }
+@keyframes normal {
+  0% {
+    -webkit-transform: scaleX(0.9) scaleY(0.6);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    -webkit-transform-origin: top;
+    -moz-transform-origin: top;
+    height: 440px;
+    filter: blur(0px);
+    -webkit-filter: blur(0px);
+  }
 }
 
 .normal {
-    position:relative;
-    animation-fill-mode: forwards;
-    -webkit-animation-name: normal;
-    -webkit-animation-duration: .1s;
-    -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: linear;
-    animation-name: normal;
-    animation-duration: .1s;
-    animation-iteration-count: 1;
-    animation-timing-function: linear;
+  position: relative;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: normal;
+  -webkit-animation-duration: .1s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: linear;
+  animation-name: normal;
+  animation-duration: .1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
 }
 
-@keyframes size-grow_2
-{
-    0%{-webkit-transform:scaleX(0.7) scaleY(0.4);}
-    100%{
-      -webkit-transform:scaleX(0.9) scaleY(0.6); 
-      -webkit-transform-origin:top; 
-      -moz-transform-origin:top; 
-      height: 270px; 
-      filter: blur(3px); 
-      -webkit-filter: blur(3px);
-    }
+@keyframes size-grow_2 {
+  0% {
+    -webkit-transform: scaleX(0.7) scaleY(0.4);
+  }
+  100% {
+    -webkit-transform: scaleX(0.9) scaleY(0.6);
+    -webkit-transform-origin: top;
+    -moz-transform-origin: top;
+    height: 270px;
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+  }
 }
 
 .size-grow_2 {
-    position:relative;
-    animation-fill-mode: forwards;
-    -webkit-animation-name: size-grow_2;
-    -webkit-animation-duration: .1s;
-    -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: linear;
-    animation-name: size-grow_2;
-    animation-duration: .1s;
-    animation-iteration-count: 1;
-    animation-timing-function: linear;
+  position: relative;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: size-grow_2;
+  -webkit-animation-duration: .1s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: linear;
+  animation-name: size-grow_2;
+  animation-duration: .1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
 }
 
-@keyframes size-grow_1
-{
-    0%{-webkit-transform:scaleX(0.4) scaleY(0.2);}
-    100%{
-      -webkit-transform:scaleX(0.7) scaleY(0.4);  
-      -webkit-transform-origin:top; 
-      -moz-transform-origin:top; 
-      height: 200px;
-      filter: blur(6px);
-      -webkit-filter: blur(6px);
-    }
+@keyframes size-grow_1 {
+  0% {
+    -webkit-transform: scaleX(0.4) scaleY(0.2);
+  }
+  100% {
+    -webkit-transform: scaleX(0.7) scaleY(0.4);
+    -webkit-transform-origin: top;
+    -moz-transform-origin: top;
+    height: 200px;
+    filter: blur(6px);
+    -webkit-filter: blur(6px);
+  }
 }
 
 .size-grow_1 {
-    position:relative;
-    animation-fill-mode: forwards;
-    -webkit-animation-name: size-grow_1;
-    -webkit-animation-duration: .1s;
-    -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: linear;
-    animation-name: size-grow_1;
-    animation-duration: .1s;
-    animation-iteration-count: 1;
-    animation-timing-function: linear;
+  position: relative;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: size-grow_1;
+  -webkit-animation-duration: .1s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: linear;
+  animation-name: size-grow_1;
+  animation-duration: .1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
 }
 
 .good {
   animation: anim .3s ease-in-out;
+}
+
+@keyframes anim {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+  1% {
+    display: block;
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .line {
@@ -361,7 +400,6 @@ input[name=search1]:focus {
 // #wizardStep1 {
 //   margin-top: 60px;
 // }
-
 .subject-pills {
   margin-top: 30px;
   width: 200px;
@@ -373,15 +411,17 @@ input[name=search1]:focus {
   font-weight: bolder;
   font-size: 1.3em;
   vertical-align: baseline;
-  text-align:center;
+  text-align: center;
   line-height: 70px;
 }
 
-#subject-pills-2, #subject-pills-3 {
+#subject-pills-2,
+#subject-pills-3 {
   display: flex;
 }
 
-.subject-pills:hover, .clickPill{
+.subject-pills:hover,
+.clickPill {
   background: rgba(41, 23, 129, 0.7);
   cursor: pointer;
 }
@@ -400,6 +440,7 @@ input[name=search1]:focus {
   margin: auto;
   width: 1500px;
 }
+
 // SPINNER
 .lds-hourglass {
   display: inline-block;
@@ -407,6 +448,7 @@ input[name=search1]:focus {
   width: 64px;
   height: 64px;
 }
+
 .lds-hourglass:before {
   content: " ";
   display: block;
@@ -419,6 +461,7 @@ input[name=search1]:focus {
   border-color: #fff transparent #fff transparent;
   animation: lds-hourglass 1.2s infinite;
 }
+
 @keyframes lds-hourglass {
   0% {
     transform: rotate(0);
@@ -433,6 +476,68 @@ input[name=search1]:focus {
   }
 }
 
+// Auto Complete feature
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+  margin-left: 50px;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+  div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+    line-height: 2.5em;
+    width: 65%;
+  }
+  div:hover {
+    /*when hovering an item:*/
+    background-color: #e9e9e9;
+  }
+}
+
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+div.topicNotFound {
+  position: absolute;
+  border: 1px solid blue;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: blue;
+  color: white;
+  line-height: 4em;
+  border-radius: 0 0 9px 9px;
+  padding: 10px;
+  cursor: pointer;
+  width: 65%;
+}
+
+div.topicNotFound:hover {
+  /*when hovering an item:*/
+  background-color: rgb(55,55,55);
+  color: white;
+}
 
 // OVERRIDES
 .form-group {
@@ -443,33 +548,43 @@ input[name=search1]:focus {
   max-width: initial;
 }
 
-.topicButton{
+.topicButton {
   margin-bottom: 10px;
   width: 300px;
-  height:45px;
+  height: 45px;
   background-color: blue;
   color: whitesmoke;
   border: none
 }
 
-.questionTable{
-  background-color: rgba(55,55,55,0.7);
+.questionTable {
+  background-color: rgba(55, 55, 55, 0.7);
   color: white;
 }
 
-.marginLeft{
-margin-left: 150px;
+.marginLeft {
+  margin-left: 150px;
 }
-.marginLeft-small{
-    margin-left: 20px;
-    width: 130px;
-    text-align: center;
-  }
 
-  .visible {
-    visibility: visible;
-  }
-  .invisible {
-    visibility: hidden;
-  }
-  
+.marginLeft-small {
+  margin-left: 20px;
+  width: 130px;
+  text-align: center;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+#topicInputautocomplete-list {
+  margin-left: 46px;
+  margin-top: 3px; // width: 75%;
+}
+
+.alert {
+  line-height: 4em;
+}
