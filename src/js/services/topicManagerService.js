@@ -1,4 +1,8 @@
 class TopicManagerService {
+  constructor() {
+
+  }
+
   getTopics() {
     const promise = jQuery.ajax({
       type: 'get',
@@ -29,7 +33,7 @@ class TopicManagerService {
       contentType: 'application/json',
       dataType: 'json',
       url: '/firebase/api/topicCount',
-      data: JSON.stringify({ count: 4 }),
+      data: JSON.stringify({'count':4}),
     }).done(response => response).fail(jqXhr => jqXhr);
 
     return promise;

@@ -6,7 +6,25 @@ const helper = new Helper();
 const queries = require('./../queries/sparqueries');
 
 const dom = new DomService();
-
+function pushDataToQuizEngine(quizData) {
+  $.ajax({
+    header: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    url: 'https://quiz-engine.herokuapp.com/api/questions',
+    dataType: 'json',
+    cors: 'no-cors',
+    type: 'post',
+    contentType: 'application/json',
+    data: quizData,
+    success(msg) {
+      console.log(msg);
+    },
+    error(jqXhr, textStatus, errorThrown) {
+      console.log(errorThrown);
+    },
+  });
+}
 module.exports = {
   endpointUrl: SparqlConstants.END_POINT_URL,
   countryToCityMap: {},
@@ -140,7 +158,7 @@ module.exports = {
 
   generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray) {
     let self = this;
-    if(propsIndex > propsArray.length - 1) {
+    if (propsIndex > propsArray.length - 1) {
       window.localStorage.setItem('question_data', JSON.stringify(quesArray));
       // self.getConfirmationOnGenerated(propertyQuestionMap);
       return;
@@ -149,7 +167,7 @@ module.exports = {
     let propertyQuestionUrl = propsArray[propsIndex]['URL'];
     let property = propsArray[propsIndex]['key'];
     let headers = {
-        Accept: 'application/sparql-results+json',
+      Accept: 'application/sparql-results+json',
     };
     fetch(propertyQuestionUrl, {
         headers,
@@ -193,7 +211,6 @@ module.exports = {
   getConfirmationOnGenerated(quesArrayPerProperty, property) {
     dom.showGeneratedQuestionDisplayer(quesArrayPerProperty, property);
   },
-
   saveQuestions(quesArray) {
     quesArray = helper.shuffle(quesArray);
     let arrayOfQuesionArray = helper.chunkArray(quesArray, 300);

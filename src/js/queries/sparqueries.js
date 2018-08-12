@@ -1,5 +1,5 @@
 module.exports = {
-  entity: `PREFIX entity: <http://www.wikidata.org/entity/>
+    entity: `PREFIX entity: <http://www.wikidata.org/entity/>
     SELECT ?propNumber ?propUrl ?propLabel ?valUrl ?val
     WHERE
     {
@@ -52,7 +52,7 @@ module.exports = {
     }
     ORDER BY xsd:integer(?propNumber)`,
 
-  city_query: `SELECT ?instance ?instanceLabel WHERE {
+    city_query: `SELECT ?instance ?instanceLabel WHERE {
           SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
           ?instance wdt:P31 wd:Q515.
           ?instance wdt:P17 #countryCode
@@ -127,7 +127,7 @@ module.exports = {
   }
   LIMIT 300`, 
 
-  distinct_countries: `select distinct ?country ?placeofbirth ?placeofbirthLabel
+    distinct_countries: `select distinct ?country ?placeofbirth ?placeofbirthLabel
   where {
     ?person wdt:P106 wd:Q12299841.
     ?person wdt:P19 ?placeofbirth .

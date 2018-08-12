@@ -109,7 +109,7 @@ class TopicManagerController {
         const topicData = this.topics[topicObj];
         topicIds.push(topicData.id);
       }
-      topicId = topicIds.reduce((maxId, id) => Math.max(id, maxId), -1) + 1;
+      topicId = topicIds.reduce((maxId, id) => Math.max(id, maxId), -1) + 1; //this.generateTopicId()//
     } else {
       topicId = selectTopic.id;
       actionType = 'UPDATE_TOPIC';
@@ -124,7 +124,7 @@ class TopicManagerController {
         published: true,
         topicText: topicTxt,
         topicUrl: jQuery('.mdc-text-field-topic-url input').val().trim(),
-        id: topicId,
+        id: topicTxt,
 
       };
       // if(!topicObj.topicUrl){
@@ -185,11 +185,7 @@ class TopicManagerController {
           if (!data[i] && data.length > i) {
             data.splice(i, 1);
             i--;
-          }//else{
-            // if(!data[i].topicUrl){
-            //   data[i].topicUrl = './assets/no-image.png'
-            // }
-          // }
+          }
         }
 
         //save to redux state
@@ -203,6 +199,16 @@ class TopicManagerController {
       }).catch((err) => {
         console.log(err);
       });
+  }
+
+  generateTopicId(){
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < 6; i += 1) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return 'topic-'+text;
   }
 
    render(data) {
