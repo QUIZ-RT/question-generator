@@ -49,13 +49,6 @@ export class DomService {
             messages,
             line
         };
-        this.wizardClasses = [{
-            'small': 1
-        }, {
-            'smaller': 2
-        }, {
-            'smallest': 3
-        }];
     }
 
 
@@ -158,6 +151,13 @@ export class DomService {
         $('#wizardStep2Content').addClass('size-shrink_2');
         $('#wizardStep3Content').addClass('size-shrink_1');
 
+        // Active wizardStep
+        let wizardStepStatusHolder = document.createElement('input');
+        wizardStepStatusHolder.setAttribute('type', 'hidden');
+        wizardStepStatusHolder.setAttribute('id', 'wizardStepStatusHolder');
+        wizardStepStatusHolder.value = 1;
+        this.getDomObjectFromTemplate('wizardContainer')[0].appendChild(wizardStepStatusHolder);
+
         // Modal
         $(QGModal).insertAfter('#messages');
     }
@@ -185,18 +185,76 @@ export class DomService {
         return domObj;
     }
 
-    showGeneratedQuestionDisplayer(propertyQuestionMap) {
-        let outputModal = $('#btnGeneratedQuestionsDisplay')
-        let tableHolder = $('#tableHolder');
-        outputModal.click();
-        let qGenTable = this.getQuestionTable(propertyQuestionMap);
-        tableHolder.html('');
-        tableHolder.append(qGenTable);
+    showGeneratedQuestionDisplayer(questionArrayPerProperty, key) {
+        if(!$('#generatedQuestionsDisplay').is(':visible')) {
+            let btnOutputModal = $('#btnGeneratedQuestionsDisplay')
+            let tableHolder = $('#tableHolder');
+            let qGenTable = this.getQuestionTable(questionArrayPerProperty, key);
+            tableHolder.html('');
+            qGenTable.childNodes[1].innerHTML = '';
+            btnOutputModal.click();
+            tableHolder.append(qGenTable);
+        }
+        this.updateQuestionDisplayTable(questionArrayPerProperty, key);
     }
 
-    getQuestionTable(propertyQuestionMap) {
+    getQuestionTable(questionArrayPerProperty, key) {
+        let questionSampleTable = document.getElementById('tableQuestionResultsDisplay');
+        if(!questionSampleTable) {
+            questionSampleTable = this.createTableStructure();
+        }
+        // Object.keys(propertyQuestionMap).forEach(function(key) {
+        //     let quesArray = propertyQuestionMap[key];
+        // Table data dynamic
+
+        return questionSampleTable;
+    }
+
+    updateQuestionDisplayTable(questionArrayPerProperty, key) {
+        let questionSampleTable = document.getElementById('tableQuestionResultsDisplay');
+        const tbody = questionSampleTable.childNodes[1];
+        for(let i = 0; i < 3 && i < questionArrayPerProperty.length; i++) {
+            const currentQuestion = questionArrayPerProperty[i];
+            // Create Elements
+            const tr_body = document.createElement("tr");
+            const th_vertical = document.createElement("th");
+            const td_1 = document.createElement("td");
+            const td_2 = document.createElement("td");
+            const td_3 = document.createElement("td");
+            const td_4 = document.createElement("td");
+
+                // Add Attributes
+            th_vertical.setAttribute("scope", "row");
+            tr_body.setAttribute("id", `qGen-${i}`);
+
+            // Add Inner HTML
+            th_vertical.innerHTML = i + 1;
+            td_1.innerHTML = key;
+            td_2.innerHTML = currentQuestion.question;
+            td_3.innerHTML = currentQuestion.options.join();
+            td_4.innerHTML = currentQuestion.answer;
+
+            // Associations
+            tr_body.appendChild(th_vertical);
+            tr_body.appendChild(td_1);
+            tr_body.appendChild(td_2);
+            tr_body.appendChild(td_3);
+            tr_body.appendChild(td_4);
+            tbody.appendChild(tr_body);
+        }
+        const tr_break= document.createElement("tr");
+        const td_break = document.createElement("td");
+        td_break.setAttribute('colspan', 5);
+        tr_break.appendChild(td_break);
+        tbody.appendChild(tr_break);
+        tbody.appendChild(tr_break);
+        tbody.appendChild(tr_break);
+    }
+
+    createTableStructure() {
         // Create Elements
         const table = document.createElement("table");
+
         const thead = document.createElement("thead");
         const tr_head = document.createElement("tr");
         const th_1 = document.createElement("th");
@@ -208,6 +266,7 @@ export class DomService {
         // Add Attributes
         table.classList.add("table", "tabled-bordered", "table-striped", "table-hover");
         thead.classList.add("thead-dark");
+        table.setAttribute('id', 'tableQuestionResultsDisplay');
         th_1.setAttribute("scope", "col");
         th_2.setAttribute("scope", "col");
         th_3.setAttribute("scope", "col");
@@ -232,47 +291,6 @@ export class DomService {
 
         // Table Data dynamic
         const tbody = document.createElement("tbody");
-
-        Object.keys(propertyQuestionMap).forEach(function(key) {
-            let quesArray = propertyQuestionMap[key];
-            for(let i = 0; i < 3 && i < quesArray.length; i++) {
-                const currentQuestion = quesArray[i];
-                // Create Elements
-                const tr_body = document.createElement("tr");
-                const th_vertical = document.createElement("th");
-                const td_1 = document.createElement("td");
-                const td_2 = document.createElement("td");
-                const td_3 = document.createElement("td");
-                const td_4 = document.createElement("td");
-
-                 // Add Attributes
-                th_vertical.setAttribute("scope", "row");
-                tr_body.setAttribute("id", `qGen-${i}`);
-
-                // Add Inner HTML
-                th_vertical.innerHTML = i + 1;
-                td_1.innerHTML = key;
-                td_2.innerHTML = currentQuestion.question;
-                td_3.innerHTML = currentQuestion.options.join();
-                td_4.innerHTML = currentQuestion.answer;
-
-                // Associations
-                tr_body.appendChild(th_vertical);
-                tr_body.appendChild(td_1);
-                tr_body.appendChild(td_2);
-                tr_body.appendChild(td_3);
-                tr_body.appendChild(td_4);
-                tbody.appendChild(tr_body);
-            }
-            const tr_break= document.createElement("tr");
-            const td_break = document.createElement("td");
-            td_break.setAttribute('colspan', 5);
-            tr_break.appendChild(td_break);
-            tbody.appendChild(tr_break);
-            tbody.appendChild(tr_break);
-            tbody.appendChild(tr_break);
-        })
-
         table.appendChild(tbody);
 
         return table;
@@ -280,6 +298,9 @@ export class DomService {
 
     updateWizardClasses(step) {
         step = parseInt(step);
+        if(step === $('#wizardStepStatusHolder').val()) {
+            return;
+        }
         let decrementalIterator = step - 1;
         let incrementalIterator = step + 1;
         let classStartsWith = 2;
@@ -288,6 +309,7 @@ export class DomService {
         let id = `wizardStep${step}Content`
         let element = $(`#${id}`);
         element.attr('class', 'row wizardStep normal');
+        $('#wizardStepStatusHolder').val(step)
         while (decrementalIterator > 0) {
             let id = `wizardStep${decrementalIterator}Content`
             let element = $(`#${id}`);

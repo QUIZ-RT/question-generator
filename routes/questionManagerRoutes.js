@@ -33,4 +33,26 @@ module.exports = app => {
       })
     }
   });
+
+  // app.post('/api/questionManager/syncQuestions', (req, res) => {
+  //   if(req) {
+  //     let engineURL = req.query.engineURL;
+  //     let headers = {'Accept': 'application/sparql-results+json'};
+  //     let inbody = req.body;
+  //     console.log(typeof inbody);
+  //     request.post({
+  //       'headers': headers,
+  //       'url': engineURL,
+  //       'body': JSON.stringify(inbody)
+  //     }, function(err, response, body){
+  //       if (!err && response.statusCode === 200 && body && body.length > 0) {
+  //         console.log(body)
+  //         res.json("success ============================= " + body);
+  //       } else {
+  //         console.log("error ============================ " + err); 
+  //         res.json(err);
+  //       }
+  //     });
+  //   }
+  // })
 };

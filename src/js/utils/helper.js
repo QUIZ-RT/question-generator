@@ -35,7 +35,7 @@ export class Helper {
     return resultArr;
   }
 
-  generateOptions(result, results, numberOfOptions) {
+  generateOptions(result, results, numberOfOptions, isDate) {
     let optionIndices = [];
     const options = [];
     if (numberOfOptions) {
@@ -44,7 +44,11 @@ export class Helper {
       optionIndices = this.generateRange(3, 0, results.length - 1, result, results);
     }
     for (const index of optionIndices) {
-      options.push(results[index].propertyLabel.value);
+      if(isDate) {
+        options.push(results[index].property.value);
+      } else {
+        options.push(results[index].propertyLabel.value);
+      }
     }
     return options;
   }
@@ -101,11 +105,43 @@ export class Helper {
     return result;
   }
 
+  getValueByValueId(value, allValues) {
+    let keys = Object.keys(allValues);
+    for (const key of keys) {
+      let innerValue = allValues[key];
+      if (typeof innerValue == 'object') {
+        let returnedKey = this.getValueByValueId(value, innerValue);
+        if(returnedKey && returnedKey !== '') {
+          return returnedKey;
+        }
+      } else {
+        if (value && value === innerValue) {
+          return key;
+        }
+      }
+    }
+
+    return '';
+  }
+
   convertToSparqConcat(template) {
     const hashPart = '#ITEM';
     const beforePart = template.substring(0, template.indexOf(hashPart));
     const afterPart = template.substring(template.indexOf(hashPart) + hashPart.length);
     return `'${beforePart}', ?itemlabel, '${afterPart}'`;
+  }
+
+  addQueryFilter(query, filterProperty, filterValues) {
+    let filterString = '';
+    for(let i = 0; i < filterValues.length; i++) {
+      let currentFilterValue = filterValues[i];
+      filterString = `${filterString} {?item wdt:${filterProperty} wd:${currentFilterValue} }`;
+      if(i != filterValues.length - 1) {
+        filterString = `${filterString} UNION `;
+      }
+    }
+    query = query.replace('.', `.\n${filterString}`);
+    return query;
   }
 
   matchValue(array, object) {
@@ -129,4 +165,36 @@ export class Helper {
     window.localStorage.setItem('id_counter1', counter);
     return counter;
   }
+
+  chunkArray(array, chunk_size){
+    var index = 0;
+    var arrayLength = array.length;
+    var tempArray = [];
+    for (index = 0; index < arrayLength; index += chunk_size) {
+        let chunk = array.slice(index, index+chunk_size);
+        tempArray.push(chunk);
+    }
+    return tempArray;
+  }
+
+  shuffle(array) {
+    var currentIndex = array.length,
+      temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+
 }

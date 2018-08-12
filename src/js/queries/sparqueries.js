@@ -59,8 +59,9 @@ module.exports = {
       }
       LIMIT 5`,
 
-  query: `select distinct ?item ?itemlabel ?country ?countryLabel ?property ?propertyLabel ?questionlabel
+  person_query: `select distinct ?item ?itemlabel ?property ?propertyLabel ?questionlabel
   where {
+    ?item wdt:P31 wd:#INSTANCE_OF .
     ?item wdt:#PRIMARY_FILTER wd:#PRIMARY_FILTER_VALUE.
     ?item wdt:#PROPERTY ?property .
     ?item rdfs:label ?itemlabel.
@@ -72,7 +73,59 @@ module.exports = {
       
     }
   }
-  LIMIT 60`,
+  LIMIT 300`,
+
+  general_query: `select distinct ?item ?itemlabel ?property ?propertyLabel ?questionlabel
+  where {
+    ?item wdt:P31 wd:#INSTANCE_OF .
+    ?item wdt:#PROPERTY ?property .
+    ?item rdfs:label ?itemlabel.
+    FILTER(LANG(?itemlabel) = "en").
+    BIND(concat(#TEMPLATE) AS ?questionlabel).
+  
+    SERVICE wikibase:label {
+      bd:serviceParam wikibase:language "en" .
+      
+    }
+  }
+  LIMIT 300`, 
+
+  person_date_query: `select distinct ?item ?itemlabel ?property ?propertyLabel ?questionlabel
+  where {
+    ?item wdt:P31 wd:#INSTANCE_OF .
+    ?item wdt:#PRIMARY_FILTER wd:#PRIMARY_FILTER_VALUE.
+    ?item p:#PROPERTY/psv:#PROPERTY [
+        wikibase:timePrecision "11"^^xsd:integer ;
+        wikibase:timeValue ?propertyLabel ;
+      ] ;.
+    ?item rdfs:label ?itemlabel.
+    FILTER(LANG(?itemlabel) = "en").
+    BIND(concat(#TEMPLATE) AS ?questionlabel).
+  
+    SERVICE wikibase:label {
+      bd:serviceParam wikibase:language "en" .
+      
+    }
+  }
+  LIMIT 300`, 
+
+  general_date_query: `select distinct ?item ?itemlabel ?property ?propertyLabel ?questionlabel
+  where {
+    ?item wdt:P31 wd:#INSTANCE_OF .
+    ?item p:#PROPERTY/psv:#PROPERTY [
+        wikibase:timePrecision "11"^^xsd:integer ;
+        wikibase:timeValue ?propertyLabel ;
+      ] ;.
+    ?item rdfs:label ?itemlabel.
+    FILTER(LANG(?itemlabel) = "en").
+    BIND(concat(#TEMPLATE) AS ?questionlabel).
+  
+    SERVICE wikibase:label {
+      bd:serviceParam wikibase:language "en" .
+      
+    }
+  }
+  LIMIT 300`, 
 
   distinct_countries: `select distinct ?country ?placeofbirth ?placeofbirthLabel
   where {

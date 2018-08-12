@@ -47,43 +47,105 @@ module.exports = {
     });
   },
   generateQuestions(itemsArray, topicCategory) {
-    let sparqlQuery = queries.query;
     let self = this;
     const instanceType = dom.getHiddenValue('wizard3-instanceKeyHolder');
+    const instanceTypeValue = window.sessionStorage.getItem('instanceType');
     let selectedProperties = [];
     const propUrls = [];
     switch (instanceType) {
       case SparqlConstants.VALUES.INSTANCE_OF.HUMAN:
+        let query = queries.person_query;
         selectedProperties = SparqlConstants.PROPS.PEOPLE;
         Object.keys(selectedProperties).forEach((key) => {
             const selectedProperty = selectedProperties[key];
+            // if(selectedProperty.IS_DATE) {
+            //   query = queries.person_date_query;
+            // }
             // let selectedProperty = selectedProperties[key];
             if(selectedProperty.PID === 'P106') {
                 return true;
             }
             const sparqConcat = helper.convertToSparqConcat(selectedProperty.QUESTION_TEMPLATE);
-            sparqlQuery = `${sparqlQuery.replace('#PRIMARY_FILTER', SparqlConstants.PROPS.PEOPLE.OCCUPATION.PID)}`;
-            sparqlQuery = `${sparqlQuery.replace('#PRIMARY_FILTER_VALUE', itemsArray[0])}`;
-            sparqlQuery = `${sparqlQuery.replace('#PROPERTY', selectedProperty.PID)}`;
-            sparqlQuery = `${sparqlQuery.replace('#TEMPLATE', sparqConcat)}`;
+            query = `${helper.replaceAll(query, '#INSTANCE_OF', SparqlConstants.VALUES.INSTANCE_OF.HUMAN)}`;
+            query = `${query.replace('#PRIMARY_FILTER', SparqlConstants.PROPS.PEOPLE.OCCUPATION.PID)}`;
+            query = `${query.replace('#PRIMARY_FILTER_VALUE', itemsArray[0])}`;
+            query = `${helper.replaceAll(query, '#PROPERTY', selectedProperty.PID)}`;
+            query = `${helper.replaceAll(query, '#TEMPLATE', sparqConcat)}`;
             // console.log(sparqlQuery);
-            propUrls.push({'key': key, 'URL': `${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(sparqlQuery)}`});
-            sparqlQuery = queries.query;
+            if(selectedProperty.IS_DATE) {
+              propUrls.push({'key': key, 'IS_DATE':true, 'URL': `${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(query)}`});
+            } else {
+              propUrls.push({'key': key, 'URL': `${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(query)}`});
+            }
+            query = queries.person_query;
         })
-        self.generateQuestionsRecursive(propUrls, 0, topicCategory, [], {});
+        break;
+      case SparqlConstants.VALUES.INSTANCE_OF.FILM:
+        query = queries.general_query;
+        selectedProperties = SparqlConstants.PROPS[instanceTypeValue];
+        Object.keys(selectedProperties).forEach((key) => {
+          const selectedProperty = selectedProperties[key];
+          let languages = [];
+          // if(selectedProperty.IS_DATE) {
+          //   query = queries.general_date_query;
+          // }
+          if(topicCategory && (topicCategory.toLowerCase() === 'bollywood')) {
+            languages.push(SparqlConstants.VALUES.LANGUAGE_OF_WORK.HINDI);
+          } else if(topicCategory && (topicCategory.toLowerCase() === 'hollywood')) {
+            languages.push(SparqlConstants.VALUES.LANGUAGE_OF_WORK.ENGLISH);
+          } else {
+            languages.push(SparqlConstants.VALUES.LANGUAGE_OF_WORK.ENGLISH);
+            languages.push(SparqlConstants.VALUES.LANGUAGE_OF_WORK.HINDI);
+          }
+          query = helper.addQueryFilter(query, SparqlConstants.PROPS.LANGUAGE_OF_WORK, languages);
+          const sparqConcat = helper.convertToSparqConcat(selectedProperty.QUESTION_TEMPLATE);
+          query = `${helper.replaceAll(query, '#INSTANCE_OF', SparqlConstants.VALUES.INSTANCE_OF[instanceTypeValue])}`;
+          query = `${helper.replaceAll(query, '#PROPERTY', selectedProperty.PID)}`;
+          query = `${helper.replaceAll(query, '#TEMPLATE', sparqConcat)}`;
+          // console.log(query);
+          if(selectedProperty.IS_DATE) {
+            propUrls.push({'key': key, 'IS_DATE':true, 'URL': `${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(query)}`});
+          } else {
+            propUrls.push({'key': key, 'URL': `${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(query)}`});
+          }
+          query = queries.general_query;
+        })
         break;
       default:
+        query = queries.general_query;
+        selectedProperties = SparqlConstants.PROPS[instanceTypeValue];
+        Object.keys(selectedProperties).forEach((key) => {
+          const selectedProperty = selectedProperties[key];
+          // if(selectedProperty.IS_DATE) {
+          //   query = queries.general_date_query;
+          // }
+          const sparqConcat = helper.convertToSparqConcat(selectedProperty.QUESTION_TEMPLATE);
+          query = `${helper.replaceAll(query, '#INSTANCE_OF', SparqlConstants.VALUES.INSTANCE_OF[instanceTypeValue])}`;
+          query = `${helper.replaceAll(query, '#PROPERTY', selectedProperty.PID)}`;
+          query = `${helper.replaceAll(query, '#TEMPLATE', sparqConcat)}`;
+          // console.log(query);
+          if(selectedProperty.IS_DATE) {
+            propUrls.push({'key': key, 'IS_DATE':true, 'URL': `${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(query)}`});
+          } else {
+            propUrls.push({'key': key, 'URL': `${SparqlConstants.END_POINT_URL}?query=${encodeURIComponent(query)}`});
+          }
+          query = queries.general_query;
+        })
         break;
+    }
+    if(propUrls) {
+      self.generateQuestionsRecursive(propUrls, 0, topicCategory, []);
     }
   },
 
-  generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray, propertyQuestionMap) {
+  generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray) {
     let self = this;
     if(propsIndex > propsArray.length - 1) {
       window.localStorage.setItem('question_data', JSON.stringify(quesArray));
-      self.getConfirmationOnGenerated(propertyQuestionMap);
+      // self.getConfirmationOnGenerated(propertyQuestionMap);
       return;
     }
+    let isDate = propsArray[propsIndex]['IS_DATE'];
     let propertyQuestionUrl = propsArray[propsIndex]['URL'];
     let property = propsArray[propsIndex]['key'];
     let headers = {
@@ -105,32 +167,54 @@ module.exports = {
           questionObj.batchId = batchId;
           questionObj.question = result.questionlabel.value;
           // console.log(questionObj.question);
-          questionObj.answer = result.propertyLabel.value;
+          if(isDate) {
+            if(result && result.property && result.property.value.includes('T')) {
+              questionObj.answer = result.property.value.substr(0, result.property.value.indexOf('T'));
+            } else {
+              questionObj.answer = result.property.value;
+            }
+          } else {
+            questionObj.answer = result.propertyLabel.value;
+          }
           questionObj.topic = topicCategory;
-          const options = helper.generateOptions(result, results.bindings);
+          const options = helper.generateOptions(result, results.bindings, isDate);
           options.push(questionObj.answer);
           questionObj.options = options;
           quesArrayPerProperty.push(questionObj);
         }
-        propertyQuestionMap[property] = quesArrayPerProperty;
+        // propertyQuestionMap[property] = quesArrayPerProperty;
         quesArray = quesArray.concat(quesArrayPerProperty);
-        self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray, propertyQuestionMap);
+        // TODO : show result here
+        self.getConfirmationOnGenerated(quesArrayPerProperty, property);
+        self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray);
       });
   },
 
-  getConfirmationOnGenerated(propertyQuestionMap) {
-    dom.showGeneratedQuestionDisplayer(propertyQuestionMap);
+  getConfirmationOnGenerated(quesArrayPerProperty, property) {
+    dom.showGeneratedQuestionDisplayer(quesArrayPerProperty, property);
   },
 
   saveQuestions(quesArray) {
-    // console.log(`after : ${quesArray}`);
+    quesArray = helper.shuffle(quesArray);
+    let arrayOfQuesionArray = helper.chunkArray(quesArray, 300);
+    this.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, 0);
+  },
+
+  saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index) {
+    let self = this;
+    if(index > arrayOfQuesionArray.length - 1) {
+      return;
+    }
+    let questionsChunk = arrayOfQuesionArray[index];
     $.ajax({
       url: '/firebase/api/questions',
       dataType: 'json',
       type: 'post',
       contentType: 'application/json',
-      data: JSON.stringify(quesArray),
+      data: JSON.stringify(questionsChunk),
       success(data) {
+        // self.syncQuestionsWithQEngine(quesArray);
+        self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index);
         console.log(data);
       },
       error(jqXhr, textStatus, errorThrown) {
@@ -138,6 +222,31 @@ module.exports = {
       },
     });
   },
+  // syncQuestionsWithQEngine(quesArray) {
+  //   let engineURI = `/api/questionManager/syncQuestions?engineURL=${encodeURIComponent('https://quiz-engine.herokuapp.com/api/questions')}`;
+  //   fetch(engineURI, {
+  //     method: "POST", // *GET, POST, PUT, DELETE, etc.
+  //     headers: {
+  //         "Content-Type": "application/json; charset=utf-8",
+  //     }, 
+  //     body:  JSON.stringify(quesArray) 
+  //   }).then(body => body.json()).then((json) => {
+  //     console.log('Question posted to Engine' + json);
+  //   });
+  //   // $.ajax({
+  //   //   url: 'https://quiz-engine.herokuapp.com/api/questions',
+  //   //   dataType: 'json',
+  //   //   type: 'post',
+  //   //   contentType: 'application/json',
+  //   //   data: JSON.stringify(quesArray),
+  //   //   success(data) {
+  //   //     console.log(data);
+  //   //   },
+  //   //   error(jqXhr, textStatus, errorThrown) {
+  //   //     console.log(errorThrown);
+  //   //   },
+  //   // });
+  // },
 
   determineNodeAndCategory(subject) {
     const entityURL = SparqlConstants.WIKI_ENTITY_SEARCH_URL.replace('#entity', subject);
@@ -183,6 +292,10 @@ module.exports = {
           break;
         }
         default:
+          dom.setHiddenValue(matchedValue, 'wizard3-instanceKeyHolder');
+          let instanceValue = helper.getValueByValueId(matchedValue, SparqlConstants.VALUES);
+          window.sessionStorage.setItem('instanceType', instanceValue);
+          dom.showWizardStep(instanceValue, '3', 'Selected topic is an instance of below type, please click "Generate" to generate questions of below type.');
           break;
       }
     } else {
