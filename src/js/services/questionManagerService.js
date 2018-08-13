@@ -6,22 +6,23 @@ const helper = new Helper();
 const queries = require('./../queries/sparqueries');
 
 const dom = new DomService();
+let ajaxMsg='';
 function pushDataToQuizEngine(quizData) {
   $.ajax({
     header: {
       'Access-Control-Allow-Origin': '*'
     },
-    url: 'https://quiz-engine.herokuapp.com/api/questions',
+    url: 'https://game-engine-beta.herokuapp.com/api/questions',          
     dataType: 'json',
     cors: 'no-cors',
     type: 'post',
     contentType: 'application/json',
-    data: quizData,
+    data: JSON.stringify(quizData),
     success(msg) {
       console.log(msg);
     },
     error(jqXhr, textStatus, errorThrown) {
-      console.log(errorThrown);
+      console.log(errorThrown);  
     },
   });
 }
@@ -226,6 +227,7 @@ module.exports = {
   saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index) {
     let self = this;
     if(index > arrayOfQuesionArray.length - 1) {
+      alert(ajaxMsg);
       dom.showTemplateSuccess('Generated questions have been pushed to DB Successfully!')
       return;
     }
@@ -237,12 +239,15 @@ module.exports = {
       contentType: 'application/json',
       data: JSON.stringify(questionsChunk),
       success(data) {
-        // self.syncQuestionsWithQEngine(quesArray);
-        self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index);
+        //self.syncQuestionsWithQEngine(quesArray);
+        ajaxMsg = 'Successfully Inserted Data in DB and syncing data to Quiz Engine';
+        pushDataToQuizEngine(data);
         console.log(data);
+        self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index);
       },
       error(jqXhr, textStatus, errorThrown) {
-        console.log(errorThrown);
+        ajaxMsg = errorThrown;
+        alert(errorThrown);
       },
     });
   },
