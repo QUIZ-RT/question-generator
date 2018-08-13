@@ -426,6 +426,10 @@ export class DomService {
         $(`#${elementId}`).html(parseInt( $(`#${elementId}`).html()) + 1);
     }
 
+    getCount(elementId) {
+        return parseInt( $(`#${elementId}`).html();
+    }
+
     // AUTO-COMPLETE FUNCTIONALITY
     autocomplete(inp, arr) {
         let self = this;
