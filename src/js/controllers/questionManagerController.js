@@ -35,4 +35,9 @@ export class QuestionManagerController {
     qManService.saveQuestions(questions)
   }
 
+  delegateSaveToQEOperation() {
+    let questions = JSON.parse(window.localStorage.getItem('questions_data_for_QE'));
+    qManService.saveQuestionsShuffledAndChunked(questions, 0, 'https://game-engine-beta.herokuapp.com/api/questions', 'Question Engine');
+  }
+
 }

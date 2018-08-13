@@ -153,12 +153,12 @@ module.exports = {
         break;
     }
     if(propUrls) {
+      dom.resetCounter('qCount');
       self.generateQuestionsRecursive(propUrls, 0, topicCategory, []);
     }
   },
 
   generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray) {
-    dom.resetCounter('qCount');
     let self = this;
     if (propsIndex > propsArray.length - 1) {
       window.localStorage.setItem('question_data', JSON.stringify(quesArray));
@@ -167,7 +167,7 @@ module.exports = {
       return;
     }
     if(propsIndex == 1) {
-      //dom.displaySpinner();
+      dom.displaySpinner();
     }
     let isDate = propsArray[propsIndex]['IS_DATE'];
     let propertyQuestionUrl = propsArray[propsIndex]['URL'];
@@ -210,6 +210,7 @@ module.exports = {
         // propertyQuestionMap[property] = quesArrayPerProperty;
         quesArray = quesArray.concat(quesArrayPerProperty);
         // TODO : show result here
+        dom.removeSpinner();
         self.getConfirmationOnGenerated(quesArrayPerProperty, property);
         self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray);
       });
@@ -222,20 +223,31 @@ module.exports = {
     debugger;
     quesArray = helper.shuffle(quesArray);
     let arrayOfQuesionArray = helper.chunkArray(quesArray, 300);
-    this.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, 0);
+    window.localStorage.setItem('questions_data_for_QE', JSON.stringify(arrayOfQuesionArray));
+    this.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, 0, '/firebase/api/questions', 'Question Generator');
   },
 
-  saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index) {
+  saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index, db, appName) {
     let self = this;
     if(index > arrayOfQuesionArray.length - 1) {
       dom.showTemplateSuccess('Generated questions have been pushed to DB Successfully!')
+      ajaxMsg = ajaxMsg.replace('#count', dom.getCount('qCount'));
+      dom.showTemplateSuccess(ajaxMsg);
+      dom.removeSpinner();
+      if(appName === 'Question Generator') {
+        dom.displayConfirmQESubmitModal();
+      }
       return;
     }
     let questionsChunk = arrayOfQuesionArray[index];
     $.ajax({
-      url: '/firebase/api/questions',
+      header: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      url: db,
       dataType: 'json',
       type: 'post',
+      cors: 'no-cors',
       contentType: 'application/json',
       data: JSON.stringify(questionsChunk),
       success(data) {
@@ -243,8 +255,9 @@ module.exports = {
         let questionCountInserted = dom.getCount('qCount');
         ajaxMsg = 'Successfully Inserted Data in DB and syncing data to Quiz Engine';
         pushDataToQuizEngine(data);
+        ajaxMsg = `Inserted ${questionCountInserted} questions in ${appName} DB`;
         console.log(data);
-        self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index);
+        self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index, db, appName);
       },
       error(jqXhr, textStatus, errorThrown) {
         ajaxMsg = errorThrown;
