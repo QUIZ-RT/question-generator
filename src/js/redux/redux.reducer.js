@@ -41,7 +41,7 @@ const createReducer = function (state = initailState, action) {
       return Object.assign({},state,{
         topics: state.topics.filter((topic) => {
           console.log(topic.id != action.topic.id);
-          console.log(action.topic.id)
+        //  console.log(action.topic.id)
           return topic.id != action.topic.id
         }),
         actionType: action.type

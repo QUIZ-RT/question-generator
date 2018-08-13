@@ -7,25 +7,25 @@ const queries = require('./../queries/sparqueries');
 
 const dom = new DomService();
 let ajaxMsg='';
-// function pushDataToQuizEngine(quizData) {
-//   $.ajax({
-//     header: {
-//       'Access-Control-Allow-Origin': '*'
-//     },
-//     url: 'https://game-engine-beta.herokuapp.com/api/questions',          
-//     dataType: 'json',
-//     cors: 'no-cors',
-//     type: 'post',
-//     contentType: 'application/json',
-//     data: JSON.stringify(quizData),
-//     success(msg) {
-//       console.log(msg);
-//     },
-//     error(jqXhr, textStatus, errorThrown) {
-//       console.log(errorThrown);  
-//     },
-//   });
-// }
+function pushDataToQuizEngine(quizData) {
+  $.ajax({
+    header: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    url: 'https://game-engine-beta.herokuapp.com/api/questions',          
+    dataType: 'json',
+    cors: 'no-cors',
+    type: 'post',
+    contentType: 'application/json',
+    data: JSON.stringify(quizData),
+    success(msg) {
+      console.log(msg);
+    },
+    error(jqXhr, textStatus, errorThrown) {
+      console.log(errorThrown);  
+    },
+  });
+}
 module.exports = {
   endpointUrl: SparqlConstants.END_POINT_URL,
   countryToCityMap: {},
@@ -221,6 +221,7 @@ module.exports = {
     dom.showGeneratedQuestionDisplayer(quesArrayPerProperty, property);
   },
   saveQuestions(quesArray) {
+    debugger;
     quesArray = helper.shuffle(quesArray);
     let arrayOfQuesionArray = helper.chunkArray(quesArray, 300);
     window.localStorage.setItem('questions_data_for_QE', JSON.stringify(arrayOfQuesionArray));
@@ -230,6 +231,7 @@ module.exports = {
   saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index, db, appName) {
     let self = this;
     if(index > arrayOfQuesionArray.length - 1) {
+      dom.showTemplateSuccess('Generated questions have been pushed to DB Successfully!')
       ajaxMsg = ajaxMsg.replace('#count', dom.getCount('qCount'));
       dom.showTemplateSuccess(ajaxMsg);
       dom.removeSpinner();
@@ -250,7 +252,11 @@ module.exports = {
       contentType: 'application/json',
       data: JSON.stringify(questionsChunk),
       success(data) {
-        ajaxMsg = `Inserted #count questions in ${appName} DB`;
+        //self.syncQuestionsWithQEngine(quesArray);
+        let questionCountInserted = dom.getCount('qCount');
+        ajaxMsg = 'Successfully Inserted Data in DB and syncing data to Quiz Engine';
+        pushDataToQuizEngine(data);
+        ajaxMsg = `Inserted ${questionCountInserted} questions in ${appName} DB`;
         console.log(data);
         self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index, db, appName);
       },

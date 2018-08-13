@@ -30,15 +30,15 @@ class TopicManagerController {
     jQuery('.addTopicBtn').on('click', () => {
       this.addEditTopic();
     });
-    jQuery('#mainContainer').on('click', '.deleteTopicBtn', (e) => {
+    jQuery('#mainContainer').off('click', '.deleteTopicBtn').on('click', '.deleteTopicBtn', (e) => {
       const topicId = jQuery(e.currentTarget).attr('data-id');
       this.openConfirmationModal(topicId);
     });
 
-    jQuery('#mainContainer').on('click', '.editTopicBtn', (e) => {
+    jQuery('#mainContainer').off('click', '.editTopicBtn').on('click', '.editTopicBtn', (e) => {
       const topicId = jQuery(e.currentTarget).attr('data-id');
       for (let i = 0; i < this.topics.length; i += 1) {
-        if (Number(topicId) === this.topics[i].id) {
+        if (topicId === this.topics[i].id) {
           const selectTopic = this.topics[i];
           this.addEditTopic(selectTopic);
           break;
