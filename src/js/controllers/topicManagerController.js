@@ -35,7 +35,7 @@ class TopicManagerController {
       this.openConfirmationModal(topicId);
     });
 
-    jQuery('#mainContainer').on('click', '.editTopicBtn', (e) => {
+    jQuery('#mainContainer').off('click', '.editTopicBtn').on('click', '.editTopicBtn', (e) => {
       const topicId = jQuery(e.currentTarget).attr('data-id');
       for (let i = 0; i < this.topics.length; i += 1) {
         if (topicId === this.topics[i].id) {

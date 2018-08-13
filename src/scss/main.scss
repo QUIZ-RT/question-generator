@@ -24,6 +24,15 @@ $fa-font-path: '~font-awesome/fonts';
   padding: 0px;
 }
 
+.editTopicBtn, .deleteTopicBtn{
+  cursor: pointer;
+}
+
+#topicListWrapper{
+  background-color: rgba(55,55,55, .1);
+  border-radius: 10px;
+}
+
 .loading {
   position: fixed;
   z-index: 999;
@@ -135,6 +144,8 @@ $fa-font-path: '~font-awesome/fonts';
   border-radius: $border-radius;
   text-align: $text-align;
 }
+
+
 
 img.logo {
   max-width: 2rem;
