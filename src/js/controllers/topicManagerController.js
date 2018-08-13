@@ -30,7 +30,7 @@ class TopicManagerController {
     jQuery('.addTopicBtn').on('click', () => {
       this.addEditTopic();
     });
-    jQuery('#mainContainer').on('click', '.deleteTopicBtn', (e) => {
+    jQuery('#mainContainer').off('click', '.deleteTopicBtn').on('click', '.deleteTopicBtn', (e) => {
       const topicId = jQuery(e.currentTarget).attr('data-id');
       this.openConfirmationModal(topicId);
     });

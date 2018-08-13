@@ -1,3 +1,4 @@
+import { Toast, configureToasts } from 'toaster-js';
 class TopicManagerService {
   constructor() {
 
@@ -41,12 +42,13 @@ class TopicManagerService {
 
   deleteTopic(topic) {
     const promise = jQuery.ajax({
-      type: 'post',
+      type: 'delete',
       contentType: 'application/json',
-      dataType: 'json',
-      url: '/firebase/api/topics/delete',
-      data: JSON.stringify(topic),
-    }).done(response => response).fail(jqXhr => jqXhr);
+      url: '/firebase/api/topics/'+topic.id,   
+    }).done(response => 
+      new Toast(response, Toast.TYPE_DONE, Toast.TIME_NORMAL)
+    //  alert(response)
+    ).fail(jqXhr => jqXhr);
 
     return promise;
   }

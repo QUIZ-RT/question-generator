@@ -83,9 +83,9 @@ module.exports = (app) => {
     });
     app.delete('/firebase/api/questions', (req, res) => { // it will current user detail on screan       
         return new Promise((resolve, reject) => {
-            databaseFunc.deleteAllQuestions()
+            databaseFunc.deleteAllQuestions(resolve, reject)
         }).then((data) => {
-            res.json("successfully deleted");
+            res.json(data);
         })
             .catch((err) => {
                 console.log(err)
@@ -127,15 +127,15 @@ module.exports = (app) => {
                 });
         });
     });
-    app.post('/firebase/api/topics/delete', (req, res) => { // it will current user detail on screan
+    app.delete('/firebase/api/topics/:topicId', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
-            console.log(req);
-            databaseFunc.saveTopics(req.body.id, null, resolve, reject)
+            console.log(req.params.topicId);
+            databaseFunc.deleteTopics(req.params.topicId, resolve, reject)
         }).then((data) => {
             res.json(data);
         })
             .catch((err) => {
-                console.log(err)
+                console.log(err);
             });
     });
     app.post('/firebase/api/topics', (req, res) => { // it will current user detail on screan
@@ -150,6 +150,8 @@ module.exports = (app) => {
                 console.log(err)
             });
     });
+
+    
     // user releted api call
     app.get('/firebase/currentusers', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {

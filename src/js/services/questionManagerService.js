@@ -219,6 +219,7 @@ module.exports = {
     dom.showGeneratedQuestionDisplayer(quesArrayPerProperty, property);
   },
   saveQuestions(quesArray) {
+    debugger;
     quesArray = helper.shuffle(quesArray);
     let arrayOfQuesionArray = helper.chunkArray(quesArray, 300);
     this.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, 0);
@@ -227,7 +228,6 @@ module.exports = {
   saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index) {
     let self = this;
     if(index > arrayOfQuesionArray.length - 1) {
-      dom.showTemplateSuccess(ajaxMsg);
       dom.showTemplateSuccess('Generated questions have been pushed to DB Successfully!')
       return;
     }
@@ -240,7 +240,8 @@ module.exports = {
       data: JSON.stringify(questionsChunk),
       success(data) {
         //self.syncQuestionsWithQEngine(quesArray);
-        ajaxMsg = 'Successfully Inserted Data in DB';
+        let questionCountInserted = dom.getCount('qCount');
+        ajaxMsg = 'Successfully Inserted Data in DB and syncing data to Quiz Engine';
         pushDataToQuizEngine(data);
         console.log(data);
         self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index);
