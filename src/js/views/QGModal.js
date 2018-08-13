@@ -8,12 +8,12 @@ export const QGModal = `<div class="modal good" id="generatedQuestionsDisplay" t
                 </button>
             </div>
             <div class="modal-body">
-                <p>Below Questions were generated using the template provided, please review and click submit to push to database?</p>
+                <p>Below Questions were generated using the template provided, please review and click submit to push to database?<span class="float-right text-muted" id="qCount">Count</span></p>
                 <span id="tableHolder"></span>
             </div>
             <div class="modal-footer">
-                <button id="btnCancelConfirm" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button id="btnSubmitQuestions" type="button" class="btn btn-primary" data-dimsiss="modal">Submit</button>
+                <button id="btnQGConfirm" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="btnQGSubmit" type="button" class="btn btn-primary" data-dimsiss="modal">Submit</button>
             </div>
         </div>
     </div>

@@ -188,7 +188,14 @@ export class DomService {
 
     showTemplateError(msg) {
         $('#msgFailure').html("<strong>" + msg + "</strong>")
+        $('#successAlert').hide();
         $('#failureAlert').show();
+    }
+
+    showTemplateSuccess(msg) {
+        $('#msgSuccess').html("<strong>" + msg + "</strong>")
+        $('#failureAlert').hide();
+        $('#successAlert').show();
     }
 
     appendHtml(el, str) {
@@ -214,6 +221,7 @@ export class DomService {
             tableHolder.html('');
             qGenTable.childNodes[1].innerHTML = '';
             btnOutputModal.click();
+            $('#btnQGSubmit').attr('disabled', 'disabled');
             tableHolder.append(qGenTable);
         }
         this.updateQuestionDisplayTable(questionArrayPerProperty, key);
@@ -267,6 +275,7 @@ export class DomService {
         const td_break = document.createElement("td");
         td_break.setAttribute('colspan', 5);
         tr_break.appendChild(td_break);
+        tr_break.style.background = "darkgrey";
         tbody.appendChild(tr_break);
         tbody.appendChild(tr_break);
         tbody.appendChild(tr_break);
@@ -380,6 +389,14 @@ export class DomService {
         this.enableForm(id);
     }
 
+    displaySpinner() {
+        $('#spinner').show();
+    }
+
+    removeSpinner() {
+        $('#spinner').hide();
+    }
+
     setHiddenValue(value, fieldId) {
         let hiddenFieldElement = document.getElementById(fieldId);
         hiddenFieldElement.value = value;
@@ -399,6 +416,14 @@ export class DomService {
 
     isVisible(element) {
         return element ? !element.hasClass("hide") : false;
+    }
+
+    resetCounter(elementId) {
+        $(`#${elementId}`).html('0');
+    }
+
+    updateCounter(elementId) {
+        $(`#${elementId}`).html(parseInt( $(`#${elementId}`).html()) + 1);
     }
 
     // AUTO-COMPLETE FUNCTIONALITY

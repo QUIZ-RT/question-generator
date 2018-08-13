@@ -157,11 +157,16 @@ module.exports = {
   },
 
   generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray) {
+    dom.resetCounter('qCount');
     let self = this;
     if (propsIndex > propsArray.length - 1) {
       window.localStorage.setItem('question_data', JSON.stringify(quesArray));
+      $('#btnQGSubmit').removeAttr('disabled');
       // self.getConfirmationOnGenerated(propertyQuestionMap);
       return;
+    }
+    if(propsIndex == 1) {
+      //dom.displaySpinner();
     }
     let isDate = propsArray[propsIndex]['IS_DATE'];
     let propertyQuestionUrl = propsArray[propsIndex]['URL'];
@@ -195,10 +200,11 @@ module.exports = {
             questionObj.answer = result.propertyLabel.value;
           }
           questionObj.topic = topicCategory;
-          const options = helper.generateOptions(result, results.bindings, 4, isDate);
+          const options = helper.generateOptions(result, results.bindings, 3, isDate);
           options.push(questionObj.answer);
           questionObj.options = options;
           quesArrayPerProperty.push(questionObj);
+          dom.updateCounter('qCount');
         }
         // propertyQuestionMap[property] = quesArrayPerProperty;
         quesArray = quesArray.concat(quesArrayPerProperty);
@@ -220,6 +226,7 @@ module.exports = {
   saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index) {
     let self = this;
     if(index > arrayOfQuesionArray.length - 1) {
+      dom.showTemplateSuccess('Generated questions have been pushed to DB Successfully!')
       return;
     }
     let questionsChunk = arrayOfQuesionArray[index];

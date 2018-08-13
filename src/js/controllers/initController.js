@@ -6,6 +6,7 @@ import {
   DomService,
 } from '../services/domService';
 import TopicManagerController from './topicManagerController';
+let topicManagerController = new TopicManagerController();
 
 const $dom = new DomService();
 
@@ -118,7 +119,8 @@ module.exports = jQuery(document).ready(() => {
       topicUrl: $('#topicURLViaQG').val(),
       id: $('#topicInputViaQG').val(),
     };
-    TopicManagerController.prototype.addEditTopic(topicObj, true);
+    $('#btnTopicCreateCancel').click();
+    topicManagerController.addEditTopic(topicObj, true);
   });
 
   $(document).on('click', '.close', function (event) {
