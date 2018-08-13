@@ -31,6 +31,12 @@ import {
     topicCreateModal
 } from '../views/topicCreateModal';
 import {
+    confirmQESubmitModal
+} from '../views/confirmQESubmitModal';
+import {
+    spinner
+} from '../views/spinner';
+import {
     Helper
 } from '../utils/helper';
 import TopicManagerService from '../services/topicManagerService';
@@ -50,6 +56,8 @@ export class DomService {
             wizardStep3,
             QGModal,
             topicCreateModal,
+            confirmQESubmitModal,
+            spinner,
             wizardContainer,
             // menu,
             messages,
@@ -181,6 +189,9 @@ export class DomService {
         // Modal
         $(QGModal).insertAfter('#messages');
         $(topicCreateModal).insertAfter('#messages');
+        $(confirmQESubmitModal).insertAfter('#messages');
+        $(spinner).insertAfter('#messages');
+        $('#spinner').hide();
     }
     executeAuthorizedLoads() {
 
@@ -188,7 +199,14 @@ export class DomService {
 
     showTemplateError(msg) {
         $('#msgFailure').html("<strong>" + msg + "</strong>")
+        $('#successAlert').hide();
         $('#failureAlert').show();
+    }
+
+    showTemplateSuccess(msg) {
+        $('#msgSuccess').html("<strong>" + msg + "</strong>")
+        $('#failureAlert').hide();
+        $('#successAlert').show();
     }
 
     appendHtml(el, str) {
@@ -214,6 +232,7 @@ export class DomService {
             tableHolder.html('');
             qGenTable.childNodes[1].innerHTML = '';
             btnOutputModal.click();
+            $('#btnQGSubmit').attr('disabled', 'disabled');
             tableHolder.append(qGenTable);
         }
         this.updateQuestionDisplayTable(questionArrayPerProperty, key);
@@ -267,6 +286,7 @@ export class DomService {
         const td_break = document.createElement("td");
         td_break.setAttribute('colspan', 5);
         tr_break.appendChild(td_break);
+        tr_break.style.background = "darkgrey";
         tbody.appendChild(tr_break);
         tbody.appendChild(tr_break);
         tbody.appendChild(tr_break);
@@ -380,6 +400,18 @@ export class DomService {
         this.enableForm(id);
     }
 
+    displayConfirmQESubmitModal() {
+        $('#btnShowConfirmQESubmitModal').click();
+    }
+
+    displaySpinner() {
+        $('#spinner').show();
+    }
+
+    removeSpinner() {
+        $('#spinner').hide();
+    }
+
     setHiddenValue(value, fieldId) {
         let hiddenFieldElement = document.getElementById(fieldId);
         hiddenFieldElement.value = value;
@@ -399,6 +431,18 @@ export class DomService {
 
     isVisible(element) {
         return element ? !element.hasClass("hide") : false;
+    }
+
+    resetCounter(elementId) {
+        $(`#${elementId}`).html('0');
+    }
+
+    updateCounter(elementId) {
+        $(`#${elementId}`).html(parseInt( $(`#${elementId}`).html()) + 1);
+    }
+
+    getCount(elementId) {
+        return parseInt( $(`#${elementId}`).html());
     }
 
     // AUTO-COMPLETE FUNCTIONALITY

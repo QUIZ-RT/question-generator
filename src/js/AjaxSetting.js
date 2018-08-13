@@ -1,11 +1,10 @@
 const jQuery = require('jquery');
 
 jQuery(document).on('ajaxSend', () => {
-  const interval = setInterval(() => {
-    jQuery('body').append("<div class='loading' id='ajaxSpinner'></div>");
-    clearInterval(interval);
-  }, 1);
-})
-  .on('ajaxComplete', () => {
+  if(!jQuery('#ajaxSpinner').length){
+    jQuery('#ajaxSpinner').remove();
+    jQuery('body').append("<div class='qloading' id='ajaxSpinner'></div>");
+  }
+}) .on('ajaxStop',function() {
     jQuery('#ajaxSpinner').remove();
   });

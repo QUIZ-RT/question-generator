@@ -61,8 +61,14 @@ module.exports = class firebaseDatabase {
     }
   }
 
-  deleteFirebaseData(refUrl) {
-    return firebaseInit.database().ref(refUrl).remove();
+  deleteFirebaseData(refUrl, resolve, reject) {
+    console.log(refUrl);
+    return firebaseInit.database().ref(refUrl).remove().then(()=>{
+      resolve("Deleted successfully from Database");
+    }).catch((error)=>{
+      reject(error);
+      console.log(error);
+    });
   }
 
   saveFirebaseData(refUrl, postDataObj, resolve, reject) {
@@ -200,7 +206,7 @@ module.exports = class firebaseDatabase {
   seveLoggedUserInfo(userId, loginObj, callback) {
     const loginTempObj = { ...loginObj, isauthorized: false, isUserBlocked: false };
     const refUrl = `users/${userId}`;
-    this.saveFirebaseData(refUrl, loginTempObj, callback);
+    this.saveFirebaseData(refUrl, loginTempObj, resolve,reject);
   }
   saveTopics(topicId, topicObj, resolve, reject) {
     const refUrl = `topics/${topicId}`;
@@ -208,7 +214,6 @@ module.exports = class firebaseDatabase {
   }
 
   saveTopicsPage(topicId, topicObj, resolve, reject) {
-
     const refUrl = `topicsTest/${topicId}`;
     this.saveFirebaseData(refUrl, topicObj, resolve, reject);
   }
@@ -235,8 +240,11 @@ module.exports = class firebaseDatabase {
       }
     });
   }
-
-  deleteAllQuestions() {
-    this.deleteFirebaseData("questions");
+deleteTopics(topicId, resolve, reject){
+  const refUrl = `topics/${topicId}`;
+  this.deleteFirebaseData(refUrl, resolve, reject);
+}
+  deleteAllQuestions(resolve, reject) {
+    this.deleteFirebaseData("questions", resolve, reject);
   }
 };

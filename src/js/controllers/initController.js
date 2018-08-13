@@ -6,6 +6,7 @@ import {
   DomService,
 } from '../services/domService';
 import TopicManagerController from './topicManagerController';
+let topicManagerController = new TopicManagerController();
 
 const $dom = new DomService();
 
@@ -35,6 +36,7 @@ module.exports = jQuery(document).ready(() => {
     for (const selectedElement of selectedElements) {
       selectedElementsIdArray.push(selectedElement.id);
     }
+    DomService.prototype.updateWizardClasses(1);
     QuestionManagerController.prototype.generateQuestions(selectedElementsIdArray, topicCategory);
   });
 
@@ -44,13 +46,20 @@ module.exports = jQuery(document).ready(() => {
   //     }
   // });
 
-  $(document).on('click', '#btnSubmitQuestions', function () {
+  $(document).on('click', '#btnQGSubmit', function () {
   // $('#btnSubmitQuestions').on('click', function() {
-    $('#btnCancelConfirm').trigger('click');
+    $('#btnQGCancel').trigger('click');
+    $dom.displaySpinner();
     QuestionManagerController.prototype.delegateSaveOperation();
-
-  })
+  });
  
+  $(document).on('click', '#btnConfirmQESubmitModalSubmit', function () {
+    // $('#btnSubmitQuestions').on('click', function() {
+    $('#btnConfirmQESubmitModalCancel').trigger('click');
+    $dom.displaySpinner();
+    QuestionManagerController.prototype.delegateSaveToQEOperation();
+  });
+
   $(document).on('keyup', '#templateInput, #topicInput', (e) => {
     const code = (e.keyCode ? e.keyCode : e.which);
     const topic = document.getElementById('topicInput').value;
@@ -118,7 +127,8 @@ module.exports = jQuery(document).ready(() => {
       topicUrl: $('#topicURLViaQG').val(),
       id: $('#topicInputViaQG').val(),
     };
-    TopicManagerController.prototype.addEditTopic(topicObj, true);
+    $('#btnTopicCreateCancel').click();
+    topicManagerController.addEditTopic(topicObj, true);
   });
 
   $(document).on('click', '.close', function (event) {

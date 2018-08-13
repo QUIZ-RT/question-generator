@@ -7,13 +7,15 @@ import {
   topic, loadButtons, addTopicDialog, openConfirmation,
 } from '../views/topic';
 
+const topicManagerService = new TopicManagerService();
+
 class TopicManagerController {
   constructor() {
     this.topics = {};
     this.total = 0;
     this.startIndex = 0;
     this.limit = Constants.TOPIC_PAGING_LIMIT;
-    this.topicManagerService = new TopicManagerService();
+   
 
     this.addButtons();
     this.getAllTopics();
@@ -28,7 +30,7 @@ class TopicManagerController {
     jQuery('.addTopicBtn').on('click', () => {
       this.addEditTopic();
     });
-    jQuery('#mainContainer').on('click', '.deleteTopicBtn', (e) => {
+    jQuery('#mainContainer').off('click', '.deleteTopicBtn').on('click', '.deleteTopicBtn', (e) => {
       const topicId = jQuery(e.currentTarget).attr('data-id');
       this.openConfirmationModal(topicId);
     });
@@ -79,32 +81,13 @@ class TopicManagerController {
     });
   }
 
-  addEditTopic(selectTopic) {
-    $('#dialogContainer').append(addTopicDialog(selectTopic));
-
-    this.dialog = new MDCDialog(document.querySelector('#my-mdc-dialog'));
-    this.topicField = new MDCTextField(document.querySelector('.mdc-text-field-topic'));
-    this.topicUrlField = new MDCTextField(document.querySelector('.mdc-text-field-topic-url'));
-
-    this.dialog.show();
-    this.dialog.listen('MDCDialog:accept', () => {
-      this.saveNewTopic(selectTopic);
-      $('#dialogContainer').empty();
-    });
-
-    this.dialog.listen('MDCDialog:cancel', () => {
-      console.log('canceled');
-      $('#dialogContainer').empty();
-    });
-  }
-
   saveNewTopic(selectTopic, fromQG) {
     if(fromQG) {
       store.dispatch({
         type: actionType,
         'topic':topicObj
       });
-      this.topicManagerService.saveTopic(topicObj)
+      topicManagerService.saveTopic(topicObj)
         .then((data) => {
           console.log('saved', data);
           
@@ -151,7 +134,7 @@ class TopicManagerController {
           type: actionType,
           'topic':topicObj
         });
-        this.topicManagerService.saveTopic(topicObj)
+        topicManagerService.saveTopic(topicObj)
           .then((data) => {
             console.log('saved', data);
             
@@ -164,7 +147,24 @@ class TopicManagerController {
       }
     }
   }
+  addEditTopic(selectTopic) {
+    $('#dialogContainer').append(addTopicDialog(selectTopic));
 
+    this.dialog = new MDCDialog(document.querySelector('#my-mdc-dialog'));
+    this.topicField = new MDCTextField(document.querySelector('.mdc-text-field-topic'));
+    this.topicUrlField = new MDCTextField(document.querySelector('.mdc-text-field-topic-url'));
+
+    this.dialog.show();
+    this.dialog.listen('MDCDialog:accept', () => {
+      this.saveNewTopic(selectTopic);
+      $('#dialogContainer').empty();
+    });
+
+    this.dialog.listen('MDCDialog:cancel', () => {
+      console.log('canceled');
+      $('#dialogContainer').empty();
+    });
+  }
   deleteTopic(topicId) {
     const topicObj = {
       id: topicId,
@@ -173,7 +173,7 @@ class TopicManagerController {
       type: 'DELETE_TOPIC',
       'topic':topicObj
     });
-    this.topicManagerService.deleteTopic(topicObj)
+    topicManagerService.deleteTopic(topicObj)
       .then((data) => {
         console.log('deleted', data);
         // this.getAllTopics();
@@ -195,7 +195,7 @@ class TopicManagerController {
     //   'topics':[]
     // });
     
-    this.topicManagerService.getTopics()
+    topicManagerService.getTopics()
       .then((data) => {
         if(data){
           const length = data.length;

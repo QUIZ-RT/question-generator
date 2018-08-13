@@ -6,22 +6,23 @@ const helper = new Helper();
 const queries = require('./../queries/sparqueries');
 
 const dom = new DomService();
+let ajaxMsg='';
 function pushDataToQuizEngine(quizData) {
   $.ajax({
     header: {
       'Access-Control-Allow-Origin': '*'
     },
-    url: 'https://quiz-engine.herokuapp.com/api/questions',
+    url: 'https://game-engine-beta.herokuapp.com/api/questions',          
     dataType: 'json',
     cors: 'no-cors',
     type: 'post',
     contentType: 'application/json',
-    data: quizData,
+    data: JSON.stringify(quizData),
     success(msg) {
       console.log(msg);
     },
     error(jqXhr, textStatus, errorThrown) {
-      console.log(errorThrown);
+      console.log(errorThrown);  
     },
   });
 }
@@ -152,6 +153,7 @@ module.exports = {
         break;
     }
     if(propUrls) {
+      dom.resetCounter('qCount');
       self.generateQuestionsRecursive(propUrls, 0, topicCategory, []);
     }
   },
@@ -160,8 +162,12 @@ module.exports = {
     let self = this;
     if (propsIndex > propsArray.length - 1) {
       window.localStorage.setItem('question_data', JSON.stringify(quesArray));
+      $('#btnQGSubmit').removeAttr('disabled');
       // self.getConfirmationOnGenerated(propertyQuestionMap);
       return;
+    }
+    if(propsIndex == 1) {
+      dom.displaySpinner();
     }
     let isDate = propsArray[propsIndex]['IS_DATE'];
     let propertyQuestionUrl = propsArray[propsIndex]['URL'];
@@ -195,14 +201,16 @@ module.exports = {
             questionObj.answer = result.propertyLabel.value;
           }
           questionObj.topic = topicCategory;
-          const options = helper.generateOptions(result, results.bindings, 4, isDate);
+          const options = helper.generateOptions(result, results.bindings, 3, isDate);
           options.push(questionObj.answer);
           questionObj.options = options;
           quesArrayPerProperty.push(questionObj);
+          dom.updateCounter('qCount');
         }
         // propertyQuestionMap[property] = quesArrayPerProperty;
         quesArray = quesArray.concat(quesArrayPerProperty);
         // TODO : show result here
+        dom.removeSpinner();
         self.getConfirmationOnGenerated(quesArrayPerProperty, property);
         self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray);
       });
@@ -212,30 +220,48 @@ module.exports = {
     dom.showGeneratedQuestionDisplayer(quesArrayPerProperty, property);
   },
   saveQuestions(quesArray) {
+    debugger;
     quesArray = helper.shuffle(quesArray);
     let arrayOfQuesionArray = helper.chunkArray(quesArray, 300);
-    this.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, 0);
+    window.localStorage.setItem('questions_data_for_QE', JSON.stringify(arrayOfQuesionArray));
+    this.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, 0, '/firebase/api/questions', 'Question Generator');
   },
 
-  saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index) {
+  saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index, db, appName) {
     let self = this;
     if(index > arrayOfQuesionArray.length - 1) {
+      dom.showTemplateSuccess('Generated questions have been pushed to DB Successfully!')
+      ajaxMsg = ajaxMsg.replace('#count', dom.getCount('qCount'));
+      dom.showTemplateSuccess(ajaxMsg);
+      dom.removeSpinner();
+      if(appName === 'Question Generator') {
+        dom.displayConfirmQESubmitModal();
+      }
       return;
     }
     let questionsChunk = arrayOfQuesionArray[index];
     $.ajax({
-      url: '/firebase/api/questions',
+      header: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      url: db,
       dataType: 'json',
       type: 'post',
+      cors: 'no-cors',
       contentType: 'application/json',
       data: JSON.stringify(questionsChunk),
       success(data) {
-        // self.syncQuestionsWithQEngine(quesArray);
-        self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index);
+        //self.syncQuestionsWithQEngine(quesArray);
+        let questionCountInserted = dom.getCount('qCount');
+        ajaxMsg = 'Successfully Inserted Data in DB and syncing data to Quiz Engine';
+        pushDataToQuizEngine(data);
+        ajaxMsg = `Inserted ${questionCountInserted} questions in ${appName} DB`;
         console.log(data);
+        self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index, db, appName);
       },
       error(jqXhr, textStatus, errorThrown) {
-        console.log(errorThrown);
+        ajaxMsg = errorThrown;
+        alert(errorThrown);
       },
     });
   },

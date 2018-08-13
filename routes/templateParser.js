@@ -6,6 +6,14 @@ module.exports = {
     const response = {};
     if (templates) {
       const template = templates.toLowerCase();
+      const words = template.split("\\s+");
+      if(words.length === 1) {
+        response.topics = [
+            {'normal': words[0]}
+          ];
+        response.template = template;
+        return response;
+      }
       const doc = nlp(template);
       response.topics = doc.topics().data();
       response.nouns = doc.nouns().out('array');
