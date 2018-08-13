@@ -167,7 +167,7 @@ module.exports = {
       return;
     }
     if(propsIndex == 1) {
-      //dom.displaySpinner();
+      dom.displaySpinner();
     }
     let isDate = propsArray[propsIndex]['IS_DATE'];
     let propertyQuestionUrl = propsArray[propsIndex]['URL'];
@@ -210,6 +210,7 @@ module.exports = {
         // propertyQuestionMap[property] = quesArrayPerProperty;
         quesArray = quesArray.concat(quesArrayPerProperty);
         // TODO : show result here
+        dom.removeSpinner();
         self.getConfirmationOnGenerated(quesArrayPerProperty, property);
         self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray);
       });
@@ -230,6 +231,7 @@ module.exports = {
     if(index > arrayOfQuesionArray.length - 1) {
       ajaxMsg = ajaxMsg.replace('#count', dom.getCount('qCount'));
       dom.showTemplateSuccess(ajaxMsg);
+      dom.removeSpinner();
       if(appName === 'Question Generator') {
         dom.displayConfirmQESubmitModal();
       }

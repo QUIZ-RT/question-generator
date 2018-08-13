@@ -34,6 +34,9 @@ import {
     confirmQESubmitModal
 } from '../views/confirmQESubmitModal';
 import {
+    spinner
+} from '../views/spinner';
+import {
     Helper
 } from '../utils/helper';
 import TopicManagerService from '../services/topicManagerService';
@@ -54,6 +57,7 @@ export class DomService {
             QGModal,
             topicCreateModal,
             confirmQESubmitModal,
+            spinner,
             wizardContainer,
             // menu,
             messages,
@@ -186,6 +190,8 @@ export class DomService {
         $(QGModal).insertAfter('#messages');
         $(topicCreateModal).insertAfter('#messages');
         $(confirmQESubmitModal).insertAfter('#messages');
+        $(spinner).insertAfter('#messages');
+        $('#spinner').hide();
     }
     executeAuthorizedLoads() {
 

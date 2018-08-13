@@ -36,6 +36,7 @@ module.exports = jQuery(document).ready(() => {
     for (const selectedElement of selectedElements) {
       selectedElementsIdArray.push(selectedElement.id);
     }
+    DomService.prototype.updateWizardClasses(1);
     QuestionManagerController.prototype.generateQuestions(selectedElementsIdArray, topicCategory);
   });
 
@@ -48,12 +49,14 @@ module.exports = jQuery(document).ready(() => {
   $(document).on('click', '#btnQGSubmit', function () {
   // $('#btnSubmitQuestions').on('click', function() {
     $('#btnQGCancel').trigger('click');
+    $dom.displaySpinner();
     QuestionManagerController.prototype.delegateSaveOperation();
   });
  
   $(document).on('click', '#btnConfirmQESubmitModalSubmit', function () {
     // $('#btnSubmitQuestions').on('click', function() {
     $('#btnConfirmQESubmitModalCancel').trigger('click');
+    $dom.displaySpinner();
     QuestionManagerController.prototype.delegateSaveToQEOperation();
   });
 
