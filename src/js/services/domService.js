@@ -427,7 +427,7 @@ export class DomService {
     }
 
     getCount(elementId) {
-        return parseInt( $(`#${elementId}`).html();
+        return parseInt( $(`#${elementId}`).html());
     }
 
     // AUTO-COMPLETE FUNCTIONALITY
