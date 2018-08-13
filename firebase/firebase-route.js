@@ -129,7 +129,7 @@ module.exports = (app) => {
     });
     app.post('/firebase/api/topics/delete', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
-            console.log(req);
+            console.log(req.body);
             databaseFunc.saveTopics(req.body.id, null, resolve, reject)
         }).then((data) => {
             res.json(data);

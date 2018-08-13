@@ -36,7 +36,7 @@ class TopicManagerController {
     jQuery('#mainContainer').on('click', '.editTopicBtn', (e) => {
       const topicId = jQuery(e.currentTarget).attr('data-id');
       for (let i = 0; i < this.topics.length; i += 1) {
-        if (Number(topicId) === this.topics[i].id) {
+        if (topicId === this.topics[i].id) {
           const selectTopic = this.topics[i];
           this.addEditTopic(selectTopic);
           break;
