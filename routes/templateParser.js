@@ -6,7 +6,8 @@ module.exports = {
     const response = {};
     if (templates) {
       const template = templates.toLowerCase();
-      const words = template.split("\\s+");
+      const words = template.split(" ");
+      console.log(words);
       if(words.length === 1) {
         response.topics = [
             {'normal': words[0]}

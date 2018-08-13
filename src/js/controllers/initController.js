@@ -49,9 +49,14 @@ module.exports = jQuery(document).ready(() => {
   // $('#btnSubmitQuestions').on('click', function() {
     $('#btnQGCancel').trigger('click');
     QuestionManagerController.prototype.delegateSaveOperation();
-
-  })
+  });
  
+  $(document).on('click', '#btnConfirmQESubmitModalSubmit', function () {
+    // $('#btnSubmitQuestions').on('click', function() {
+    $('#btnConfirmQESubmitModalCancel').trigger('click');
+    QuestionManagerController.prototype.delegateSaveToQEOperation();
+  });
+
   $(document).on('keyup', '#templateInput, #topicInput', (e) => {
     const code = (e.keyCode ? e.keyCode : e.which);
     const topic = document.getElementById('topicInput').value;

@@ -7,25 +7,25 @@ const queries = require('./../queries/sparqueries');
 
 const dom = new DomService();
 let ajaxMsg='';
-function pushDataToQuizEngine(quizData) {
-  $.ajax({
-    header: {
-      'Access-Control-Allow-Origin': '*'
-    },
-    url: 'https://game-engine-beta.herokuapp.com/api/questions',          
-    dataType: 'json',
-    cors: 'no-cors',
-    type: 'post',
-    contentType: 'application/json',
-    data: JSON.stringify(quizData),
-    success(msg) {
-      console.log(msg);
-    },
-    error(jqXhr, textStatus, errorThrown) {
-      console.log(errorThrown);  
-    },
-  });
-}
+// function pushDataToQuizEngine(quizData) {
+//   $.ajax({
+//     header: {
+//       'Access-Control-Allow-Origin': '*'
+//     },
+//     url: 'https://game-engine-beta.herokuapp.com/api/questions',          
+//     dataType: 'json',
+//     cors: 'no-cors',
+//     type: 'post',
+//     contentType: 'application/json',
+//     data: JSON.stringify(quizData),
+//     success(msg) {
+//       console.log(msg);
+//     },
+//     error(jqXhr, textStatus, errorThrown) {
+//       console.log(errorThrown);  
+//     },
+//   });
+// }
 module.exports = {
   endpointUrl: SparqlConstants.END_POINT_URL,
   countryToCityMap: {},
@@ -153,12 +153,12 @@ module.exports = {
         break;
     }
     if(propUrls) {
+      dom.resetCounter('qCount');
       self.generateQuestionsRecursive(propUrls, 0, topicCategory, []);
     }
   },
 
   generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray) {
-    dom.resetCounter('qCount');
     let self = this;
     if (propsIndex > propsArray.length - 1) {
       window.localStorage.setItem('question_data', JSON.stringify(quesArray));
@@ -221,29 +221,35 @@ module.exports = {
   saveQuestions(quesArray) {
     quesArray = helper.shuffle(quesArray);
     let arrayOfQuesionArray = helper.chunkArray(quesArray, 300);
-    this.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, 0);
+    window.localStorage.setItem('questions_data_for_QE', JSON.stringify(arrayOfQuesionArray));
+    this.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, 0, '/firebase/api/questions', 'Question Generator');
   },
 
-  saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index) {
+  saveQuestionsShuffledAndChunked(arrayOfQuesionArray, index, db, appName) {
     let self = this;
     if(index > arrayOfQuesionArray.length - 1) {
+      ajaxMsg = ajaxMsg.replace('#count', dom.getCount('qCount'));
       dom.showTemplateSuccess(ajaxMsg);
-      dom.showTemplateSuccess('Generated questions have been pushed to DB Successfully!')
+      if(appName === 'Question Generator') {
+        dom.displayConfirmQESubmitModal();
+      }
       return;
     }
     let questionsChunk = arrayOfQuesionArray[index];
     $.ajax({
-      url: '/firebase/api/questions',
+      header: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      url: db,
       dataType: 'json',
       type: 'post',
+      cors: 'no-cors',
       contentType: 'application/json',
       data: JSON.stringify(questionsChunk),
       success(data) {
-        //self.syncQuestionsWithQEngine(quesArray);
-        ajaxMsg = 'Successfully Inserted Data in DB';
-        pushDataToQuizEngine(data);
+        ajaxMsg = `Inserted #count questions in ${appName} DB`;
         console.log(data);
-        self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index);
+        self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index, db, appName);
       },
       error(jqXhr, textStatus, errorThrown) {
         ajaxMsg = errorThrown;

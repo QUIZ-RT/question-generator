@@ -31,6 +31,9 @@ import {
     topicCreateModal
 } from '../views/topicCreateModal';
 import {
+    confirmQESubmitModal
+} from '../views/confirmQESubmitModal';
+import {
     Helper
 } from '../utils/helper';
 import TopicManagerService from '../services/topicManagerService';
@@ -50,6 +53,7 @@ export class DomService {
             wizardStep3,
             QGModal,
             topicCreateModal,
+            confirmQESubmitModal,
             wizardContainer,
             // menu,
             messages,
@@ -181,6 +185,7 @@ export class DomService {
         // Modal
         $(QGModal).insertAfter('#messages');
         $(topicCreateModal).insertAfter('#messages');
+        $(confirmQESubmitModal).insertAfter('#messages');
     }
     executeAuthorizedLoads() {
 
@@ -387,6 +392,10 @@ export class DomService {
             availableClassCounter = availableClassCounter + 1;
         }
         this.enableForm(id);
+    }
+
+    displayConfirmQESubmitModal() {
+        $('#btnShowConfirmQESubmitModal').click();
     }
 
     displaySpinner() {
