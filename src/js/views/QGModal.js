@@ -8,7 +8,10 @@ export const QGModal = `<div class="modal good" id="generatedQuestionsDisplay" t
                 </button>
             </div>
             <div class="modal-body">
-                <p>Below Questions were generated using the template provided, please review and click submit to push to database?<span class="float-right text-muted" id="qCount">Count</span></p>
+                <p>
+                    Below Questions were generated using the template provided, please review and click submit to push to database?
+                    <span class="float-right text-muted">Generated <span id="qCount" class='blinking'>0</span> Questions in total!</span>
+                </p>
                 <span id="tableHolder"></span>
             </div>
             <div class="modal-footer">

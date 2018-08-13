@@ -154,6 +154,7 @@ module.exports = {
     }
     if(propUrls) {
       dom.resetCounter('qCount');
+      dom.displaySpinner();
       self.generateQuestionsRecursive(propUrls, 0, topicCategory, []);
     }
   },
@@ -161,14 +162,15 @@ module.exports = {
   generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray) {
     let self = this;
     if (propsIndex > propsArray.length - 1) {
+      dom.removeSpinner();
       window.localStorage.setItem('question_data', JSON.stringify(quesArray));
       $('#btnQGSubmit').removeAttr('disabled');
       // self.getConfirmationOnGenerated(propertyQuestionMap);
       return;
     }
-    if(propsIndex == 1) {
-      dom.displaySpinner();
-    }
+    // if(propsIndex == 1) {
+      
+    // }
     let isDate = propsArray[propsIndex]['IS_DATE'];
     let propertyQuestionUrl = propsArray[propsIndex]['URL'];
     let property = propsArray[propsIndex]['key'];
@@ -210,7 +212,6 @@ module.exports = {
         // propertyQuestionMap[property] = quesArrayPerProperty;
         quesArray = quesArray.concat(quesArrayPerProperty);
         // TODO : show result here
-        dom.removeSpinner();
         self.getConfirmationOnGenerated(quesArrayPerProperty, property);
         self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray);
       });

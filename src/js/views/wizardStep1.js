@@ -6,16 +6,16 @@ export const wizardStep1 = `<div class="row wizardStep" id="wizardStep1Content">
                     <h2 class="heading">QG Wizard</h2>
                     <hr>
                     <div class="input-group topic">
-                        <div class="input-group-addon iconspace" style="width: 2.6rem">
-                            <i class="far fa-comments"></i>
+                        <div class="input-group-addon iconspace" style="width: 2.6rem; padding-top: 25px">
+                            <i class="fa fa-comments"></i>
                         </div>
                         <input type="text" id="topicInput" name="topic" class="form-control" placeholder="Type topic to select from the list or create anew.. "  autocomplete="off" required>
                         <span class="remarks">For eg., celebrity, bollywood, space, cricket, etc.</span>
                     </div>
                     <hr>
                     <div class="input-group topic">
-                        <div class="input-group-addon iconspace" style="width: 2.6rem">
-                            <i class="far fa-comments"></i>
+                        <div class="input-group-addon iconspace" style="width: 2.6rem; padding-top: 25px">
+                            <i class="fa fa-comments"></i>
                         </div>
                         <input type="text" id="templateInput" name="template" class="form-control" placeholder="Enter a question template to allow sampling and generation... "
                             required>

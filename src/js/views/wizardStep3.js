@@ -16,7 +16,7 @@ export const wizardStep3 = `<div class="row wizardStep" id="wizardStep3Content">
         <div class="row login" style="padding-top: 1rem">
             <div>
                 <button type="button" id="btnProceedWizardStep3" class="btn btn-info generateBtn">
-                    <i class="fa fa-sign-in"></i>Proceed</button>
+                    <i class="fa fa-sign-in"></i>   Generate!</button>
             </div>
         </div>
         <input type="hidden" id="wizard3-instanceKeyHolder" />

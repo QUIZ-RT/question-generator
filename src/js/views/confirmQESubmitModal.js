@@ -1,4 +1,4 @@
-export const confirmQESubmitModal = `<div class="modal good" id="confirmQESubmitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+export const confirmQESubmitModal = `<div class="modal good" id="confirmQESubmitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style='margin-top: 300px;'>
     <div class="modal-dialog" role="document">
         <div class="modal-content" id="confirmQESubmitModalContent">
             <div class="modal-header">
@@ -8,8 +8,8 @@ export const confirmQESubmitModal = `<div class="modal good" id="confirmQESubmit
                 </button>
             </div>
             <div class="modal-body">
-                <h4>An AJAX is going to submit questions to the Quiz Engine, click OK to confirm, Cancel to abort</h4>
-                <p>Note: Cancelling will have inconsistent data between QGDB and QEDB until entire data is pulled again from QGDB</p>
+                <h4>Going to submit questions to the Quiz Engine, click OK to confirm, Cancel to abort</h4>
+                <p>Note: Cancelling will result in inconsistent data between QGDB and QEDB until entire data is pulled again from QGDB</p>
             </div>
             <div class="modal-footer">
                 <button id="btnConfirmQESubmitModalCancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
