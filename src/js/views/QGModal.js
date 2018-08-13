@@ -12,7 +12,7 @@ export const QGModal = `<div class="modal good" id="generatedQuestionsDisplay" t
                 <span id="tableHolder"></span>
             </div>
             <div class="modal-footer">
-                <button id="btnQGConfirm" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="btnQGCancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button id="btnQGSubmit" type="button" class="btn btn-primary" data-dimsiss="modal">Submit</button>
             </div>
         </div>

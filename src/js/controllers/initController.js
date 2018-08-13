@@ -45,9 +45,9 @@ module.exports = jQuery(document).ready(() => {
   //     }
   // });
 
-  $(document).on('click', '#btnSubmitQuestions', function () {
+  $(document).on('click', '#btnQGSubmit', function () {
   // $('#btnSubmitQuestions').on('click', function() {
-    $('#btnCancelConfirm').trigger('click');
+    $('#btnQGCancel').trigger('click');
     QuestionManagerController.prototype.delegateSaveOperation();
 
   })
