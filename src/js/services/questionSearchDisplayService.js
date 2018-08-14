@@ -1,5 +1,5 @@
 import { loadDropdownAndButton, populateDropDownValues, showQuestionsByTopic } from '../views/searchQuestions';
-
+import { Toast, configureToasts } from 'toaster-js';
 class DisplayQuestionTopicBasedService {
 
   constructor(){
@@ -156,7 +156,7 @@ this.updateQuestionInDB(newQuesObj)
 .then((data) => {
 debugger;
 console.log('updated question is ', data);
-
+new Toast('Question Updated Successfully', Toast.TYPE_DONE, Toast.TIME_NORMAL)
 $('#btnQUCancelConfirm').trigger('click');
 
  this.displayQuestionOnTopicBasis(topicOfQues,0);
