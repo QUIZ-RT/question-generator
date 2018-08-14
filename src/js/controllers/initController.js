@@ -109,6 +109,7 @@ module.exports = jQuery(document).ready(() => {
   $(document).on('dblclick', '#subject-pills-2 > .subject-pills', function (event) {
     let target = event.target;
     target.classList.add('editableInput');
+    target.style.fontSize = '1.3em';
     // target.style.height = '100%';
     // target.style.width = '100%';
     target.setAttribute('contenteditable', 'true');

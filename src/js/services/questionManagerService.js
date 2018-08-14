@@ -354,13 +354,13 @@ module.exports = {
       const { topics, nouns } = responseFromTemplateParser;
       if (topics && topics.length === 1) {
         const topic = topics[0].normal;
-        dom.showWizardStep(topic, '2', 'Topic Identified, please confirm');
+        dom.showWizardStep(topic, '2', 'Topic Identified, please confirm. Tip: Use double click to edit.');
       } else if (nouns) {
         if (nouns.length === 0) {
           dom.showTemplateError('Unable to extract usable nouns, please try again with a different template');
         } else if (nouns.length === 1) {
           const topic = nouns[0];
-          dom.showWizardStep(topic, '2', 'None of the terms could be identified as topic, please confirm to use below noun as topic.');
+          dom.showWizardStep(topic, '2', 'None of the terms could be identified as topic, please confirm to use below noun as topic. Tip: Use double click to edit.');
         } else {
           dom.showWizardStep(nouns, '2', 'Following subjects were identified as potential subjects, please select the one to use as primary for questions.');
         }
