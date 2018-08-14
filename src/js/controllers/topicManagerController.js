@@ -19,13 +19,13 @@ class TopicManagerController {
 
     this.addButtons();
     this.getAllTopics();
-    store.subscribe(() =>{
-      const currentState = store.getState();
-      if(currentState.actionType == 'ADD_TOPIC' || 
-      currentState.actionType == 'UPDATE_TOPIC' || currentState.actionType == 'DELETE_TOPIC'){
-        this.render(currentState.topics);
-      }
-    });
+    // store.subscribe(() =>{
+    //   const currentState = store.getState();
+    //   if(currentState.actionType == 'ADD_TOPIC' || 
+    //   currentState.actionType == 'UPDATE_TOPIC' || currentState.actionType == 'DELETE_TOPIC'){
+    //     this.render(currentState.topics);
+    //   }
+    // });
     this.dialog;
     jQuery('.addTopicBtn').on('click', () => {
       this.addEditTopic();
@@ -99,7 +99,7 @@ class TopicManagerController {
         });
       return;
     } else {
-      const topicTxt = jQuery('.mdc-text-field-topic input').val().trim();
+      const topicTxt = jQuery('.mdc-text-field-topic input').val().trim().toLowerCase();
       const topicIds = [];
       let topicId = 0;
       let actionType = 'ADD_TOPIC'
@@ -176,7 +176,7 @@ class TopicManagerController {
     topicManagerService.deleteTopic(topicObj)
       .then((data) => {
         console.log('deleted', data);
-        // this.getAllTopics();
+         this.getAllTopics();
       }).catch((err) => {
         console.log(err);
       });

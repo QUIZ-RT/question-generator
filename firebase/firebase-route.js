@@ -130,7 +130,7 @@ module.exports = (app) => {
     app.delete('/firebase/api/topics/:topicId', (req, res) => { // it will current user detail on screan
         return new Promise((resolve, reject) => {
             console.log(req.params.topicId);
-            databaseFunc.deleteTopics(req.params.topicId, resolve, reject)
+            databaseFunc.deleteTopics(req.params.topicId.toLowerCase(), resolve, reject)
         }).then((data) => {
             res.json(data);
         })
