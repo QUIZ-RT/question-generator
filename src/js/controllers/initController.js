@@ -106,6 +106,26 @@ module.exports = jQuery(document).ready(() => {
     }
   });
 
+  $(document).on('dblclick', '#subject-pills-2 > .subject-pills', function (event) {
+    let target = event.target;
+    target.classList.add('editableInput');
+    // target.style.height = '100%';
+    // target.style.width = '100%';
+    target.setAttribute('contenteditable', 'true');
+  });
+
+  $(document).on('keyup', '.editableInput', function (e) {
+    const code = (e.keyCode ? e.keyCode : e.which);
+    let target = e.target;
+    if(!target.tagName == 'span') {
+      target = $(target).find('span');
+    }
+    if(code === 13) {
+      target.classList.remove('editableInput');
+      target.removeAttribute('contenteditable');
+    }
+  });
+
   $(document).on('click', '#subject-pills-3 > .subject-pills', function () {
     // $('#subject-pills-3').on('click', '.subject-pills', function() {
     if (!$('#wizardStep3').prop('disabled') || $('#wizardStep3').prop('disabled') === false) {
@@ -116,6 +136,7 @@ module.exports = jQuery(document).ready(() => {
       }
     }
   });
+
 
   $(document).on('click', '#btnTopicCreateSubmit', function(event) {
     const topicObj = {
