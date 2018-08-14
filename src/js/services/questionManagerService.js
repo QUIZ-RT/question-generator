@@ -293,6 +293,7 @@ module.exports = {
   // },
 
   determineNodeAndCategory(subject) {
+    subject = helper.replaceAll(subject, '<br>', '');
     const entityURL = SparqlConstants.WIKI_ENTITY_SEARCH_URL.replace('#entity', subject);
     const headers = { Accept: 'application/sparql-results+json' };
     const entityURLWrapper = `/api/questionManager/determineNodeAndCategory?entityURL=${encodeURIComponent(entityURL)}`;

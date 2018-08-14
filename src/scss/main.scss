@@ -599,6 +599,22 @@ div.topicNotFound:hover {
   100%{   color: #000;    }
 }
 
+.editableInput {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  background-color: red;
+  background-color: -moz-field;
+  font-size: 1.3em;
+  // border: 1px solid darkgray;
+  box-shadow: 1px 1px 1px 0 lightgray inset;  
+  font: -moz-field;
+  font: -webkit-small-control;
+  // margin-top: 5px;
+  // padding: 2px 3px;
+  // width: 250px;   
+  // height: 70px; 
+}
+
 // OVERRIDES
 .form-group {
   margin-bottom: 0;
