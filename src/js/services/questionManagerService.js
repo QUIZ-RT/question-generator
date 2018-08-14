@@ -66,6 +66,7 @@ module.exports = {
     });
   },
   generateQuestions(itemsArray, topicCategory) {
+    let startTime = new Date().getTime();
     let self = this;
     const instanceType = dom.getHiddenValue('wizard3-instanceKeyHolder');
     const instanceTypeValue = window.sessionStorage.getItem('instanceType');
@@ -155,16 +156,18 @@ module.exports = {
     if(propUrls) {
       dom.resetCounter('qCount');
       dom.displaySpinner();
-      self.generateQuestionsRecursive(propUrls, 0, topicCategory, []);
+      self.generateQuestionsRecursive(propUrls, 0, topicCategory, [], startTime);
     }
   },
 
-  generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray) {
+  generateQuestionsRecursive(propsArray, propsIndex, topicCategory, quesArray, startTime) {
     let self = this;
     if (propsIndex > propsArray.length - 1) {
       dom.removeSpinner();
       window.localStorage.setItem('question_data', JSON.stringify(quesArray));
       $('#btnQGSubmit').removeAttr('disabled');
+      let endTime = new Date().getTime();
+      window.sessionStorage.setItem('time_to_generate', endTime - startTime);
       // self.getConfirmationOnGenerated(propertyQuestionMap);
       return;
     }
@@ -213,7 +216,7 @@ module.exports = {
         quesArray = quesArray.concat(quesArrayPerProperty);
         // TODO : show result here
         self.getConfirmationOnGenerated(quesArrayPerProperty, property);
-        self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray);
+        self.generateQuestionsRecursive(propsArray, ++propsIndex, topicCategory, quesArray, startTime);
       });
   },
 
@@ -256,7 +259,7 @@ module.exports = {
         let questionCountInserted = dom.getCount('qCount');
         ajaxMsg = 'Successfully Inserted Data in DB and syncing data to Quiz Engine';
         pushDataToQuizEngine(data);
-        ajaxMsg = `Inserted ${questionCountInserted} questions in ${appName} DB`;
+        ajaxMsg = `Inserted ${questionCountInserted} questions in ${appName} DB, question generated in ${(window.sessionStorage.getItem('time_to_generate') / 1000)} seconds.`;
         console.log(data);
         self.saveQuestionsShuffledAndChunked(arrayOfQuesionArray, ++index, db, appName);
       },
